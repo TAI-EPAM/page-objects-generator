@@ -8,6 +8,13 @@ plugins:
     enabled: true
     checks:
       com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck:
-              enabled: false
+        enabled: false
+      com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck:
+        enabled: false
+      com.puppycrawl.tools.checkstyle.checks.naming.AbbreviationAsWordInNameCheck:
+        enabled: false
+      com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck:
+        enabled: false
+
 exclude_patterns:
 - "!resources/cssify.js"
