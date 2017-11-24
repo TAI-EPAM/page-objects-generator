@@ -18,3 +18,4 @@ plugins:
 
 exclude_patterns:
 - "src/main/resources/"
+- "src/test"
