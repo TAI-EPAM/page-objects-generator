@@ -31,10 +31,10 @@ checks:
     config:
       threshold: # language-specific defaults. an override will affect all languages.
 plugins:
-  sonar-java:
-    enabled: true
-    config:
-      sonar.java.source: 8
+#  sonar-java:
+#    enabled: true
+#    config:
+#      sonar.java.source: 8
   checkstyle:
     enabled: true
     checks:
