@@ -17,4 +17,4 @@ plugins:
         enabled: false
 
 exclude_patterns:
-- "!resources/cssify.js"
+- "src/main/resources/"
