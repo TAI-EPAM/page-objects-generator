@@ -30,7 +30,7 @@ checks:
   identical-code:
     config:
       threshold: # language-specific defaults. an override will affect all languages.
-engines:
+plugins:
   sonar-java:
     enabled: true
   checkstyle:
