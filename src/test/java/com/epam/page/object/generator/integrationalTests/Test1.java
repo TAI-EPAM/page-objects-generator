@@ -79,8 +79,11 @@ public class Test1 {
         pog.generatePageObjects();
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, null, null, outputFile1);
-        compiler.run(null, null, null, outputFile2);
+        int c1 = compiler.run(null, null, null, outputFile1);
+        int c2 = compiler.run(null, null, null, outputFile2);
+        assertEquals(0, c1);
+        assertEquals(0, c2);
+
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
                 new File("src/test/resources/").toURI().toURL(),
                 new File("src/test/resources/").toURI().toURL()});
