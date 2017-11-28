@@ -79,18 +79,20 @@ public class Test1 {
 
     @Test
     public void pageObjectsGenerator_GenerateDropdownElementWithInnerElements() throws Exception {
-        PageObjectsGenerator pog = initPog(
+        /*PageObjectsGenerator pog = initPog(
                 "src/test/resources/dropdown-inner-root.json",
                 "http://materializecss.com/dropdown.html",
                 false,
                 false);
 
-        pog.generatePageObjects();
+        pog.generatePageObjects();*/
         //File root = new File("/java"); // On Windows running on C:\, this is C:\java.
         //File sourceFile = new File(root, "test/Test.java");
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, null, null, outputFile1);
-        compiler.run(null, null, null, outputFile2);
+        int c1 = compiler.run(null, null, null, outputFile1);
+        int c2 = compiler.run(null, null, null, outputFile2);
+
+
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
                 new File("src/test/resources/").toURI().toURL(),
                 new File("src/test/resources/").toURI().toURL()});
@@ -104,6 +106,9 @@ public class Test1 {
 
         List<Annotation> classAnnotations = Arrays.asList(cls.getDeclaredAnnotations());
         List<Annotation> classAnnotations1 = Arrays.asList(cls1.getDeclaredAnnotations());
+        System.out.println(classAnnotations.hashCode());
+        System.out.println(classAnnotations1.hashCode());
+
 
         int mods = cls.getModifiers();
         int mods1 = cls1.getModifiers();
@@ -135,16 +140,17 @@ public class Test1 {
             List<Annotation> fieldAnnotations1 = Arrays.asList
                     (currentField1.getDeclaredAnnotations());
 
-            Assert.assertEquals(fieldAnnotations.size(), fieldAnnotations1.size());
+            /*Assert.assertEquals(fieldAnnotations.size(), fieldAnnotations1.size());
 
             Iterator<Annotation> annIt = fieldAnnotations.iterator();
-            Iterator<Annotation> annIt1 = fieldAnnotations.iterator();
+            Iterator<Annotation> annIt1 = fieldAnnotations1.iterator();*/
+            Assert.assertEquals(fieldAnnotations, fieldAnnotations1);
 
-            while (annIt.hasNext()) {
+            /*while (annIt.hasNext()) {
                 Annotation currentAnnotation = annIt.next();
                 Annotation currentAnnotation1 = annIt1.next();
                 Assert.assertEquals(currentAnnotation, currentAnnotation1);
-            }
+            }*/
 
             int fieldModifiers = currentField.getModifiers();
             int fieldModifiers1 = currentField1.getModifiers();
