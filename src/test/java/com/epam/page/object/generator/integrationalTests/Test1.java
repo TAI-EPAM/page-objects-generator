@@ -46,8 +46,9 @@ public class Test1 {
 
     @Before
     public void setUp() throws IOException {
-        FileUtils.deleteDirectory(new File(outputDir + packageName));
-        FileUtils.deleteDirectory(new File(outputDir1 + packageName1));
+        FileUtils.deleteQuietly(new File(outputDir + packageName1 + "/page/DropdownMaterialize.class"));
+        //FileUtils.deleteDirectory(new File(outputDir + packageName));
+        //FileUtils.deleteDirectory(new File(outputDir1 + packageName1));
     }
 
     private PageObjectsGenerator initPog(String jsonPath, String url,
@@ -90,9 +91,9 @@ public class Test1 {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, null, null, outputFile1);
         compiler.run(null, null, null, outputFile2);
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]
-                {new File("src/test/resources/test/").toURI().toURL(),
-                        new File("src/test/resources/manual/").toURI().toURL()});
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
+                new File("src/test/resources/").toURI().toURL(),
+                new File("src/test/resources/").toURI().toURL()});
         Class<?> cls = Class.forName("test.page.DropdownMaterialize", true, classLoader);
         Class<?> cls1 = Class.forName("manual.page.DropdownMaterialize", true, classLoader);
 
