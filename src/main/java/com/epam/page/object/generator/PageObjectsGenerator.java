@@ -1,11 +1,11 @@
 package com.epam.page.object.generator;
 
+import com.epam.page.object.generator.adapter.JavaFileWriter;
 import com.epam.page.object.generator.errors.ValidationException;
 import com.epam.page.object.generator.errors.XpathToCssTransformerException;
 import com.epam.page.object.generator.model.SearchRule;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
-import com.epam.page.object.generator.writer.JavaFileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,13 +48,13 @@ public class PageObjectsGenerator {
 
         if (validatorsStarter.getValidationContext().hasInvalidRules()) {
             if (forceGenerateFile) {
-                javaFileWriter.writeFile(packageName, outPutDir, searchRules, urls);
+                javaFileWriter.writeFiles(outPutDir, packageName, searchRules, urls);
             }
 
             throw new ValidationException(validatorsStarter.getValidationContext());
         }
 
-        javaFileWriter.writeFile(packageName, outPutDir, searchRules, urls);
+        javaFileWriter.writeFiles(outPutDir, packageName, searchRules, urls);
     }
 
     public void setForceGenerateFile(boolean forceGenerateFile) {

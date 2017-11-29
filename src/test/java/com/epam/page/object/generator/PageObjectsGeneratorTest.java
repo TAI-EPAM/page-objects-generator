@@ -6,11 +6,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-import com.epam.page.object.generator.adapter.JavaPoetAdapter;
+import com.epam.page.object.generator.adapter.JavaFileWriter;
 import com.epam.page.object.generator.errors.ValidationException;
 import com.epam.page.object.generator.model.SearchRule;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
-import com.epam.page.object.generator.validators.LocatorExistenceValidator;
 import com.epam.page.object.generator.validators.ValidationContext;
 import com.epam.page.object.generator.validators.ValidationResult;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
@@ -29,7 +28,7 @@ public class PageObjectsGeneratorTest {
     private JsonRuleMapper parser;
 
     @Mock
-    private JavaPoetAdapter javaPoetAdapter;
+    private JavaFileWriter javaFileWriter;
 
     @Mock
     private ValidatorsStarter validatorsStarter;
@@ -51,7 +50,6 @@ public class PageObjectsGeneratorTest {
     private String exceptionMessage = "bla-bla-bla";
 
 
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -60,7 +58,7 @@ public class PageObjectsGeneratorTest {
         when(validatorsStarter.validate(anyList(), anyList())).thenReturn(searchRules);
         when(validatorsStarter.getValidationContext()).thenReturn(validationContext);
 
-        sut = new PageObjectsGenerator(parser, validatorsStarter, javaPoetAdapter, outputDir, urls,
+        sut = new PageObjectsGenerator(parser, validatorsStarter, javaFileWriter, outputDir, urls,
             TEST_PACKAGE);
     }
 
@@ -71,7 +69,7 @@ public class PageObjectsGeneratorTest {
         sut.generatePageObjects();
 
         verify(validatorsStarter).validate(searchRules, urls);
-        verify(javaPoetAdapter).writeFile(TEST_PACKAGE, outputDir, searchRules, urls);
+        verify(javaFileWriter).writeFiles(outputDir, TEST_PACKAGE, searchRules, urls);
     }
 
     @Test(expected = ValidationException.class)
@@ -80,7 +78,7 @@ public class PageObjectsGeneratorTest {
         doThrow(new ValidationException("some message")).when(validatorsStarter)
             .validate(searchRules, urls);
         sut.generatePageObjects();
-        verifyZeroInteractions(javaPoetAdapter);
+        verifyZeroInteractions(javaFileWriter);
     }
 
     @Test(expected = ValidationException.class)
@@ -91,7 +89,7 @@ public class PageObjectsGeneratorTest {
         sut.setForceGenerateFile(true);
 
         sut.generatePageObjects();
-        verify(javaPoetAdapter).writeFile(TEST_PACKAGE, outputDir, searchRules, urls);
+        verify(javaFileWriter).writeFiles(TEST_PACKAGE, outputDir, searchRules, urls);
     }
 
     @Test(expected = ValidationException.class)
@@ -102,7 +100,7 @@ public class PageObjectsGeneratorTest {
         sut.setForceGenerateFile(false);
 
         sut.generatePageObjects();
-        verifyZeroInteractions(javaPoetAdapter);
+        verifyZeroInteractions(javaFileWriter);
     }
 
 }
