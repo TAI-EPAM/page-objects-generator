@@ -6,9 +6,9 @@ import com.epam.page.object.generator.containers.SupportedTypesContainer;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
-import org.apache.commons.io.FileUtils;
+import java.net.MalformedURLException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Assert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,31 +24,68 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import static org.junit.Assert.assertEquals;
+
+@RunWith(Parameterized.class)
 public class Test1 {
-    //private String outputDir1 = new File("src/test/resources/").getAbsolutePath();
-
-    private String outputDir1 = "src/test/resources/";
 
     private String outputDir = "src/test/resources/";
 
-    private String outputFile1 = new File("src/test/resources/test/page/DropdownMaterialize" +
-            ".java").getAbsolutePath();
+    private String outputFile1 = "src/test/resources/test/page/DropdownMaterialize.java";
 
-    private String outputFile2 = new File("src/test/resources/manual/page/DropdownMaterialize" +
-            ".java").getAbsolutePath();
-
-    //private String packageName1 = new File("src/test/resources/test/").getAbsolutePath();
+    private String outputFile2 = "src/test/resources/manual/page/DropdownMaterialize.java";
 
     private String packageName = "test";
 
-    private String packageName1 ="manual";
+    private String packageName1 = "manual";
+
+    private String generatedClass;
+    private String etalonClass;
+
+    private Class actual;
+    private Class expected;
+
+    @Parameters
+    public static Iterable<Object[]> data() throws MalformedURLException, ClassNotFoundException {
+        return Arrays.asList(new Object[][]{
+            {"test.page.DropdownMaterialize", "manual.page.DropdownMaterialize"}
+        });
+
+    }
+
+    @After
+    public void setUp() throws IOException {
+        File file = new File("src/test/resources/test");
+        delete(file);
+    }
 
     @Before
-    public void setUp() throws IOException {
-        FileUtils.deleteQuietly(new File(outputDir + packageName1 + "/page/DropdownMaterialize.class"));
-        //FileUtils.deleteDirectory(new File(outputDir + packageName));
-        //FileUtils.deleteDirectory(new File(outputDir1 + packageName1));
+    public void method() throws Exception {
+        PageObjectsGenerator pog = initPog(
+            "src/test/resources/dropdown-inner-root.json",
+            "http://materializecss.com/dropdown.html",
+            false,
+            false);
+
+        pog.generatePageObjects();
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int c1 = compiler.run(null, null, null, outputFile1);
+        int c2 = compiler.run(null, null, null, outputFile2);
+        assertEquals(0, c1);
+        assertEquals(0, c2);
+
+        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
+            new File("src/test/resources/").toURI().toURL(),
+            new File("src/test/resources/").toURI().toURL()});
+
+        this.actual = Class.forName(this.generatedClass, true, classLoader);
+        this.expected = Class.forName(this.etalonClass, true, classLoader);
+
     }
 
     private PageObjectsGenerator initPog(String jsonPath, String url,
@@ -70,107 +107,97 @@ public class Test1 {
         validatorsStarter.setCheckLocatorsUniqueness(checkLocatorUniqueness);
 
         PageObjectsGenerator pog = new PageObjectsGenerator(parser, validatorsStarter,
-                javaPoetAdapter, outputDir, urls, packageName);
+            javaPoetAdapter, outputDir, urls, packageName);
 
         pog.setForceGenerateFile(forceGenerateFiles);
 
         return pog;
     }
 
+
+    public Test1(String generatedClass, String etalonClass) {
+        this.generatedClass = generatedClass;
+        this.etalonClass = etalonClass;
+    }
+
     @Test
-    public void pageObjectsGenerator_GenerateDropdownElementWithInnerElements() throws Exception {
-        /*PageObjectsGenerator pog = initPog(
-                "src/test/resources/dropdown-inner-root.json",
-                "http://materializecss.com/dropdown.html",
-                false,
-                false);
+    public void TestNameOfElements()
+        throws Exception {
 
-        pog.generatePageObjects();*/
-        //File root = new File("/java"); // On Windows running on C:\, this is C:\java.
-        //File sourceFile = new File(root, "test/Test.java");
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int c1 = compiler.run(null, null, null, outputFile1);
-        int c2 = compiler.run(null, null, null, outputFile2);
+        String[] className = actual.getName().split("\\.");
+        String[] className1 = expected.getName().split("\\.");
+        assertEquals(className[className.length - 1], className1[className1.length - 1]);
+    }
 
+    @Test
+    public void testAnnotationOfElements() {
+        List<Annotation> classAnnotations = Arrays.asList(actual.getDeclaredAnnotations());
+        List<Annotation> classAnnotations1 = Arrays.asList(expected.getDeclaredAnnotations());
+        assertEquals(classAnnotations, classAnnotations1);
+    }
+     @Test
+        public void TestModifiersOfElements() {
 
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
-                new File("src/test/resources/").toURI().toURL(),
-                new File("src/test/resources/").toURI().toURL()});
-        Class<?> cls = Class.forName("test.page.DropdownMaterialize", true, classLoader);
-        Class<?> cls1 = Class.forName("manual.page.DropdownMaterialize", true, classLoader);
+         int mods = actual.getModifiers();
+         int mods1 = expected.getModifiers();
+         assertEquals(mods, mods1);
 
-        String[] className = cls.getName().split("\\.");
-        String[] className1 = cls1.getName().split("\\.");
+     }
+     @Test
+     public void testSuperClassOfElements() {
 
-        Assert.assertEquals(className[className.length - 1], className1[className1.length - 1]);
+         Class<?> superClass = actual.getSuperclass();
+         Class<?> superClass1 = expected.getSuperclass();
+         assertEquals(superClass, superClass1);
+     }
+     @Test
+    public void testFieldsOfElements() {
+         List<Field> fields = Arrays.asList(actual.getDeclaredFields());
+         List<Field> fields1 = Arrays.asList(expected.getDeclaredFields());
 
-        List<Annotation> classAnnotations = Arrays.asList(cls.getDeclaredAnnotations());
-        List<Annotation> classAnnotations1 = Arrays.asList(cls1.getDeclaredAnnotations());
-        System.out.println(classAnnotations.hashCode());
-        System.out.println(classAnnotations1.hashCode());
-
-
-        int mods = cls.getModifiers();
-        int mods1 = cls1.getModifiers();
-        Assert.assertEquals(mods, mods1);
-
-        String[] namesCls = cls.getName().split("\\.");
-        String name = namesCls[namesCls.length - 1];
-        String[] namesCls1 = cls1.getName().split("\\.");
-        String name1 = namesCls1[namesCls1.length - 1];
-        Assert.assertEquals(name, name1);
-
-        Class<?> superClass = cls.getSuperclass();
-        Class<?> superClass1 = cls1.getSuperclass();
-        Assert.assertEquals(superClass, superClass1);
-
-        List<Field> fields = Arrays.asList(cls.getDeclaredFields());
-        List<Field> fields1 = Arrays.asList(cls1.getDeclaredFields());
-
-        Iterator<Field> it = fields.iterator();
-        Iterator<Field> it1 = fields1.iterator();
-
-        Assert.assertEquals(fields.size(), fields1.size());
+         Iterator<Field> it = fields.iterator();
+         Iterator<Field> it1 = fields1.iterator();
+         assertEquals(fields.size(), fields1.size());
 
         while (it.hasNext()) {
             Field currentField = it.next();
             Field currentField1 = it1.next();
 
-            List<Annotation> fieldAnnotations = Arrays.asList(currentField.getDeclaredAnnotations());
-            List<Annotation> fieldAnnotations1 = Arrays.asList
-                    (currentField1.getDeclaredAnnotations());
-
-            /*Assert.assertEquals(fieldAnnotations.size(), fieldAnnotations1.size());
-
-            Iterator<Annotation> annIt = fieldAnnotations.iterator();
-            Iterator<Annotation> annIt1 = fieldAnnotations1.iterator();*/
-            Assert.assertEquals(fieldAnnotations, fieldAnnotations1);
-
-            /*while (annIt.hasNext()) {
-                Annotation currentAnnotation = annIt.next();
-                Annotation currentAnnotation1 = annIt1.next();
-                Assert.assertEquals(currentAnnotation, currentAnnotation1);
-            }*/
+            List<Annotation> fieldAnnotations = Arrays
+                .asList(currentField.getDeclaredAnnotations());
+            List<Annotation> fieldAnnotations1 = Arrays
+                .asList(currentField1.getDeclaredAnnotations());
+            assertEquals(fieldAnnotations, fieldAnnotations1);
 
             int fieldModifiers = currentField.getModifiers();
             int fieldModifiers1 = currentField1.getModifiers();
-
-            Assert.assertEquals(fieldModifiers, fieldModifiers1);
-
+            assertEquals(fieldModifiers, fieldModifiers1);
 
             String[] newName = currentField.toString().split(" ");
             String[] newName1 = currentField1.toString().split(" ");
             String importForField = newName[1];
             String importForField1 = newName1[1];
-            Assert.assertEquals(importForField, importForField1);
-
-            Assert.assertEquals(currentField.getName(), currentField1.getName());
+            assertEquals(importForField, importForField1);
+            assertEquals(currentField.getName(), currentField1.getName());
 
             String type = currentField.getType().getName();
             String type1 = currentField1.getType().getName();
-
-            Assert.assertEquals(type, type1);
+            assertEquals(type, type1);
         }
 
+    }
+
+    private void delete(File file) {
+        if (!file.exists()) {
+            return;
+        }
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                delete(f);
+            }
+            file.delete();
+        } else {
+            file.delete();
+        }
     }
 }
