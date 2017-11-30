@@ -12,7 +12,6 @@ import java.net.MalformedURLException;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.tools.JavaCompiler;
@@ -37,27 +36,27 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class MainIntegrationTest {
 
-    private static final String resourceDir = "src/test/resources/";
+    private static final String RESOURCE_DIR = "src/test/resources/";
+    private static final String TEST_DIR = "test/page/";
+    private static final String MANUAL_DIR = "manual/page/";
+    private static final String TEST_CLASS_PACKAGE_NAME = "test.page";
+    private static final String MANUAL_CLASS_PACKAGE_NAME = "manual.page";
 
-    private String inputJavaFileTest = "src/test/resources/test/page/DropdownMaterialize.java";
-    private String inputJavaFileManual = "src/test/resources/manual/page/DropdownMaterialize.java";
+    private static final String PACKAGE_TEST_NAME = "test";
+    private static final String PACKAGE_MANUAL_NAME = "manual";
 
-    private String packageTestName = "test";
-
-    private String packageManualName = "manual";
-
-    private static String classPackageNameTest = "test.page";
-    private static String classPackageNameManual = "manual.page";
-
+    private String inputJavaFileTest;
+    private String inputJavaFileManual;
     private String generatedClassFullName;
     private String manualClassFullName;
     private String jsonSourcePath;
     private String url;
     private boolean checkLocatorUniqueness;
     private boolean forceGenerateFiles;
+    private String smallClassName;
 
-    private Class actualClass;
-    private Class expectedClass;
+    private Class testingClass;
+    private Class manualClass;
 
     private PageObjectsGenerator initPog(String jsonPath, String url,
                                          boolean checkLocatorUniqueness,
@@ -73,39 +72,34 @@ public class MainIntegrationTest {
         validatorsStarter.setCheckLocatorsUniqueness(checkLocatorUniqueness);
 
         PageObjectsGenerator pog = new PageObjectsGenerator(parser, validatorsStarter,
-                javaPoetAdapter, resourceDir, urls, packageTestName);
+                javaPoetAdapter, RESOURCE_DIR, urls, PACKAGE_TEST_NAME);
         pog.setForceGenerateFile(forceGenerateFiles);
 
         return pog;
     }
 
-    public MainIntegrationTest(String inputJavaFileTest,
-                               String inputJavaFileManual,
-                               String generatedClassFullName,
-                               String manualClassFullName,
+    //TODO: make using @Parameter
+    public MainIntegrationTest(String smallClassName,
                                String jsonSourcePath,
                                String url,
                                boolean checkLocatorUniqueness,
                                boolean forceGenerateFiles) throws Exception {
-        this.inputJavaFileTest = inputJavaFileTest;
-        this.inputJavaFileManual = inputJavaFileManual;
-        this.generatedClassFullName = generatedClassFullName;
-        this.manualClassFullName = manualClassFullName;
+        this.smallClassName = smallClassName;
+        this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + smallClassName + ".java";
+        this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + smallClassName + ".java";
+        this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + "." + smallClassName;
+        this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + "." + smallClassName;
         this.jsonSourcePath = jsonSourcePath;
         this.url = url;
         this.checkLocatorUniqueness = checkLocatorUniqueness;
         this.forceGenerateFiles = forceGenerateFiles;
-        method();
     }
 
     @Parameters
     public static Iterable<Object[]> data() throws MalformedURLException, ClassNotFoundException {
         return Arrays.asList(new Object[][]{
                 {
-                        "src/test/resources/test/page/DropdownMaterialize.java",
-                        "src/test/resources/manual/page/DropdownMaterialize.java",
-                        classPackageNameTest + ".DropdownMaterialize",
-                        classPackageNameManual + ".DropdownMaterialize",
+                        "DropdownMaterialize",
                         "src/test/resources/dropdown-inner-root.json",
                         "http://materializecss.com/dropdown.html",
                         false,
@@ -113,14 +107,19 @@ public class MainIntegrationTest {
                 },
 
                 {
-
-
+                        "HowToCreate",
+                        "src/test/resources/dropdown.json",
+                        "https://www.w3schools.com/howto/howto_js_dropdown.asp",
+                        true,
+                        false
                 }
         });
 
     }
 
-    public void method() throws Exception {
+
+    public void compileTestClasses() throws Exception {
+
         PageObjectsGenerator pog = initPog(
                 jsonSourcePath,
                 url,
@@ -136,52 +135,56 @@ public class MainIntegrationTest {
         assertEquals(0, c2);
 
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
-                new File(resourceDir).toURI().toURL()});
+                new File(RESOURCE_DIR).toURI().toURL()});
 
-        actualClass = Class.forName(this.generatedClassFullName, true, classLoader);
-        expectedClass = Class.forName(this.manualClassFullName, true, classLoader);
+        testingClass = Class.forName(this.generatedClassFullName, true, classLoader);
+        manualClass = Class.forName(this.manualClassFullName, true, classLoader);
 
+    }
+
+    @Test
+    public void runTestCase() throws Exception {
+        compileTestClasses();
+        testNameOfClass();
+        testAnnotationOfClass();
+        testModifiersOfClass();
+        testSuperClassOfClass();
+        testFields();
     }
 
     @After
-    public void clearUp() throws IOException {
-        FileUtils.deleteQuietly(new File("src/test/resources/test"));
-        FileUtils.deleteQuietly(new File("src/test/resources/manual/page/DropdownMaterialize.class"));
-        FileUtils.deleteDirectory(new File(resourceDir + packageTestName));
+    public void cleanUp() throws IOException {
+        FileUtils.deleteQuietly(new File(RESOURCE_DIR + PACKAGE_TEST_NAME));
+        FileUtils.deleteQuietly(new File(RESOURCE_DIR + MANUAL_DIR + smallClassName + ".class"));
     }
 
-    @Test
     public void testNameOfClass() throws Exception {
-        String[] className = actualClass.getName().split("\\.");
-        String[] className1 = expectedClass.getName().split("\\.");
+        String[] className = testingClass.getName().split("\\.");
+        String[] className1 = manualClass.getName().split("\\.");
         assertEquals(className[className.length - 1], className1[className1.length - 1]);
     }
 
-    @Test
     public void testAnnotationOfClass() {
-        List<Annotation> classAnnotations = Arrays.asList(actualClass.getDeclaredAnnotations());
-        List<Annotation> classAnnotations1 = Arrays.asList(expectedClass.getDeclaredAnnotations());
+        List<Annotation> classAnnotations = Arrays.asList(testingClass.getDeclaredAnnotations());
+        List<Annotation> classAnnotations1 = Arrays.asList(manualClass.getDeclaredAnnotations());
         assertEquals(classAnnotations, classAnnotations1);
     }
 
-    @Test
     public void testModifiersOfClass() {
-        int mods = actualClass.getModifiers();
-        int mods1 = expectedClass.getModifiers();
+        int mods = testingClass.getModifiers();
+        int mods1 = manualClass.getModifiers();
         assertEquals(mods, mods1);
     }
 
-    @Test
     public void testSuperClassOfClass() {
-        Class<?> actualSuperClass = actualClass.getSuperclass();
-        Class<?> expectedSuperClass1 = expectedClass.getSuperclass();
+        Class<?> actualSuperClass = testingClass.getSuperclass();
+        Class<?> expectedSuperClass1 = manualClass.getSuperclass();
         assertEquals(actualSuperClass, expectedSuperClass1);
     }
 
-    @Test
     public void testFields() {
-        List<Field> fields = Arrays.asList(actualClass.getDeclaredFields());
-        List<Field> fields1 = Arrays.asList(expectedClass.getDeclaredFields());
+        List<Field> fields = Arrays.asList(testingClass.getDeclaredFields());
+        List<Field> fields1 = Arrays.asList(manualClass.getDeclaredFields());
         assertEquals(fields.size(), fields1.size());
 
         Iterator<Field> it = fields.iterator();
@@ -212,6 +215,5 @@ public class MainIntegrationTest {
             String type1 = currentField1.getType().getName();
             assertEquals(type, type1);
         }
-
     }
 }

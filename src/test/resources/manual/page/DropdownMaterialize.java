@@ -10,5 +10,5 @@ public class DropdownMaterialize extends WebPage {
             root = @FindBy(xpath = "//a[@class='dropdown-button' and text()='Drop Me!']"),
             list = @FindBy(css = "ul.dropdown-content")
     )
-    public Dropdown dropMe;
+    public Dropdown dropMeeee;
 }
