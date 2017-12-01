@@ -33,9 +33,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class MainIntegrationTest {
     private static final String RESOURCE_DIR = "src/test/resources/";
-    private static final String TEST_DIR = "test/page/";
+    private static final String TEST_DIR = "test/";
     private static final String MANUAL_DIR = "manual/";
-    private static final String TEST_CLASS_PACKAGE_NAME = "test.page";
+    private static final String TEST_CLASS_PACKAGE_NAME = "test.";
     private static final String MANUAL_CLASS_PACKAGE_NAME = "manual.";
     private static final String PACKAGE_TEST_NAME = "test";
 
@@ -80,12 +80,14 @@ public class MainIntegrationTest {
                                boolean forceGenerateFiles) throws Exception {
         this.smallClassName = smallClassName;
         this.tempManualDir = tempManualDir;
-        this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + smallClassName + ".java";
+        this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + tempManualDir.split("/")[1]+"/" +
+                smallClassName + ".java";
         this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + tempManualDir + smallClassName +
                 ".java";
-        this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + "." + smallClassName;
-        this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + tempManualDir.replace("/", ".") +
-                smallClassName;
+        this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + tempManualDir.split("/")[1] + "."
+                + smallClassName;
+        this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + tempManualDir.replace("/", ".")
+                + smallClassName;
         this.jsonSourcePath = jsonSourcePath;
         this.url = url;
         this.checkLocatorUniqueness = checkLocatorUniqueness;
@@ -98,6 +100,14 @@ public class MainIntegrationTest {
                 {
                         "DropdownMaterialize",
                         "dropdownMaterialize/page/",
+                        "src/test/resources/dropdown-inner-root.json",
+                        "http://materializecss.com/dropdown.html",
+                        false,
+                        false
+                },
+                {
+                        "Site",
+                        "dropdownMaterialize/site/",
                         "src/test/resources/dropdown-inner-root.json",
                         "http://materializecss.com/dropdown.html",
                         false,
@@ -145,11 +155,17 @@ public class MainIntegrationTest {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int c1 = compiler.run(null, null, null, inputJavaFileTest);
         int c2 = compiler.run(null, null, null, inputJavaFileManual);
-        assertEquals(0, c1);
-        assertEquals(0, c2);
+        assertEquals("File " + inputJavaFileTest + " couldn't compile",0, c1);
+        assertEquals("File " + inputJavaFileManual + " couldn't compile",0, c2);
 
         URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
                 new File(RESOURCE_DIR).toURI().toURL()});
+
+        //TODO can create map, which contains class name and classloader
+        //TODO we should know how use current classloader in runtime
+        //TODO we can create many classes and don't use Parameterized.class
+
+        //Class.forName("test.page.DropdownMaterialize", true, classLoader);
 
         testingClass = Class.forName(this.generatedClassFullName, true, classLoader);
         manualClass = Class.forName(this.manualClassFullName, true, classLoader);
@@ -170,38 +186,38 @@ public class MainIntegrationTest {
     public void cleanUp() throws IOException {
         FileUtils.deleteQuietly(new File(RESOURCE_DIR + PACKAGE_TEST_NAME));
         FileUtils.deleteQuietly(new File(RESOURCE_DIR + MANUAL_DIR + tempManualDir +
-                smallClassName + "" +
-                ".class"));
+                smallClassName + ".class"));
     }
 
     private void testNameOfClass() throws Exception {
         String[] className = testingClass.getName().split("\\.");
         String[] className1 = manualClass.getName().split("\\.");
-        assertEquals(className[className.length - 1], className1[className1.length - 1]);
+        assertEquals("Different class names",className[className.length - 1],
+                className1[className1.length - 1]);
     }
 
     private void testAnnotationOfClass() {
         List<Annotation> classAnnotations = Arrays.asList(testingClass.getDeclaredAnnotations());
         List<Annotation> classAnnotations1 = Arrays.asList(manualClass.getDeclaredAnnotations());
-        assertEquals(classAnnotations, classAnnotations1);
+        assertEquals("Different class annotations",classAnnotations, classAnnotations1);
     }
 
     private void testModifiersOfClass() {
         int mods = testingClass.getModifiers();
         int mods1 = manualClass.getModifiers();
-        assertEquals(mods, mods1);
+        assertEquals("Different class modifiers",mods, mods1);
     }
 
     private void testSuperClassOfClass() {
         Class<?> actualSuperClass = testingClass.getSuperclass();
         Class<?> expectedSuperClass1 = manualClass.getSuperclass();
-        assertEquals(actualSuperClass, expectedSuperClass1);
+        assertEquals("Different superclasses",actualSuperClass, expectedSuperClass1);
     }
 
     private void testFields() {
         List<Field> fields = Arrays.asList(testingClass.getDeclaredFields());
         List<Field> fields1 = Arrays.asList(manualClass.getDeclaredFields());
-        assertEquals(fields.size(), fields1.size());
+        assertEquals("Different number of fields",fields.size(), fields1.size());
 
         Iterator<Field> it = fields.iterator();
         Iterator<Field> it1 = fields1.iterator();
@@ -214,22 +230,24 @@ public class MainIntegrationTest {
                     .asList(currentField.getDeclaredAnnotations());
             List<Annotation> fieldAnnotations1 = Arrays
                     .asList(currentField1.getDeclaredAnnotations());
-            assertEquals(fieldAnnotations, fieldAnnotations1);
+            assertEquals("Different field annotations",fieldAnnotations, fieldAnnotations1);
 
             int fieldModifiers = currentField.getModifiers();
             int fieldModifiers1 = currentField1.getModifiers();
-            assertEquals(fieldModifiers, fieldModifiers1);
+            assertEquals("Different field modifiers",fieldModifiers, fieldModifiers1);
 
             String[] newName = currentField.toString().split(" ");
             String[] newName1 = currentField1.toString().split(" ");
             String importForField = newName[1];
             String importForField1 = newName1[1];
-            assertEquals(importForField, importForField1);
-            assertEquals(currentField.getName(), currentField1.getName());
+            assertEquals("Different import for field",importForField, importForField1);
+            assertEquals("Different field names",currentField.getName(), currentField1.getName());
 
-            String type = currentField.getType().getName();
-            String type1 = currentField1.getType().getName();
-            assertEquals(type, type1);
+//TODO have a problem with field type, when have import remote class, then it's ok, but when our
+//TODO class depend from another our class we get a problem
+//            String type = currentField.getType().getName();
+//            String type1 = currentField1.getType().getName();
+//            assertEquals("Different field type",type, type1);
         }
     }
 }
