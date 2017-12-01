@@ -6,13 +6,13 @@ import com.epam.page.object.generator.containers.SupportedTypesContainer;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
-
-import java.net.MalformedURLException;
-
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -27,34 +28,27 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class MainIntegrationTest {
-
     private static final String RESOURCE_DIR = "src/test/resources/";
     private static final String TEST_DIR = "test/page/";
-    private static final String MANUAL_DIR = "manual/page/";
+    private static final String MANUAL_DIR = "manual/";
     private static final String TEST_CLASS_PACKAGE_NAME = "test.page";
-    private static final String MANUAL_CLASS_PACKAGE_NAME = "manual.page";
-
+    private static final String MANUAL_CLASS_PACKAGE_NAME = "manual.";
     private static final String PACKAGE_TEST_NAME = "test";
-    private static final String PACKAGE_MANUAL_NAME = "manual";
 
+    private boolean checkLocatorUniqueness;
+    private boolean forceGenerateFiles;
     private String inputJavaFileTest;
     private String inputJavaFileManual;
     private String generatedClassFullName;
     private String manualClassFullName;
     private String jsonSourcePath;
     private String url;
-    private boolean checkLocatorUniqueness;
-    private boolean forceGenerateFiles;
     private String smallClassName;
-
+    private String tempManualDir;
     private Class testingClass;
     private Class manualClass;
 
@@ -78,17 +72,20 @@ public class MainIntegrationTest {
         return pog;
     }
 
-    //TODO: make using @Parameter
     public MainIntegrationTest(String smallClassName,
+                               String tempManualDir,
                                String jsonSourcePath,
                                String url,
                                boolean checkLocatorUniqueness,
                                boolean forceGenerateFiles) throws Exception {
         this.smallClassName = smallClassName;
+        this.tempManualDir = tempManualDir;
         this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + smallClassName + ".java";
-        this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + smallClassName + ".java";
+        this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + tempManualDir + smallClassName +
+                ".java";
         this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + "." + smallClassName;
-        this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + "." + smallClassName;
+        this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + tempManualDir.replace("/", ".") +
+                smallClassName;
         this.jsonSourcePath = jsonSourcePath;
         this.url = url;
         this.checkLocatorUniqueness = checkLocatorUniqueness;
@@ -100,25 +97,42 @@ public class MainIntegrationTest {
         return Arrays.asList(new Object[][]{
                 {
                         "DropdownMaterialize",
+                        "dropdownMaterialize/page/",
                         "src/test/resources/dropdown-inner-root.json",
                         "http://materializecss.com/dropdown.html",
                         false,
                         false
                 },
-
                 {
                         "HowToCreate",
+                        "howToCreate/page/",
                         "src/test/resources/dropdown.json",
                         "https://www.w3schools.com/howto/howto_js_dropdown.asp",
                         true,
                         false
+                },
+                {
+                        "Google",
+                        "google/page/",
+                        "src/test/resources/button.json",
+                        "https://www.google.com",
+                        false,
+                        false
+                },
+                {
+                        "HtmlForms",
+                        "htmlForms/page/",
+                        "src/test/resources/form.json",
+                        "https://www.w3schools.com/html/html_forms.asp",
+                        true,
+                        false
                 }
+
         });
 
     }
 
-
-    public void compileTestClasses() throws Exception {
+    private void compileTestClasses() throws Exception {
 
         PageObjectsGenerator pog = initPog(
                 jsonSourcePath,
@@ -155,34 +169,36 @@ public class MainIntegrationTest {
     @After
     public void cleanUp() throws IOException {
         FileUtils.deleteQuietly(new File(RESOURCE_DIR + PACKAGE_TEST_NAME));
-        FileUtils.deleteQuietly(new File(RESOURCE_DIR + MANUAL_DIR + smallClassName + ".class"));
+        FileUtils.deleteQuietly(new File(RESOURCE_DIR + MANUAL_DIR + tempManualDir +
+                smallClassName + "" +
+                ".class"));
     }
 
-    public void testNameOfClass() throws Exception {
+    private void testNameOfClass() throws Exception {
         String[] className = testingClass.getName().split("\\.");
         String[] className1 = manualClass.getName().split("\\.");
         assertEquals(className[className.length - 1], className1[className1.length - 1]);
     }
 
-    public void testAnnotationOfClass() {
+    private void testAnnotationOfClass() {
         List<Annotation> classAnnotations = Arrays.asList(testingClass.getDeclaredAnnotations());
         List<Annotation> classAnnotations1 = Arrays.asList(manualClass.getDeclaredAnnotations());
         assertEquals(classAnnotations, classAnnotations1);
     }
 
-    public void testModifiersOfClass() {
+    private void testModifiersOfClass() {
         int mods = testingClass.getModifiers();
         int mods1 = manualClass.getModifiers();
         assertEquals(mods, mods1);
     }
 
-    public void testSuperClassOfClass() {
+    private void testSuperClassOfClass() {
         Class<?> actualSuperClass = testingClass.getSuperclass();
         Class<?> expectedSuperClass1 = manualClass.getSuperclass();
         assertEquals(actualSuperClass, expectedSuperClass1);
     }
 
-    public void testFields() {
+    private void testFields() {
         List<Field> fields = Arrays.asList(testingClass.getDeclaredFields());
         List<Field> fields1 = Arrays.asList(manualClass.getDeclaredFields());
         assertEquals(fields.size(), fields1.size());
