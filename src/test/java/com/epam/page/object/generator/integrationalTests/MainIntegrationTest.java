@@ -9,12 +9,14 @@ import com.epam.page.object.generator.validators.ValidatorsStarter;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import javax.tools.JavaCompiler;
+import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.IOException;
@@ -152,14 +154,28 @@ public class MainIntegrationTest {
 
         pog.generatePageObjects();
 
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        /*JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int c1 = compiler.run(null, null, null, inputJavaFileTest);
-        int c2 = compiler.run(null, null, null, inputJavaFileManual);
-        assertEquals("File " + inputJavaFileTest + " couldn't compile",0, c1);
-        assertEquals("File " + inputJavaFileManual + " couldn't compile",0, c2);
+        int c2 = compiler.run(null, null, null, inputJavaFileManual);*/
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
+        String[] options = new String[]{"-d", "target/test-classes"};
+        File[] files = new File[] {
+                new File(inputJavaFileTest),
+                new File(inputJavaFileManual)
+        };
 
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{
-                new File(RESOURCE_DIR).toURI().toURL()});
+        JavaCompiler.CompilationTask compilationTask = compiler.getTask(null, null, null,
+                Arrays.asList(options),
+                null,
+                standardJavaFileManager.getJavaFileObjects(files));
+        boolean compileSuccess = compilationTask.call();
+        assertEquals(true, compileSuccess);
+       /* assertEquals("File " + inputJavaFileTest + " couldn't compile",0, c1);
+        assertEquals("File " + inputJavaFileManual + " couldn't compile",0, c2);*/
+
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{
+                new File(/*RESOURCE_DIR*/"target").toURI().toURL()});
 
         //TODO can create map, which contains class name and classloader
         //TODO we should know how use current classloader in runtime
@@ -167,8 +183,11 @@ public class MainIntegrationTest {
 
         //Class.forName("test.page.DropdownMaterialize", true, classLoader);
 
-        testingClass = Class.forName(this.generatedClassFullName, true, classLoader);
-        manualClass = Class.forName(this.manualClassFullName, true, classLoader);
+        /*testingClass = Class.forName(this.generatedClassFullName, true, classLoader);
+        manualClass = Class.forName(this.manualClassFullName, true, classLoader);*/
+
+        testingClass = classLoader.loadClass(this.generatedClassFullName);
+        manualClass = classLoader.loadClass(this.manualClassFullName);
 
     }
 
@@ -182,6 +201,7 @@ public class MainIntegrationTest {
         testFields();
     }
 
+    @Ignore
     @After
     public void cleanUp() throws IOException {
         FileUtils.deleteQuietly(new File(RESOURCE_DIR + PACKAGE_TEST_NAME));
