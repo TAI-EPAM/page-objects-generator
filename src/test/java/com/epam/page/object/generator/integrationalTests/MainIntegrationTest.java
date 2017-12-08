@@ -115,7 +115,7 @@ public class MainIntegrationTest {
                         TrueFileFilter.INSTANCE
                 );
                 for (File classFile : filesList) {
-                    String[] s = insideDir.getPath().split("/");
+                    String[] s = insideDir.getPath().split("\\\\|\\/");
                     TestClassDTO testClassDTO = new TestClassDTO(
                             classFile.getName().split("\\.")[0],
                             s[s.length - 2] + "/" + s[s.length - 1] + "/",
@@ -152,7 +152,7 @@ public class MainIntegrationTest {
                 new IOFileFilter() {
                     @Override
                     public boolean accept(File file) {
-                        return Pattern.compile("manual/[a-zA-Z]+$").matcher(file.getPath()).find();
+                        return Pattern.compile("manual(\\\\|\\/)[a-zA-Z]+$").matcher(file.getPath()).find();
                     }
 
                     @Override
