@@ -10,8 +10,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -49,8 +47,6 @@ public class MainIntegrationTest {
     private String manualClassFullName;
     private String jsonSourcePath;
     private String url;
-    private String smallClassName;
-    private String tempManualDir;
     private Class testingClass;
     private Class manualClass;
 
@@ -82,17 +78,6 @@ public class MainIntegrationTest {
 
     public MainIntegrationTest(List<TestClassDTO> list) throws MalformedURLException {
         this.classesList = list;
-
-        classesList.sort((pathToJavaFile1, pathToJavaFile2) -> {
-            if (pathToJavaFile1.getSmallPath().endsWith("page/")) {
-                return -1;
-            }
-            if (pathToJavaFile2.getSmallPath().endsWith("page/")) {
-                return 1;
-            }
-            return 0;
-        });
-        System.out.println();
     }
 
    @Parameters
@@ -219,6 +204,15 @@ public class MainIntegrationTest {
 
     @Test
     public void runForPackage() throws Exception {
+        classesList.sort((pathToJavaFile1, pathToJavaFile2) -> {
+            if (pathToJavaFile1.getSmallPath().endsWith("page/")) {
+                return -1;
+            }
+            if (pathToJavaFile2.getSmallPath().endsWith("page/")) {
+                return 1;
+            }
+            return 0;
+        });
 
         for (TestClassDTO classDTO : classesList) {
             this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + classDTO.getSmallPath().split("/")[1] + "/" +
@@ -244,14 +238,6 @@ public class MainIntegrationTest {
         testModifiersOfClass();
         testSuperClassOfClass();
         testFields();
-    }
-
-    @Ignore
-    @After
-    public void cleanUp() throws IOException {
-        FileUtils.deleteQuietly(new File(RESOURCE_DIR + PACKAGE_TEST_NAME));
-        FileUtils.deleteQuietly(new File(RESOURCE_DIR + MANUAL_DIR + tempManualDir +
-                smallClassName + ".class"));
     }
 
     private void testNameOfClass() throws Exception {
