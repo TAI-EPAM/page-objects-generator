@@ -24,12 +24,15 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings("Duplicates")
 @RunWith(Parameterized.class)
 public class MainIntegrationTest {
     private static final String RESOURCE_DIR = "src/test/resources/";
@@ -38,6 +41,17 @@ public class MainIntegrationTest {
     private static final String TEST_CLASS_PACKAGE_NAME = "test.";
     private static final String MANUAL_CLASS_PACKAGE_NAME = "manual.";
     private static final String PACKAGE_TEST_NAME = "test";
+    private static final IOFileFilter IO_FILE_FILTER = new IOFileFilter() {
+        @Override
+        public boolean accept(File file) {
+            return false;
+        }
+
+        @Override
+        public boolean accept(File dir, String name) {
+            return false;
+        }
+    };
 
     private boolean checkLocatorUniqueness;
     private boolean forceGenerateFiles;
@@ -47,16 +61,13 @@ public class MainIntegrationTest {
     private String manualClassFullName;
     private String jsonSourcePath;
     private String url;
-    private Class testingClass;
+    private Class testClass;
     private Class manualClass;
 
-    private static List<File> caseDirs;
-    private static List<File> insideDirs;
-    private static List<File> caseProps;
     private static List<File> filesList = new ArrayList<>();
-
     private List<TestClassDTO> classesList;
 
+    @SuppressWarnings("Duplicates")
     private PageObjectsGenerator initPog(String jsonPath, String url,
                                          boolean checkLocatorUniqueness,
                                          boolean forceGenerateFiles) throws IOException {
@@ -80,42 +91,32 @@ public class MainIntegrationTest {
         this.classesList = list;
     }
 
-   @Parameters
+    @Parameters
     public static Iterable<Object[]> data() throws IOException, ClassNotFoundException {
 
-        caseDirs = getMainDirsNames();
+        List<File> caseDirs = getMainDirsNames();
         List<Object[]> testParameters = new ArrayList<>();
 
         for (File caseDir : caseDirs) {
             List<TestClassDTO> objectList = new ArrayList<>();
             Properties caseProperties = new Properties();
 
-            insideDirs = (List<File>) FileUtils.listFilesAndDirs(
+            List<File> insideDirs = (List<File>) FileUtils.listFilesAndDirs(
                     caseDir,
-                    new IOFileFilter() {
-                        @Override
-                        public boolean accept(File file) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean accept(File dir, String name) {
-                            return false;
-                        }
-                    },
+                    IO_FILE_FILTER,
                     TrueFileFilter.INSTANCE
             );
-            caseProps = (List<File>) FileUtils.listFiles(caseDir, null, false);
+            List<File> caseProps = (List<File>) FileUtils.listFiles(caseDir, null, false);
             caseProperties.load(new FileInputStream(caseProps.get(0)));
             insideDirs.remove(0);
             for (File insideDir : insideDirs) {
-                filesList = (List<File>)FileUtils.listFiles(
+                filesList = (List<File>) FileUtils.listFiles(
                         insideDir,
                         TrueFileFilter.INSTANCE,
                         TrueFileFilter.INSTANCE
                 );
                 for (File classFile : filesList) {
-                    String[] s = insideDir.getPath().split("\\\\|\\/");
+                    String[] s = insideDir.getPath().split("[\\\\/]");
                     TestClassDTO testClassDTO = new TestClassDTO(
                             classFile.getName().split("\\.")[0],
                             s[s.length - 2] + "/" + s[s.length - 1] + "/",
@@ -128,7 +129,7 @@ public class MainIntegrationTest {
                 }
 
             }
-            Object[] arr = new Object[] {objectList};
+            Object[] arr = new Object[]{objectList};
             testParameters.add(arr);
             filesList.clear();
         }
@@ -138,21 +139,12 @@ public class MainIntegrationTest {
     private static List<File> getMainDirsNames() {
         List<File> caseDirs = (List<File>) FileUtils.listFilesAndDirs(
                 new File(RESOURCE_DIR + MANUAL_DIR),
+                IO_FILE_FILTER,
                 new IOFileFilter() {
                     @Override
                     public boolean accept(File file) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean accept(File dir, String name) {
-                        return false;
-                    }
-                },
-                new IOFileFilter() {
-                    @Override
-                    public boolean accept(File file) {
-                        return Pattern.compile("manual(\\\\|\\/)[a-zA-Z]+$").matcher(file.getPath()).find();
+                        return Pattern.compile("manual([\\\\/])[a-zA-Z]+$").matcher(file.getPath())
+                                .find();
                     }
 
                     @Override
@@ -175,9 +167,6 @@ public class MainIntegrationTest {
 
         pog.generatePageObjects();
 
-        /*JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int c1 = compiler.run(null, null, null, inputJavaFileTest);
-        int c2 = compiler.run(null, null, null, inputJavaFileManual);*/
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
         String[] options = new String[]{"-d", "target/test-classes"};
@@ -194,35 +183,25 @@ public class MainIntegrationTest {
         assertEquals(true, compileSuccess);
 
         CustomClassLoader classLoader = new CustomClassLoader();
-
-        testingClass = classLoader.loadClass(this.generatedClassFullName);
+        testClass = classLoader.loadClass(this.generatedClassFullName);
         manualClass = classLoader.loadClass(this.manualClassFullName);
 
-        System.out.println(testingClass.getClassLoader());
-        System.out.println(manualClass.getClassLoader());
     }
 
     @Test
     public void runForPackage() throws Exception {
-        classesList.sort((pathToJavaFile1, pathToJavaFile2) -> {
-            if (pathToJavaFile1.getSmallPath().endsWith("page/")) {
-                return -1;
-            }
-            if (pathToJavaFile2.getSmallPath().endsWith("page/")) {
-                return 1;
-            }
-            return 0;
-        });
+        classesList.sort((pathToJavaFile1, pathToJavaFile2) -> pathToJavaFile1.getSmallPath()
+                .endsWith("page/") ? -1 : pathToJavaFile2.getSmallPath().endsWith("page/") ? 1 : 0);
 
         for (TestClassDTO classDTO : classesList) {
-            this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + classDTO.getSmallPath().split("/")[1] + "/" +
-                    classDTO.getSmallName() + ".java";
-            this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + classDTO.getSmallPath() + classDTO.getSmallName() +
-                    ".java";
-            this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + classDTO.getSmallPath().split("/")[1] + "."
-                    + classDTO.getSmallName();
-            this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + classDTO.getSmallPath().replace("/", ".")
-                    + classDTO.getSmallName();
+            this.inputJavaFileTest = RESOURCE_DIR + TEST_DIR + classDTO.getSmallPath()
+                    .split("/")[1] + "/" + classDTO.getSmallName() + ".java";
+            this.inputJavaFileManual = RESOURCE_DIR + MANUAL_DIR + classDTO.getSmallPath()
+                    + classDTO.getSmallName() + ".java";
+            this.generatedClassFullName = TEST_CLASS_PACKAGE_NAME + classDTO.getSmallPath()
+                    .split("/")[1] + "." + classDTO.getSmallName();
+            this.manualClassFullName = MANUAL_CLASS_PACKAGE_NAME + classDTO.getSmallPath().
+                    replace("/", ".") + classDTO.getSmallName();
             this.jsonSourcePath = classDTO.getJsonPath();
             this.url = classDTO.getTestURL();
             this.checkLocatorUniqueness = classDTO.isCheckLocatorUniqueness();
@@ -241,64 +220,64 @@ public class MainIntegrationTest {
     }
 
     private void testNameOfClass() throws Exception {
-        String[] className = testingClass.getName().split("\\.");
-        String[] className1 = manualClass.getName().split("\\.");
-        assertEquals("Different class names", className[className.length - 1],
-                className1[className1.length - 1]);
+        String[] testClassName = testClass.getName().split("\\.");
+        String[] manualClassName = manualClass.getName().split("\\.");
+        assertEquals("Different class names", testClassName[testClassName.length - 1],
+                manualClassName[manualClassName.length - 1]);
     }
 
     private void testAnnotationOfClass() {
-        List<Annotation> classAnnotations = Arrays.asList(testingClass.getDeclaredAnnotations());
-        List<Annotation> classAnnotations1 = Arrays.asList(manualClass.getDeclaredAnnotations());
-        assertEquals("Different class annotations", classAnnotations1, classAnnotations);
+        List<Annotation> testClassAnnotations = Arrays.asList(testClass.getDeclaredAnnotations());
+        List<Annotation> manualClassAnnotations = Arrays.asList(manualClass.getDeclaredAnnotations());
+        assertEquals("Different class annotations", manualClassAnnotations,
+                testClassAnnotations);
     }
 
     private void testModifiersOfClass() {
-        int mods = testingClass.getModifiers();
-        int mods1 = manualClass.getModifiers();
-        assertEquals("Different class modifiers", mods, mods1);
+        int testMods = testClass.getModifiers();
+        int manualMods = manualClass.getModifiers();
+        assertEquals("Different class modifiers", testMods, manualMods);
     }
 
     private void testSuperClassOfClass() {
-        Class<?> actualSuperClass = testingClass.getSuperclass();
-        Class<?> expectedSuperClass1 = manualClass.getSuperclass();
-        assertEquals("Different superclasses", actualSuperClass, expectedSuperClass1);
+        Class<?> testSuperClass = testClass.getSuperclass();
+        Class<?> manualSuperClass = manualClass.getSuperclass();
+        assertEquals("Different superclasses", testSuperClass, manualSuperClass);
     }
 
     private void testFields() {
-        List<Field> fields = Arrays.asList(testingClass.getDeclaredFields());
-        List<Field> fields1 = Arrays.asList(manualClass.getDeclaredFields());
-        assertEquals("Different number of fields", fields.size(), fields1.size());
+        List<Field> testFields = Arrays.asList(testClass.getDeclaredFields());
+        List<Field> manualFields = Arrays.asList(manualClass.getDeclaredFields());
+        assertEquals("Different number of fields", testFields.size(),
+                manualFields.size());
 
-        Iterator<Field> it = fields.iterator();
-        Iterator<Field> it1 = fields1.iterator();
+        Iterator<Field> testIt = testFields.iterator();
+        Iterator<Field> manualIt = manualFields.iterator();
 
-        while (it.hasNext()) {
-            Field currentField = it.next();
-            Field currentField1 = it1.next();
+        while (testIt.hasNext()) {
+            Field testCurrentField = testIt.next();
+            Field manualCurrentField = manualIt.next();
 
-            List<Annotation> fieldAnnotations = Arrays
-                    .asList(currentField.getDeclaredAnnotations());
-            List<Annotation> fieldAnnotations1 = Arrays
-                    .asList(currentField1.getDeclaredAnnotations());
-            assertEquals("Different field annotations", fieldAnnotations, fieldAnnotations1);
+            List<Annotation> testFieldAnnotations = Arrays
+                    .asList(testCurrentField.getDeclaredAnnotations());
+            List<Annotation> manualFieldAnnotations = Arrays
+                    .asList(manualCurrentField.getDeclaredAnnotations());
+            assertEquals("Different field annotations", testFieldAnnotations,
+                    manualFieldAnnotations);
 
-            int fieldModifiers = currentField.getModifiers();
-            int fieldModifiers1 = currentField1.getModifiers();
-            assertEquals("Different field modifiers", fieldModifiers, fieldModifiers1);
+            int testFieldModifiers = testCurrentField.getModifiers();
+            int manualFieldModifiers = manualCurrentField.getModifiers();
+            assertEquals("Different field modifiers", testFieldModifiers,
+                    manualFieldModifiers);
 
-            String[] newName = currentField.toString().split(" ");
-            String[] newName1 = currentField1.toString().split(" ");
-            String importForField = newName[1];
-            String importForField1 = newName1[1];
-            assertEquals("Different import for field", importForField, importForField1);
-            assertEquals("Different field names", currentField.getName(), currentField1.getName());
-
-            //TODO have a problem with field type, when have import remote class, then it's ok, but when our
-            //TODO class depend from another our class we get a problem
-            /*String type = currentField.getType().getName();
-            String type1 = currentField1.getType().getName();
-            assertEquals("Different field type",type, type1);*/
+            String[] newTestName = testCurrentField.toString().split(" ");
+            String[] newManualName = manualCurrentField.toString().split(" ");
+            String testImportForField = newTestName[1];
+            String manualImportForField = newManualName[1];
+            assertEquals("Different import for field", testImportForField,
+                    manualImportForField);
+            assertEquals("Different field names", testCurrentField.getName(),
+                    manualCurrentField.getName());
         }
     }
 }
