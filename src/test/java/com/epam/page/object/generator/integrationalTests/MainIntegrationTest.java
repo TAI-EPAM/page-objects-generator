@@ -95,7 +95,7 @@ public class MainIntegrationTest {
         System.out.println();
     }
 
-    @Parameters
+   @Parameters
     public static Iterable<Object[]> data() throws IOException, ClassNotFoundException {
 
         caseDirs = getMainDirsNames();
