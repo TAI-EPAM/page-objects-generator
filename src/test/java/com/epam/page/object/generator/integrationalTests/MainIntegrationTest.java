@@ -117,7 +117,7 @@ public class MainIntegrationTest {
                         TrueFileFilter.INSTANCE
                 );
                 for (File classFile : filesList) {
-                    //TODO: fix magic numbers
+                    //TODO: fix magic numbers!
                     //s = src/../google/site
                     //smallPath = google/site
                     String[] s = insideDir.getPath().split("[\\\\/]");
