@@ -7,6 +7,7 @@ import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -64,7 +65,6 @@ public class MainIntegrationTest {
     private Class testClass;
     private Class manualClass;
 
-    private static List<File> filesList = new ArrayList<>();
     private List<TestClassDTO> classesList;
 
     @SuppressWarnings("Duplicates")
@@ -87,13 +87,14 @@ public class MainIntegrationTest {
         return pog;
     }
 
-    public MainIntegrationTest(List<TestClassDTO> list) throws MalformedURLException {
+    public MainIntegrationTest(List<TestClassDTO> list) {
         this.classesList = list;
     }
 
     @Parameters
     public static Iterable<Object[]> data() throws IOException, ClassNotFoundException {
 
+        List<File> filesList = new ArrayList<>();
         List<File> caseDirs = getMainDirsNames();
         List<Object[]> testParameters = new ArrayList<>();
 
@@ -101,12 +102,12 @@ public class MainIntegrationTest {
             List<TestClassDTO> objectList = new ArrayList<>();
             Properties caseProperties = new Properties();
 
-            List<File> insideDirs = (List<File>) FileUtils.listFilesAndDirs(
+            List<File> insideDirs = new ArrayList<>(FileUtils.listFilesAndDirs(
                     caseDir,
                     IO_FILE_FILTER,
                     TrueFileFilter.INSTANCE
-            );
-            List<File> caseProps = (List<File>) FileUtils.listFiles(caseDir, null, false);
+            ));
+            List<File> caseProps = new ArrayList<>(FileUtils.listFiles(caseDir, null, false));
             caseProperties.load(new FileInputStream(caseProps.get(0)));
             insideDirs.remove(0);
             for (File insideDir : insideDirs) {
@@ -116,6 +117,9 @@ public class MainIntegrationTest {
                         TrueFileFilter.INSTANCE
                 );
                 for (File classFile : filesList) {
+                    //TODO: fix magic numbers
+                    //s = src/../google/site
+                    //smallPath = google/site
                     String[] s = insideDir.getPath().split("[\\\\/]");
                     TestClassDTO testClassDTO = new TestClassDTO(
                             classFile.getName().split("\\.")[0],
