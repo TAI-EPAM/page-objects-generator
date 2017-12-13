@@ -27,8 +27,9 @@ public class CustomClassLoader extends ClassLoader {
                     .getResourceAsStream(name.replace('.', '/') + CLASS_EXTENSION)
             ) {
                 byte[] buf = IOUtils.toByteArray(is);
-                int len = is.read(buf);
-                return defineClass(name, buf, 0, len);
+                //byte[] buf = new byte[10000];
+                //int len = is.read(buf);
+                return defineClass(name, buf, 0, buf.length);
             } catch (IOException e) {
                 throw new ClassNotFoundException(name + " class wasn't found", e);
             }
