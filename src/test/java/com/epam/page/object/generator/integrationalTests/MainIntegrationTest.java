@@ -7,7 +7,6 @@ import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -24,7 +23,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -255,33 +253,49 @@ public class MainIntegrationTest {
         assertEquals("Different number of fields", testFields.size(),
                 manualFields.size());
 
-        Iterator<Field> testIt = testFields.iterator();
-        Iterator<Field> manualIt = manualFields.iterator();
+        if (manualFields.size() != 0 && testFields.size() != 0) {
+            manualFields.sort((f1, f2) -> {
+                String[] typeAndNameField1 = f1.getType().getName().split("\\.");
+                String[] typeAndNameField2 = f2.getType().getName().split("\\.");
+                return (typeAndNameField1[typeAndNameField1.length - 1] + f1.getName())
+                        .compareTo((typeAndNameField2[typeAndNameField2.length - 1] + f2.getName()));
+            });
 
-        while (testIt.hasNext()) {
-            Field testCurrentField = testIt.next();
-            Field manualCurrentField = manualIt.next();
+            testFields.sort((f1, f2) -> {
+                String[] typeAndNameField1 = f1.getType().getName().split("\\.");
+                String[] typeAndNameField2 = f2.getType().getName().split("\\.");
+                return (typeAndNameField1[typeAndNameField1.length - 1] + f1.getName())
+                        .compareTo((typeAndNameField2[typeAndNameField2.length - 1] + f2.getName()));
+            });
 
-            List<Annotation> testFieldAnnotations = Arrays
-                    .asList(testCurrentField.getDeclaredAnnotations());
-            List<Annotation> manualFieldAnnotations = Arrays
-                    .asList(manualCurrentField.getDeclaredAnnotations());
-            assertEquals("Different field annotations", testFieldAnnotations,
-                    manualFieldAnnotations);
+            Iterator<Field> testIt = testFields.iterator();
+            Iterator<Field> manualIt = manualFields.iterator();
 
-            int testFieldModifiers = testCurrentField.getModifiers();
-            int manualFieldModifiers = manualCurrentField.getModifiers();
-            assertEquals("Different field modifiers", testFieldModifiers,
-                    manualFieldModifiers);
+            while (testIt.hasNext()) {
+                Field testCurrentField = testIt.next();
+                Field manualCurrentField = manualIt.next();
 
-            String[] newTestName = testCurrentField.toString().split(" ");
-            String[] newManualName = manualCurrentField.toString().split(" ");
-            String testImportForField = newTestName[1];
-            String manualImportForField = newManualName[1];
-            assertEquals("Different import for field", testImportForField,
-                    manualImportForField);
-            assertEquals("Different field names", testCurrentField.getName(),
-                    manualCurrentField.getName());
+                List<Annotation> testFieldAnnotations = Arrays
+                        .asList(testCurrentField.getDeclaredAnnotations());
+                List<Annotation> manualFieldAnnotations = Arrays
+                        .asList(manualCurrentField.getDeclaredAnnotations());
+                assertEquals("Different field annotations", testFieldAnnotations,
+                        manualFieldAnnotations);
+
+                int testFieldModifiers = testCurrentField.getModifiers();
+                int manualFieldModifiers = manualCurrentField.getModifiers();
+                assertEquals("Different field modifiers", testFieldModifiers,
+                        manualFieldModifiers);
+
+                String[] newTestName = testCurrentField.toString().split(" ");
+                String[] newManualName = manualCurrentField.toString().split(" ");
+                String testImportForField = newTestName[1];
+                String manualImportForField = newManualName[1];
+                assertEquals("Different import for field", testImportForField,
+                        manualImportForField);
+                assertEquals("Different field names", testCurrentField.getName(),
+                        manualCurrentField.getName());
+            }
         }
     }
 }
