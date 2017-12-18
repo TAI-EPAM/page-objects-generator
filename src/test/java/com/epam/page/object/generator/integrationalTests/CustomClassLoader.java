@@ -12,8 +12,7 @@ import java.io.InputStream;
  * implementation: for all sites POG object generates the same Site.java class with the same full name
  * for each site (test.site.Site). So after first run (for the first site) JVM already has class
  * named test.site.Site and it won't upload class with the same name one more time, although it's
- * completely different class for other site. We use out implementation to force this uploading
- *
+ * completely different class for other site. We use our implementation to force this uploading
  */
 public class CustomClassLoader extends ClassLoader {
     private static final String CLASS_EXTENSION = ".class";
@@ -27,8 +26,6 @@ public class CustomClassLoader extends ClassLoader {
                     .getResourceAsStream(name.replace('.', '/') + CLASS_EXTENSION)
             ) {
                 byte[] buf = IOUtils.toByteArray(is);
-                //byte[] buf = new byte[10000];
-                //int len = is.read(buf);
                 return defineClass(name, buf, 0, buf.length);
             } catch (IOException e) {
                 throw new ClassNotFoundException(name + " class wasn't found", e);
