@@ -1,7 +1,7 @@
 package com.epam.page.object.generator.integrationalTests;
 
 import com.epam.page.object.generator.PageObjectsGenerator;
-import com.epam.page.object.generator.integrationalTests.DTO.CompilationResultDTO;
+import com.epam.page.object.generator.integrationalTests.Data.CompilationResult;
 import java.io.File;
 import java.util.Arrays;
 import javax.tools.JavaCompiler;
@@ -15,10 +15,10 @@ class TestClassesCompiler {
         this.pog = pog;
     }
 
-    CompilationResultDTO compileClasses(String expectedPath,
-                                        String manualPath,
-                                        String expectedFullName,
-                                        String manualFullName) throws Exception {
+    CompilationResult compileClasses(String expectedPath,
+                                     String manualPath,
+                                     String expectedFullName,
+                                     String manualFullName) throws Exception {
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager standardJavaFileManager = compiler
@@ -43,6 +43,6 @@ class TestClassesCompiler {
         Class testClass = classLoader.loadClass(expectedFullName);
         Class manualClass = classLoader.loadClass(manualFullName);
 
-        return new CompilationResultDTO(manualClass, testClass, compileSuccess);
+        return new CompilationResult(manualClass, testClass, compileSuccess);
     }
 }

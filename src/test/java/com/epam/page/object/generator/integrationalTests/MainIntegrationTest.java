@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.adapter.JavaPoetAdapter;
 import com.epam.page.object.generator.containers.SupportedTypesContainer;
-import com.epam.page.object.generator.integrationalTests.DTO.CompilationResultDTO;
-import com.epam.page.object.generator.integrationalTests.DTO.TestClassesDTO;
+import com.epam.page.object.generator.integrationalTests.Data.CompilationResult;
+import com.epam.page.object.generator.integrationalTests.Data.TestClassesData;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -68,7 +70,7 @@ public class MainIntegrationTest {
     private static final String PACKAGE_TEST_NAME = "test";
     private static final int MAX_DEPTH_FOR_DIRS = 1;
 
-    private List<TestClassesDTO> caseClassesList;
+    private List<TestClassesData> caseClassesList;
 
     @SuppressWarnings("Duplicates")
     private PageObjectsGenerator initPog(String jsonPath, String url,
@@ -90,16 +92,16 @@ public class MainIntegrationTest {
         return pog;
     }
 
-    public MainIntegrationTest(List<TestClassesDTO> list) {
+    public MainIntegrationTest(List<TestClassesData> list) {
         this.caseClassesList = list;
     }
 
     /**
      * Forms List<Object[]> which contains parameters for testing. Every list's element
-     * (it's Object array) contains one parameter - list of TestClassesDTO objects. This list
+     * (it's Object array) contains one parameter - list of TestClassesData objects. This list
      * represents each test case. For this purpose data() method scans
      * through scr/test/resources/manual to find all test cases dirs and then form list
-     * of TestClassesDTO objects for every test case
+     * of TestClassesData objects for every test case
      *
      * About regex: .+\.[a-z]+$
      * This regex is used for matching files with extensions (in this particular situation for
@@ -109,60 +111,46 @@ public class MainIntegrationTest {
      *
      * @return list of parameters set for every test case
      */
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        data();
+    }
+
     @Parameters
     public static Iterable<Object[]> data() throws IOException, ClassNotFoundException {
 
         List<Path> caseDirs = getCaseDirsNames(
-            RESOURCE_DIR + MANUAL_DIR,
-            MAX_DEPTH_FOR_DIRS
-        );
-        List<Path> insideCaseDirs;
-        List<Path> javaFilesList;
-        List<Path> casePropertiesList;
+            RESOURCE_DIR + MANUAL_DIR);
+
         List<Object[]> testParameters = new ArrayList<>();
-        Properties caseProperties;
-        List<TestClassesDTO> objectList;
 
         for (Path caseDir : caseDirs) {
-            objectList = new ArrayList<>();
-            caseProperties = new Properties();
+            List<TestClassesData> objectList = new ArrayList<>();
+            Properties caseProperties = new Properties();
 
-            insideCaseDirs = Files.find(
-                caseDir,
-                MAX_DEPTH_FOR_DIRS,
-                (path, basicFileAttributes) -> !FileSystems
-                    .getDefault()
-                    .getPathMatcher("regex:.+\\.[a-z]+$")
-                    .matches(path) && !path.equals(caseDir)
-            ).collect(Collectors.toList());
+            List<Path> insideCaseDirs = Files
+                .list(caseDir)
+                .filter(s -> Files.isDirectory(s))
+                .collect(Collectors.toList());
 
-            casePropertiesList = Files.find(
-                caseDir,
-                MAX_DEPTH_FOR_DIRS,
-                (path, basicFileAttributes) -> FileSystems
-                    .getDefault()
-                    .getPathMatcher("regex:.+\\.[a-z]+$")
-                    .matches(path)
-            ).collect(Collectors.toList());
-            try (FileInputStream inputStream = new FileInputStream(
-                casePropertiesList.get(0).toFile())
-            ) {
-                caseProperties.load(inputStream);
+            Optional<Path> testCasePropertyPath = Files
+                .list(caseDir)
+                .filter(path -> Files.isRegularFile(path))
+                .filter(path -> path.toString().endsWith(".properties"))
+                .findAny();
+            if (testCasePropertyPath.isPresent()) {
+                caseProperties.load(Files.newInputStream(testCasePropertyPath.get()));
             }
 
             for (Path insideDir : insideCaseDirs) {
-                javaFilesList = Files.find(
-                    insideDir,
-                    MAX_DEPTH_FOR_DIRS,
-                    (path, basicFileAttributes) -> FileSystems
-                        .getDefault()
-                        .getPathMatcher("regex:.+\\.[a-z]+$")
-                        .matches(path)
-
-                ).collect(Collectors.toList());
+                List<Path> javaFilesList = Files
+                    .list(insideDir)
+                    .filter(path -> Files.isRegularFile(path))
+                    .filter(path -> path.toString().endsWith(".java"))
+                    .collect(Collectors.toList());
 
                 for (Path classFile : javaFilesList) {
-                    TestClassesDTO testClassesDTO = new TestClassesDTO(
+                    TestClassesData testClassesData = new TestClassesData(
                         getFullClassNameFromClassFilePath(classFile.toString()),
                         classFile.toString(),
                         caseProperties.getProperty("json"),
@@ -173,7 +161,7 @@ public class MainIntegrationTest {
                             manualFilePathToTestFilePath(classFile.toString())),
                         manualFilePathToTestFilePath(classFile.toString())
                     );
-                    objectList.add(testClassesDTO);
+                    objectList.add(testClassesData);
                 }
             }
             Object[] arr = new Object[]{objectList};
@@ -183,14 +171,14 @@ public class MainIntegrationTest {
     }
 
     /**
-     * Run tests for every TestClassesDTO object (in other words for every
+     * Run tests for every TestClassesData object (in other words for every
      * class that was generated by POG (every class of the test case)).
      * Number of iterations depends on number of classes to test in this particular test case.
      */
     @Test
     public void runForPackage() throws Exception {
         caseClassesList = sortClassesList(caseClassesList);
-        for (TestClassesDTO classDTO : caseClassesList) {
+        for (TestClassesData classDTO : caseClassesList) {
             runTestCase(classDTO);
         }
     }
@@ -198,24 +186,25 @@ public class MainIntegrationTest {
     /**
      * Compiles two classes (manual and generated by POG)
      *
-     * @return CompilationDTO object with Class objects (for manual and generated by POG
-     * test classes) and result of compilation
+     * @return CompilationDTO object with Class objects (for manual and generated by POG test
+     * classes) and result of compilation
      */
-    private CompilationResultDTO prepareAndCompileTestClassesPair(TestClassesDTO currentClassesDTO)
+    private CompilationResult prepareAndCompileTestClassesPair(
+        TestClassesData currentTestClassesData)
         throws Exception {
 
         PageObjectsGenerator pog = initPog(
-            currentClassesDTO.getJsonPath(),
-            currentClassesDTO.getTestURL(),
-            currentClassesDTO.isCheckLocatorUniqueness(),
-            currentClassesDTO.isForceGenerateFiles());
+            currentTestClassesData.getJsonPath(),
+            currentTestClassesData.getTestURL(),
+            currentTestClassesData.isCheckLocatorUniqueness(),
+            currentTestClassesData.isForceGenerateFiles());
 
         TestClassesCompiler compiler = new TestClassesCompiler(pog);
-        CompilationResultDTO compilationResult = compiler.compileClasses(
-            currentClassesDTO.getTestClassFilePath(),
-            currentClassesDTO.getManualClassFilePath(),
-            currentClassesDTO.getTestClassFullName(),
-            currentClassesDTO.getManualClassFullName()
+        CompilationResult compilationResult = compiler.compileClasses(
+            currentTestClassesData.getTestClassFilePath(),
+            currentTestClassesData.getManualClassFilePath(),
+            currentTestClassesData.getTestClassFullName(),
+            currentTestClassesData.getManualClassFullName()
         );
         assertEquals(true, compilationResult.isCompilationSuccess());
         return compilationResult;
@@ -224,8 +213,8 @@ public class MainIntegrationTest {
     /**
      * Run all test methods for one generated class (and compare it to manual class)
      */
-    private void runTestCase(TestClassesDTO currentClassesDTO) throws Exception {
-        CompilationResultDTO compilationResult = prepareAndCompileTestClassesPair(currentClassesDTO);
+    private void runTestCase(TestClassesData currentClassesDTO) throws Exception {
+        CompilationResult compilationResult = prepareAndCompileTestClassesPair(currentClassesDTO);
 
         currentClassesDTO.setTestClass(compilationResult.getExpectedClass());
         currentClassesDTO.setManualClass(compilationResult.getManualClass());
@@ -243,37 +232,29 @@ public class MainIntegrationTest {
      * manual.google.page.Site  - manual class
      * will pass assertEquals
      */
-    private void testNameOfClass(TestClassesDTO currentClassesDTO) throws Exception {
-        String[] testClassName = currentClassesDTO
-            .getTestClass()
-            .getName()
-            .split("\\.");
-        String[] manualClassName = currentClassesDTO
-            .getManualClass()
-            .getName()
-            .split("\\.");
-        assertEquals("Different class names", testClassName[testClassName.length - 1],
-            manualClassName[manualClassName.length - 1]);
+    private void testNameOfClass(TestClassesData testClassesData) throws Exception {
+        assertEquals("Different class names", testClassesData.getManualClass().getSimpleName(),
+            testClassesData.getTestClass().getSimpleName());
     }
 
-    private void testAnnotationOfClass(TestClassesDTO currentClassesDTO) {
+    private void testAnnotationOfClass(TestClassesData testClassesData) {
         List<Annotation> testClassAnnotations = Arrays
-            .asList(currentClassesDTO.getTestClass().getDeclaredAnnotations());
+            .asList(testClassesData.getTestClass().getDeclaredAnnotations());
         List<Annotation> manualClassAnnotations = Arrays
-            .asList(currentClassesDTO.getManualClass().getDeclaredAnnotations());
+            .asList(testClassesData.getManualClass().getDeclaredAnnotations());
         assertEquals("Different class annotations", manualClassAnnotations,
             testClassAnnotations);
     }
 
-    private void testModifiersOfClass(TestClassesDTO currentClassesDTO) {
+    private void testModifiersOfClass(TestClassesData currentClassesDTO) {
         int testMods = currentClassesDTO.getTestClass().getModifiers();
         int manualMods = currentClassesDTO.getManualClass().getModifiers();
         assertEquals("Different class modifiers", testMods, manualMods);
     }
 
-    private void testSuperClassOfClass(TestClassesDTO currentClassesDTO) {
-        Class<?> testSuperClass = currentClassesDTO.getTestClass().getSuperclass();
-        Class<?> manualSuperClass = currentClassesDTO.getManualClass().getSuperclass();
+    private void testSuperClassOfClass(TestClassesData testClassesData) {
+        Class<?> testSuperClass = testClassesData.getTestClass().getSuperclass();
+        Class<?> manualSuperClass = testClassesData.getManualClass().getSuperclass();
         assertEquals("Different superclasses", testSuperClass, manualSuperClass);
     }
 
@@ -282,11 +263,11 @@ public class MainIntegrationTest {
      * fields in classes. If fields order of manual and test classes aren't the same, but fields
      * are the same (same name, type, annotations) test will be passed
      */
-    private void testFields(TestClassesDTO currentClassesDTO) {
+    private void testFields(TestClassesData testClassesData) {
         List<Field> testFields = Arrays
-            .asList(currentClassesDTO.getTestClass().getDeclaredFields());
+            .asList(testClassesData.getTestClass().getDeclaredFields());
         List<Field> manualFields = Arrays
-            .asList(currentClassesDTO.getManualClass().getDeclaredFields());
+            .asList(testClassesData.getManualClass().getDeclaredFields());
         assertEquals("Different number of fields", testFields.size(),
             manualFields.size());
 
@@ -340,34 +321,27 @@ public class MainIntegrationTest {
      *
      * @return list of test cases dirs name
      */
-    private static List<Path> getCaseDirsNames(String searchingDir, int depth) throws IOException {
-        Pattern pattern = Pattern.compile("manual([\\\\/])[a-zA-Z]+$");
-        return
-            Files.find(
-                Paths.get(searchingDir),
-                depth,
-                (path, basicFileAttributes) ->
-                    pattern.matcher(path.toString()).find()
-            ).collect(Collectors.toList());
+    private static List<Path> getCaseDirsNames(String searchingDir) throws IOException {
+        return Files.list(Paths.get(searchingDir))
+            .filter(path -> Files.isDirectory(path))
+            .collect(Collectors.toList());
     }
 
     /**
-     * Sorts list of TestClassesDTO objects. It's necessary, because all classes of test case
+     * Sorts list of TestClassesData objects. It's necessary, because all classes of test case
      * can have dependencies of classes which represents pages. So all classes from page subdir
      * have to be tested first.
      *
      * @param classesList list of test case classes to sort
      * @return sorted list
      */
-    private static List<TestClassesDTO> sortClassesList(List<TestClassesDTO> classesList) {
-        classesList.sort(
-            (pathToJavaFile1, pathToJavaFile2) ->
-                pathToJavaFile1.getManualClassFilePath().contains("page")
-                    ? -1
-                    : pathToJavaFile2.getManualClassFilePath().contains("page")
-                        ? 1 : 0
-        );
-        return classesList;
+    private static List<TestClassesData> sortClassesList(List<TestClassesData> classesList) {
+
+        Map<Boolean, List<TestClassesData>> grouped = classesList.stream()
+            .collect(Collectors.groupingBy(t -> t.getManualClassFilePath().contains("page")));
+        ArrayList<TestClassesData> result = new ArrayList<>(grouped.get(true));
+        result.addAll(grouped.get(false));
+        return result;
     }
 
     /**

@@ -1,12 +1,12 @@
-package com.epam.page.object.generator.integrationalTests.DTO;
+package com.epam.page.object.generator.integrationalTests.Data;
 
-public class CompilationResultDTO {
+public class CompilationResult {
     private Class manualClass;
     private Class expectedClass;
     private boolean compilationSuccess;
 
-    public CompilationResultDTO(Class manualClass, Class expectedClass,
-                                boolean compilationSuccess) {
+    public CompilationResult(Class manualClass, Class expectedClass,
+                             boolean compilationSuccess) {
         this.manualClass = manualClass;
         this.expectedClass = expectedClass;
         this.compilationSuccess = compilationSuccess;
