@@ -13,6 +13,7 @@ import com.epam.page.object.generator.validators.ValidatorsStarter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.file.FileSystems;
@@ -68,8 +69,6 @@ public class MainIntegrationTest {
     private static final String MANUAL_DIR = FilenameUtils
         .separatorsToSystem("manual/");
     private static final String PACKAGE_TEST_NAME = "test";
-    private static final int MAX_DEPTH_FOR_DIRS = 1;
-
     private List<TestClassesData> caseClassesList;
 
     @SuppressWarnings("Duplicates")
@@ -103,18 +102,9 @@ public class MainIntegrationTest {
      * through scr/test/resources/manual to find all test cases dirs and then form list
      * of TestClassesData objects for every test case
      *
-     * About regex: .+\.[a-z]+$
-     * This regex is used for matching files with extensions (in this particular situation for
-     * matching .java or .properties files). Example:
-     * src/test/resources/manual/google/Google.java - matches
-     * src/test/resources/manual/google             - doesn't match
-     *
      * @return list of parameters set for every test case
      */
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        data();
-    }
 
     @Parameters
     public static Iterable<Object[]> data() throws IOException, ClassNotFoundException {
@@ -139,7 +129,9 @@ public class MainIntegrationTest {
                 .filter(path -> path.toString().endsWith(".properties"))
                 .findAny();
             if (testCasePropertyPath.isPresent()) {
-                caseProperties.load(Files.newInputStream(testCasePropertyPath.get()));
+                InputStream inputStream = Files.newInputStream(testCasePropertyPath.get());
+                caseProperties.load(inputStream);
+                inputStream.close();
             }
 
             for (Path insideDir : insideCaseDirs) {
