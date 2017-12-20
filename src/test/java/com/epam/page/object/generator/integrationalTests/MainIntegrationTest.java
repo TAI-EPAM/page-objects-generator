@@ -1,6 +1,7 @@
 package com.epam.page.object.generator.integrationalTests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.adapter.JavaPoetAdapter;
@@ -129,10 +130,11 @@ public class MainIntegrationTest {
                 .filter(path -> path.toString().endsWith(".properties"))
                 .findAny();
             if (testCasePropertyPath.isPresent()) {
-                InputStream inputStream = Files.newInputStream(testCasePropertyPath.get());
-                caseProperties.load(inputStream);
-                inputStream.close();
-            }
+                try (InputStream inputStream = Files.newInputStream(testCasePropertyPath.get())) {
+                    caseProperties.load(inputStream);
+                }
+            } else
+                fail("unable to get .property file. please, check for all cases");
 
             for (Path insideDir : insideCaseDirs) {
                 List<Path> javaFilesList = Files
@@ -241,13 +243,13 @@ public class MainIntegrationTest {
     private void testModifiersOfClass(TestClassesData currentClassesDTO) {
         int testMods = currentClassesDTO.getTestClass().getModifiers();
         int manualMods = currentClassesDTO.getManualClass().getModifiers();
-        assertEquals("Different class modifiers", testMods, manualMods);
+        assertEquals("Different class modifiers", manualMods, testMods);
     }
 
     private void testSuperClassOfClass(TestClassesData testClassesData) {
         Class<?> testSuperClass = testClassesData.getTestClass().getSuperclass();
         Class<?> manualSuperClass = testClassesData.getManualClass().getSuperclass();
-        assertEquals("Different superclasses", testSuperClass, manualSuperClass);
+        assertEquals("Different superclasses", manualSuperClass, testSuperClass);
     }
 
     /**
@@ -260,8 +262,7 @@ public class MainIntegrationTest {
             .asList(testClassesData.getTestClass().getDeclaredFields());
         List<Field> manualFields = Arrays
             .asList(testClassesData.getManualClass().getDeclaredFields());
-        assertEquals("Different number of fields", testFields.size(),
-            manualFields.size());
+        assertEquals("Different number of fields", manualFields.size(), testFields.size());
 
         Comparator<Field> fieldsComparator = (f1, f2) -> {
             String[] typeAndNameField1 = f1.getType().getName().split("\\.");
@@ -286,22 +287,26 @@ public class MainIntegrationTest {
                     .asList(testCurrentField.getDeclaredAnnotations());
                 List<Annotation> manualFieldAnnotations = Arrays
                     .asList(manualCurrentField.getDeclaredAnnotations());
-                assertEquals("Different field annotations", testFieldAnnotations,
-                    manualFieldAnnotations);
+                assertEquals("Different field annotations",
+                    manualFieldAnnotations,
+                    testFieldAnnotations);
 
                 int testFieldModifiers = testCurrentField.getModifiers();
                 int manualFieldModifiers = manualCurrentField.getModifiers();
-                assertEquals("Different field modifiers", testFieldModifiers,
-                    manualFieldModifiers);
+                assertEquals("Different field modifiers",
+                    manualFieldModifiers,
+                    testFieldModifiers);
 
                 String[] newTestName = testCurrentField.toString().split(" ");
                 String[] newManualName = manualCurrentField.toString().split(" ");
                 String testImportForField = newTestName[1];
                 String manualImportForField = newManualName[1];
-                assertEquals("Different import for field", testImportForField,
-                    manualImportForField);
-                assertEquals("Different field names", testCurrentField.getName(),
-                    manualCurrentField.getName());
+                assertEquals("Different import for field",
+                    manualImportForField,
+                    testImportForField);
+                assertEquals("Different field names",
+                    manualCurrentField.getName(),
+                    testCurrentField.getName());
             }
         }
     }
