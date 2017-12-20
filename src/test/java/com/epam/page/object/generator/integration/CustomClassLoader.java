@@ -1,4 +1,4 @@
-package com.epam.page.object.generator.integrationalTests;
+package com.epam.page.object.generator.integration;
 
 import org.apache.commons.compress.utils.IOUtils;
 

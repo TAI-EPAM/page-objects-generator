@@ -1,7 +1,7 @@
-package com.epam.page.object.generator.integrationalTests;
+package com.epam.page.object.generator.integration;
 
 import com.epam.page.object.generator.PageObjectsGenerator;
-import com.epam.page.object.generator.integrationalTests.Data.CompilationResult;
+import com.epam.page.object.generator.integration.data.CompilationResult;
 import java.io.File;
 import java.util.Arrays;
 import javax.tools.JavaCompiler;

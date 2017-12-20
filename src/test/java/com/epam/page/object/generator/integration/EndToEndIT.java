@@ -1,4 +1,4 @@
-package com.epam.page.object.generator.integrationalTests;
+package com.epam.page.object.generator.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -6,13 +6,12 @@ import static org.junit.Assert.fail;
 import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.adapter.JavaPoetAdapter;
 import com.epam.page.object.generator.containers.SupportedTypesContainer;
-import com.epam.page.object.generator.integrationalTests.Data.CompilationResult;
-import com.epam.page.object.generator.integrationalTests.Data.TestClassesData;
+import com.epam.page.object.generator.integration.data.CompilationResult;
+import com.epam.page.object.generator.integration.data.TestClassesData;
 import com.epam.page.object.generator.parser.JsonRuleMapper;
 import com.epam.page.object.generator.utils.XpathToCssTransformation;
 import com.epam.page.object.generator.validators.ValidatorsStarter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -29,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -49,13 +47,13 @@ import org.junit.runners.Parameterized.Parameters;
  * /test/site with Site.java
  * /test/page with Google.java
  *
- * Main goal of MainIntegrationTest is to compare generated set of classes
+ * Main goal of EndToEndIT is to compare generated set of classes
  * (from example above: Site.java, Google.java)
  * to set of manual classes that can be found in src/test/resources/manual/TEST_CASE_DIR
  * (it will be src/test/resources/manual/google/ for example above), where
  * set of classes for specified site = test case
  *
- * MainIntegrationTest methods (like testFields() or testAnnotations()) is used for testing
+ * EndToEndIT methods (like testFields() or testAnnotations()) is used for testing
  * one class of test case. Test class are just comparing to manual class and this procedure
  * continues for all classes of test case.
  * As it was said above, test case contains set of classes for specified site. So
@@ -63,7 +61,7 @@ import org.junit.runners.Parameterized.Parameters;
  * each test case.
  */
 @RunWith(Parameterized.class)
-public class MainIntegrationTest {
+public class EndToEndIT {
 
     private static final String RESOURCE_DIR = FilenameUtils
         .separatorsToSystem("src/test/resources/");
@@ -92,7 +90,7 @@ public class MainIntegrationTest {
         return pog;
     }
 
-    public MainIntegrationTest(List<TestClassesData> list) {
+    public EndToEndIT(List<TestClassesData> list) {
         this.caseClassesList = list;
     }
 

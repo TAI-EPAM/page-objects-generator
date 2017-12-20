@@ -1,4 +1,4 @@
-package com.epam.page.object.generator.integrationalTests.Data;
+package com.epam.page.object.generator.integration.data;
 
 public class CompilationResult {
     private Class manualClass;
