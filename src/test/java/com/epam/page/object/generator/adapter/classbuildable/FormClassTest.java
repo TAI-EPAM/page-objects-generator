@@ -15,7 +15,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openqa.selenium.support.FindBy;
 
-public class FormClassBuildableTest {
+public class FormClassTest {
 
     private String packageName = "test";
 
@@ -24,7 +24,7 @@ public class FormClassBuildableTest {
     private FormWebElementGroup formWebElementGroup = (FormWebElementGroup) WebPageTestDataBuilder
         .getJdiContactFormWebPage().getWebElementGroups().get(0);
 
-    private FormClassBuildable formClassBuildable = new FormClassBuildable(formWebElementGroup,
+    private FormClass formClass = new FormClass(formWebElementGroup,
         selectorUtils);
 
     private List<JavaField> expectedJavaFields = Lists.newArrayList(
@@ -51,7 +51,7 @@ public class FormClassBuildableTest {
 
     @Test
     public void buildFields() {
-        List<JavaField> actualJavaFields = formClassBuildable.buildFields(packageName);
+        List<JavaField> actualJavaFields = formClass.buildFields(packageName);
         assertEquals(expectedJavaFields.size(), actualJavaFields.size());
         for (int i = 0; i < actualJavaFields.size(); i++) {
             JavaField actualField = actualJavaFields.get(i);
@@ -83,8 +83,8 @@ public class FormClassBuildableTest {
     }
 
     @Test
-    public void buildAnnotation(){
-        JavaAnnotation javaAnnotation = formClassBuildable.buildAnnotation();
+    public void buildAnnotation() {
+        JavaAnnotation javaAnnotation = formClass.buildAnnotation();
         assertEquals(null, javaAnnotation);
     }
 

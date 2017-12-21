@@ -2,15 +2,14 @@ package com.epam.page.object.generator;
 
 import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
 import com.epam.page.object.generator.adapter.JavaFileWriter;
-import com.epam.page.object.generator.adapter.classbuildable.PageClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.SiteClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.PageClass;
+import com.epam.page.object.generator.adapter.classbuildable.SiteClass;
 import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.builder.JavaClassBuilder;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.builder.webpage.WebPageBuilder;
 import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.WebPage;
-import com.epam.page.object.generator.builder.webpage.UrlWebPageBuilder;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.util.RawSearchRuleMapper;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
@@ -135,11 +134,11 @@ public class PageObjectsGenerator {
         return webPages;
     }
 
-    private List<JavaClass> getJavaClasses(List<JavaClassBuildable> rawJavaClasses) {
+    private List<JavaClass> getJavaClasses(List<JavaClassBuildable> javaClassBuildables) {
         List<JavaClass> javaClasses = new ArrayList<>();
         logger.info("Start creating JavaClasses...");
-        for (JavaClassBuildable javaClass : rawJavaClasses) {
-            javaClasses.add(javaClass.accept(javaClassBuilder));
+        for (JavaClassBuildable javaClassBuildable : javaClassBuildables) {
+            javaClasses.add(javaClassBuildable.accept(javaClassBuilder));
         }
         logger.info("Finish creating JavaClasses\n");
         return javaClasses;
@@ -148,14 +147,14 @@ public class PageObjectsGenerator {
     private List<JavaClassBuildable> getJavaClassBuildables(List<WebPage> webPages) {
         List<JavaClassBuildable> rawJavaClasses = new ArrayList<>();
         logger.info("Start creating JavaClassBuildables...");
-        logger.debug("Start creating SiteClassBuildable...");
-        rawJavaClasses.add(new SiteClassBuildable(webPages));
-        logger.debug("Finish creating SiteClassBuildable\n");
+        logger.debug("Start creating SiteClass...");
+        rawJavaClasses.add(new SiteClass(webPages));
+        logger.debug("Finish creating SiteClass\n");
 
         for (WebPage webPage : webPages) {
-            logger.debug("Start PageClassBuildable for '" + webPage.getTitle() + "' page");
-            rawJavaClasses.add(new PageClassBuildable(webPage, webElementGroupFieldBuilder));
-            logger.debug("Finish creating PageClassBuildable\n");
+            logger.debug("Start PageClass for '" + webPage.getTitle() + "' page");
+            rawJavaClasses.add(new PageClass(webPage, webElementGroupFieldBuilder));
+            logger.debug("Finish creating PageClass\n");
             if (webPage.isContainedFormSearchRule()) {
                 rawJavaClasses.addAll(webPage.getFormClasses(selectorUtils));
             }

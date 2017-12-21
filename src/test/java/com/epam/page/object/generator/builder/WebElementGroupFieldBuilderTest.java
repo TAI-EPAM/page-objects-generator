@@ -92,7 +92,7 @@ public class WebElementGroupFieldBuilderTest {
         when(commonWebElementGroup.getAnnotation(any(Class.class), any(WebElement.class)))
             .thenReturn(javaAnnotation);
 
-        List<JavaField> javaFields = webElementGroupFieldBuilder.visit(commonWebElementGroup);
+        List<JavaField> javaFields = webElementGroupFieldBuilder.build(commonWebElementGroup);
         JavaField javaField = javaFields.get(0);
 
         assertEquals("com.epam.jdi.uitests.web.selenium.elements.common.Button",
@@ -111,7 +111,7 @@ public class WebElementGroupFieldBuilderTest {
         when(complexWebElementGroup.getAnnotation(any(Class.class), any(WebElement.class)))
             .thenReturn(javaAnnotation);
 
-        List<JavaField> javaFields = webElementGroupFieldBuilder.visit(complexWebElementGroup);
+        List<JavaField> javaFields = webElementGroupFieldBuilder.build(complexWebElementGroup);
         JavaField javaField = javaFields.get(0);
 
         assertEquals("com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown",
@@ -127,7 +127,7 @@ public class WebElementGroupFieldBuilderTest {
         when(formWebElementGroup.getSearchRule()).thenReturn(formSearchRule);
         when(formWebElementGroup.getAnnotation(any(Class.class))).thenReturn(javaAnnotation);
 
-        List<JavaField> javaFields = webElementGroupFieldBuilder.visit(formWebElementGroup, "package");
+        List<JavaField> javaFields = webElementGroupFieldBuilder.build(formWebElementGroup, "package");
         JavaField javaField = javaFields.get(0);
 
         assertEquals("package.form.MyForm", javaField.getFullFieldClass());

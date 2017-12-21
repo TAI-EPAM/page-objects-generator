@@ -14,6 +14,8 @@ import com.epam.page.object.generator.validator.ValidatorVisitor;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ComplexWebElementGroup implements WebElementGroup {
 
@@ -22,6 +24,8 @@ public class ComplexWebElementGroup implements WebElementGroup {
     private SelectorUtils selectorUtils;
 
     private List<ValidationResult> validationResults = new ArrayList<>();
+
+    private final static Logger logger = LoggerFactory.getLogger(ComplexWebElementGroup.class);
 
     public ComplexWebElementGroup(ComplexSearchRule searchRule, List<WebElement> webElements,
                                   SelectorUtils selectorUtils) {
@@ -43,7 +47,7 @@ public class ComplexWebElementGroup implements WebElementGroup {
     @Override
     public List<JavaField> accept(WebElementGroupFieldBuilder webElementGroupFieldBuilder,
                                   String packageName) {
-        return webElementGroupFieldBuilder.visit(this);
+        return webElementGroupFieldBuilder.build(this);
     }
 
     @Override
@@ -72,7 +76,7 @@ public class ComplexWebElementGroup implements WebElementGroup {
         return searchRule.toString();
     }
 
-    public JavaAnnotation getAnnotation(Class annotationClass, WebElement webElement) {
+    public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
         for (ComplexInnerSearchRule innerSearchRule : searchRule.getInnerSearchRules()) {
@@ -116,6 +120,8 @@ public class ComplexWebElementGroup implements WebElementGroup {
         } else if (selector.isCss()) {
             return selectorUtils.resultCssSelector(selector, uniquenessValue, uniqueness);
         }
-        return null;
+        IllegalArgumentException e = new IllegalArgumentException(selector.toString());
+        logger.error("Selector type is unknown " + selector.toString(), e);
+        throw e;
     }
 }

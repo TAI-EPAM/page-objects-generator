@@ -4,15 +4,15 @@ import java.util.List;
 
 public class JavaAnnotation {
 
-    private Class annotationClass;
+    private Class<?> annotationClass;
     private List<AnnotationMember> annotationMembers;
 
-    public JavaAnnotation(Class annotationClass, List<AnnotationMember> annotationMembers) {
+    public JavaAnnotation(Class<?> annotationClass, List<AnnotationMember> annotationMembers) {
         this.annotationClass = annotationClass;
         this.annotationMembers = annotationMembers;
     }
 
-    public Class getAnnotationClass() {
+    public Class<?> getAnnotationClass() {
         return annotationClass;
     }
 

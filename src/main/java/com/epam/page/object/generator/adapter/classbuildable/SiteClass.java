@@ -1,9 +1,9 @@
 package com.epam.page.object.generator.adapter.classbuildable;
 
-import static com.epam.page.object.generator.util.StringUtils.firstLetterUp;
 import static com.epam.page.object.generator.util.StringUtils.splitCamelCase;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static javax.lang.model.element.Modifier.STATIC;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JPage;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
@@ -19,13 +19,13 @@ import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SiteClassBuildable implements JavaClassBuildable {
+public class SiteClass implements JavaClassBuildable {
 
     private List<WebPage> webPages;
 
-    private final static Logger logger = LoggerFactory.getLogger(SiteClassBuildable.class);
+    private final static Logger logger = LoggerFactory.getLogger(SiteClass.class);
 
-    public SiteClassBuildable(List<WebPage> webPages) {
+    public SiteClass(List<WebPage> webPages) {
         this.webPages = webPages;
     }
 
@@ -44,7 +44,7 @@ public class SiteClassBuildable implements JavaClassBuildable {
 
         for (WebPage webPage : webPages) {
             String fullClassName =
-                packageName + ".page." + firstLetterUp(splitCamelCase(webPage.getTitle()));
+                packageName + ".page." + capitalize(splitCamelCase(webPage.getTitle()));
             String fieldName = splitCamelCase(webPage.getTitle());
             List<AnnotationMember> pageAnnotations = new ArrayList<>();
             pageAnnotations
@@ -62,11 +62,11 @@ public class SiteClassBuildable implements JavaClassBuildable {
 
     @Override
     public JavaClass accept(JavaClassBuilder javaClassBuilder) {
-        return javaClassBuilder.visit(this);
+        return javaClassBuilder.build(this);
     }
 
     @Override
     public String toString() {
-        return "SiteClassBuildable";
+        return "SiteClass";
     }
 }

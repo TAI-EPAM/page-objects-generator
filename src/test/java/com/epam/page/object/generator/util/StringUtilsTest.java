@@ -1,5 +1,7 @@
 package com.epam.page.object.generator.util;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.uncapitalize;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -61,7 +63,7 @@ public class StringUtilsTest {
         String word = "word1 word2";
         String expectedResult = "Word1 word2";
 
-        String result = StringUtils.firstLetterUp(word);
+        String result = capitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -71,7 +73,7 @@ public class StringUtilsTest {
         String word = "Word1 word2";
         String expectedResult = "Word1 word2";
 
-        String result = StringUtils.firstLetterUp(word);
+        String result = capitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -81,7 +83,7 @@ public class StringUtilsTest {
         String word = "w";
         String expectedResult = "W";
 
-        String result = StringUtils.firstLetterUp(word);
+        String result = capitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -91,7 +93,7 @@ public class StringUtilsTest {
         String word = "W";
         String expectedResult = "W";
 
-        String result = StringUtils.firstLetterUp(word);
+        String result = capitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -101,7 +103,7 @@ public class StringUtilsTest {
         String word = "";
         String expectedResult = "";
 
-        String result = StringUtils.firstLetterUp(word);
+        String result = capitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -111,7 +113,7 @@ public class StringUtilsTest {
         String word = "word1 word2";
         String expectedResult = "word1 word2";
 
-        String result = StringUtils.firstLetterDown(word);
+        String result = uncapitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -121,7 +123,7 @@ public class StringUtilsTest {
         String word = "Word1 word2";
         String expectedResult = "word1 word2";
 
-        String result = StringUtils.firstLetterDown(word);
+        String result = uncapitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -131,7 +133,7 @@ public class StringUtilsTest {
         String word = "w";
         String expectedResult = "w";
 
-        String result = StringUtils.firstLetterDown(word);
+        String result = uncapitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -141,7 +143,7 @@ public class StringUtilsTest {
         String word = "W";
         String expectedResult = "w";
 
-        String result = StringUtils.firstLetterDown(word);
+        String result = uncapitalize(word);
 
         assertEquals(expectedResult, result);
     }
@@ -151,7 +153,7 @@ public class StringUtilsTest {
         String word = "";
         String expectedResult = "";
 
-        String result = StringUtils.firstLetterDown(word);
+        String result = uncapitalize(word);
 
         assertEquals(expectedResult, result);
     }

@@ -18,7 +18,7 @@ public class TitleOfComplexElementValidator implements ValidatorVisitor {
     public ValidationResult visit(ComplexSearchRule complexSearchRule) {
         logger.debug("Start validate " + complexSearchRule);
 
-        Class elementAnnotation = complexSearchRule.getClassAndAnnotation().getElementAnnotation();
+        Class<?> elementAnnotation = complexSearchRule.getClassAndAnnotation().getElementAnnotation();
         StringBuilder stringBuilder = new StringBuilder();
         Method[] declaredMethods = elementAnnotation.getDeclaredMethods();
         for (ComplexInnerSearchRule complexInnerSearchRule : complexSearchRule
