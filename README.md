@@ -38,7 +38,7 @@ As seen on given example, JSON for common element consist of this parameters:
 3. `selector` have two parameters:
 
    * `type` - the type of selector, `xpath` or `css` by which we search element on page
-   * `value` - the value that element must
+   * `value` - the value that element must correspond to search result by described type.
    
 ### Complex element
 Complex elements, such as dropdown menus, containing list of simple elements processed by
@@ -64,7 +64,47 @@ Complex elements, such as dropdown menus, containing list of simple elements pro
 ```
 `type` - the same as in common element
 `innerSearchRule` - list of search rules for elements containing in complex element. Search rules in
-that list differs from common search rule only by field `title` instead of `type` 
+that list differs from common search rule only by field `title` instead of `type`. This field
+contains name that will be used to build annotation for found element. It is required to have one
+inner search element with this field have value `"root"`.
+### Form and Section
+Form with sections (such as login form) requires specific kind of json. 
+```json
+{
+  "elements": [
+    {
+      "type": "form",
+      "section": "HtmlForm",
+      "selector": {
+        "type": "css",
+        "value": ".w3-example form"
+      },
+      "innerSearchRules": [
+        {
+          "type": "textfield",
+          "uniqueness": "name",
+          "selector": {
+            "type": "css",
+            "value": "input[type=text]"
+          }
+        },
+        {
+          "type": "button",
+          "uniqueness": "value",
+          "selector": {
+            "type": "css",
+            "value": "input[type=submit]"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+The field `type` must have value `"form"`, and it have selector not only in inner search rules, but 
+in search rule itself as well.
+It have list of inner search rules such as for complex elements, but common elements in this list
+have `type` field instead of `title`.
 ## Search Rule
 ## Creating searchRule
 ## How to add group
