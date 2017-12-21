@@ -62,6 +62,7 @@ public class EndToEndIT {
     private static final String MANUAL_DIR = FilenameUtils
         .separatorsToSystem("manual/");
     private static final String PACKAGE_TEST_NAME = "test";
+    private static final String PACKAGE_MANUAL_NAME = "manual";
     private static final String PROPERTY_FILE = "/groups.json";
     private List<TestClassesData> caseClassesList;
 
@@ -274,14 +275,22 @@ public class EndToEndIT {
                 String[] newManualName = manualCurrentField.toString().split(" ");
                 String testImportForField;
                 String manualImportForField;
-                if(testClassesData.getTestClass().getSuperclass().getSimpleName().equals("WebSite")){
+                if (testClassesData.getTestClass().getSuperclass().getSimpleName()
+                    .equals("WebSite")) {
                     testImportForField = newTestName[2];
                     manualImportForField = newManualName[2];
-                }
-                else{
+                } else {
                     testImportForField = newTestName[1];
                     manualImportForField = newManualName[1];
                 }
+
+                if (manualImportForField.startsWith(PACKAGE_MANUAL_NAME)) {
+                    String[] manualImportPackages = manualImportForField.split("\\.");
+                    manualImportForField = manualImportPackages[manualImportPackages.length - 2] +
+                        "." + manualImportPackages[manualImportPackages.length - 1];
+                }
+
+                testImportForField = testImportForField.replace(PACKAGE_TEST_NAME + ".", "");
 
                 assertEquals("Different import for field",
                     manualImportForField,

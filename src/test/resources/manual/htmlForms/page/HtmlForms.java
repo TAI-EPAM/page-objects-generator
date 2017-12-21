@@ -8,5 +8,5 @@ public class HtmlForms extends WebPage {
   @FindBy(
       css = ".w3-example form"
   )
-  public HtmlForm htmlform;
+  public HtmlForm htmlForm;
 }
