@@ -3,7 +3,6 @@
 [![codecov](https://codecov.io/gh/TAI-EPAM/page-objects-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/TAI-EPAM/page-objects-generator)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e527808dc8bd7806783f/maintainability)](https://codeclimate.com/github/TAI-EPAM/page-objects-generator/maintainability)
 # page-objects-generator
-This is simple library which can generate pageobjects for any site
 1. [About POG](#about-pog)
 2. [How to setup project and run examples](#how-to-setup-project-and-run-examples)
 3. [JSON structure](#json-structure)
