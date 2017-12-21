@@ -11,7 +11,16 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.epam.page.object.generator.model.webgroup.WebElementGroup;
+import com.epam.page.object.generator.model.webelement.WebElement;
 
+/**
+ * {@link PropertyLoader} reads and loads validation schemes from .JSON file then groups into WebElementGroup
+ *
+ * The JSON file contains information about group properties {@link WebElementGroup}
+ * Like group name and  included elements {@link WebElement}
+ * and required schema for validation of current groups
+ */
 public class PropertyLoader {
 
     private String propertyFile;
@@ -22,6 +31,12 @@ public class PropertyLoader {
         this.propertyFile = propertyFile;
     }
 
+
+    /**
+     * Get {@link SearchRuleGroupsScheme} for all found groups in JSON property file
+     *
+     * @return {@link SearchRuleGroupsScheme} current instance
+     */
     public SearchRuleGroupsScheme getMapWithScheme() {
         Map<String, Schema> schemeMap = new HashMap<>();
 
@@ -55,6 +70,11 @@ public class PropertyLoader {
         return new SearchRuleGroupsScheme(schemeMap);
     }
 
+    /**
+     * Get list of SearchRuleGroup founded in JSON property file
+     *
+     * @return {@link SearchRuleGroups}
+     */
     public SearchRuleGroups getSearchRuleGroupList() {
         List<SearchRuleGroup> searchRuleGroups = new ArrayList<>();
 

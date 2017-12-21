@@ -35,6 +35,12 @@ import java.util.HashMap;
 import java.util.Map;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * {@link SupportedTypesContainer} stores information about all supported types of web elements.
+ *
+ * The class makes relationship between current types of elements used in PageObjectGenerator and
+ * classes used in selenium elements collection .
+ */
 public class SupportedTypesContainer {
 
     private Map<String, ClassAndAnnotationPair> supportedTypesMap = new HashMap<>();
@@ -102,10 +108,21 @@ public class SupportedTypesContainer {
             new ClassAndAnnotationPair(Form.class, FindBy.class));
     }
 
+    /**
+     * Get current Map of supported types of elements of PageObjectGenerator
+     *
+     * @return map of all supported types
+     */
     public Map<String, ClassAndAnnotationPair> getSupportedTypesMap() {
         return supportedTypesMap;
     }
 
+    /**
+     * Add new type of supported element
+     *
+     * @param name element name
+     * @param pair {@link ClassAndAnnotationPair} of element
+     */
     public void addSupportedType(String name, ClassAndAnnotationPair pair) {
         supportedTypesMap.put(name.toLowerCase(), pair);
     }
