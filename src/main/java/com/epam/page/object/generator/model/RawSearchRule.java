@@ -8,6 +8,9 @@ import java.util.List;
 import org.everit.json.schema.Schema;
 import org.json.JSONObject;
 
+/**
+ * Search rule strictly from JSON, before validating and separation to different types
+ */
 public class RawSearchRule {
 
     private JSONObject element;

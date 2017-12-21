@@ -9,6 +9,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+/**
+ * Transforms xpath selector to css using `cssify.js`
+ */
 public class XpathToCssTransformer {
 
     public XpathToCssTransformer() {

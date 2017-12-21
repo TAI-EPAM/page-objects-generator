@@ -1,8 +1,18 @@
 package com.epam.page.object.generator.model;
 
+/**
+ * This class used in {@link com.epam.page.object.generator.model.searchrule.SearchRule}
+ * to describe how to search element on web page
+ */
 public class Selector {
 
+    /**
+     * Defines type of selector, css or xpath
+     */
     private String type;
+    /**
+     * the value that element must correspond to search result by described type
+     */
     private String value;
 
     public Selector(String type, String value) {
