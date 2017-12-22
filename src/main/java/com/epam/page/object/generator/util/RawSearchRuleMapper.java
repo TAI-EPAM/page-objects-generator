@@ -44,7 +44,6 @@ public class RawSearchRuleMapper {
                 logger.debug("Add SearchRule ='" + rawSearchRule + "'");
             }
         } catch (IOException e) {
-            logger.error("Failed reading property file = '" + json + "'!", e);
             throw new NullPointerException("Failed reading property file = '" + json + "'!");
         }
 

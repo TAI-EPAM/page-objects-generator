@@ -10,8 +10,6 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PropertyLoaderTest {
 
@@ -23,8 +21,6 @@ public class PropertyLoaderTest {
         Lists.newArrayList(SearchRuleType.DROPDOWN, SearchRuleType.MENU));
     private SearchRuleGroup expectedFormSearchRuleGroup = new SearchRuleGroup("formSearchRule",
         Lists.newArrayList(SearchRuleType.FORM));
-
-    private final static Logger logger = LoggerFactory.getLogger(PropertyLoaderTest.class);
 
     @Test
     public void getSearchRuleGroupList() {
@@ -64,10 +60,8 @@ public class PropertyLoaderTest {
             JSONObject jsonSchema = new JSONObject(new JSONTokener(commonSchemaStream));
             commonSearchRuleSchema = SchemaLoader.load(jsonSchema);
         } catch (NullPointerException e) {
-            logger.error("Schema = '" + commonSchema + "' doesn't exist!", e);
             throw new NullPointerException("Schema = '" + commonSchema + "' doesn't exist!");
         } catch (IOException e) {
-            logger.error("Failed reading schema = '" + commonSchema + "'!", e);
             throw new NullPointerException("Failed reading schema = '" + commonSchema + "'!");
         }
 
@@ -77,12 +71,9 @@ public class PropertyLoaderTest {
             .getResourceAsStream(complexSchema)) {
             JSONObject jsonSchema = new JSONObject(new JSONTokener(complexSchemaStream));
             complexSearchRuleSchema = SchemaLoader.load(jsonSchema);
-
         } catch (NullPointerException e) {
-            logger.error("Schema = '" + complexSchema + "' doesn't exist!", e);
             throw new NullPointerException("Schema = '" + complexSchema + "' doesn't exist!");
         } catch (IOException e) {
-            logger.error("Failed reading schema = '" + complexSchema + "'!", e);
             throw new NullPointerException("Failed reading schema = '" + complexSchema + "'!");
         }
 
@@ -93,10 +84,8 @@ public class PropertyLoaderTest {
             JSONObject jsonSchema = new JSONObject(new JSONTokener(formSchemaStream));
             formSearchRuleSchema = SchemaLoader.load(jsonSchema);
         } catch (NullPointerException e) {
-            logger.error("Schema = '" + formSchema + "' doesn't exist!", e);
             throw new NullPointerException("Schema = '" + formSchema + "' doesn't exist!");
         } catch (IOException e) {
-            logger.error("Failed reading schema = '" + formSchema + "'!", e);
             throw new NullPointerException("Failed reading schema = '" + formSchema + "'!");
         }
 

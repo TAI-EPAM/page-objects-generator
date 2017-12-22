@@ -22,8 +22,7 @@ public class PageClassTest {
 
     private WebPage webPage = WebPageTestDataBuilder.getJdiWebPage();
     private WebElementGroupFieldBuilder webElementGroupFieldBuilder = new WebElementGroupFieldBuilder();
-    private PageClass pageClass = new PageClass(webPage,
-        webElementGroupFieldBuilder);
+    private PageClass pageClass = new PageClass(webPage, webElementGroupFieldBuilder);
 
     private JavaAnnotation expectedButtonAnnotation = new JavaAnnotation(FindBy.class,
         Lists.newArrayList(new AnnotationMember("css", "$S",
@@ -67,8 +66,7 @@ public class PageClassTest {
                 AnnotationMember actualAnnotationMember = actualAnnotation.getAnnotationMembers()
                     .get(j);
                 AnnotationMember expectedAnnotationMember = expectedAnnotation
-                    .getAnnotationMembers()
-                    .get(j);
+                    .getAnnotationMembers().get(j);
 
                 assertEquals(expectedAnnotationMember.getName(), actualAnnotationMember.getName());
                 assertEquals(expectedAnnotationMember.getFormat(),
