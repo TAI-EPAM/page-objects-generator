@@ -27,6 +27,25 @@ Structure of project:
 8) JavaClassBuildable decides which type of java file has to be build and puts them in JavaClass;
 9) After all these manipulations program gives command for JavaWriter and java files are written in file.
 ## How to setup project and run examples
+###Download application
+You can download .zip archive by the following link: https://github.com/TAI-EPAM/page-objects-generator/archive/master.zip<br/>
+or you can use console and clone repository:
+```text
+git clone https://github.com/TAI-EPAM/page-objects-generator.git
+```
+###Run examples
+After downloading you can open project in IDE which you prefer.
+You can find "example" folder in tests, which contains [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) file.
+Each test need to run in isolation from others, because folder with generating .java source files are cleared before each test. 
+In [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) you can change outputDir where will be generate .java source files and packageName from which will be started structure of the project.
+```text
+private String outputDir = "src/test/resources/";
+private String packageName = "test";
+```
+At the end of each test you can find generating .java source file in folder which located by the path: outputDir + packageName. <br/>
+For example run exampleTestCommonElement. We can see our .java source files by the following path: "src/test/resources/test".<br/>
+<p align="center"><img src ="https://user-images.githubusercontent.com/13944502/34299793-e66f4ec8-e735-11e7-91b3-48a7d0787e66.png" /></p>
+
 ## JSON structure
 Page object generator uses JSON files to from form search rules for getting elements from web pages.
 There are three types of JSON structure that can be processed by POG, for each of search rule type:
