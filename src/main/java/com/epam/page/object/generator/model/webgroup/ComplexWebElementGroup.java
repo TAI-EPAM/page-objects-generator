@@ -120,8 +120,6 @@ public class ComplexWebElementGroup implements WebElementGroup {
         } else if (selector.isCss()) {
             return selectorUtils.resultCssSelector(selector, uniquenessValue, uniqueness);
         }
-        IllegalArgumentException e = new IllegalArgumentException(selector.toString());
-        logger.error("Selector type is unknown " + selector.toString(), e);
-        throw e;
+        throw new IllegalArgumentException("Selector type is unknown " + selector.toString());
     }
 }
