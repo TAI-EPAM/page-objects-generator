@@ -12,7 +12,7 @@ public class ComplexWebElement implements WebElement {
     private Element element;
     private String uniquenessValue;
     /**
-     * Search rule required to from list of inner elements
+     * Search rule required to form list of inner elements
      */
     private ComplexInnerSearchRule searchRule;
 

@@ -32,6 +32,11 @@ public class RawSearchRule {
         return schema;
     }
 
+    /**
+     * Retrieves value of given parameter from JSON object.
+     * @param parameter to get
+     * @return value of parameter if it's present, else returns null.
+     */
     public String getValue(String parameter) {
         Object param = element.get(parameter);
         if (param == null) {
@@ -40,6 +45,11 @@ public class RawSearchRule {
         return param.toString();
     }
 
+    /**
+     * Retrievs selector from JSON object
+     * @return new instance of {@link Selector} if parameter "selector" is present in JSON,
+     * else returns null.
+     */
     public Selector getSelector() {
         JSONObject selector = element.getJSONObject("selector");
         if (selector == null) {
@@ -64,6 +74,10 @@ public class RawSearchRule {
         return validationResults.stream().allMatch(ValidationResult::isValid);
     }
 
+    /**
+     * Form exception message from every failed validation result of search rule instance
+     * @return concatenated messages from validation results
+     */
     public String getExceptionMessage() {
         StringBuilder stringBuilder = new StringBuilder();
         validationResults.stream().filter(validationResult -> !validationResult.isValid()).forEach(

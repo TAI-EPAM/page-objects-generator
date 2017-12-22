@@ -10,13 +10,19 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 /**
- * Transforms xpath selector to css using `cssify.js`
+ * Transforms xpath {@link Selector} to css using `cssify.js`
  */
 public class XpathToCssTransformer {
 
     public XpathToCssTransformer() {
     }
 
+    /**
+     * invokes cssfy.js on css Selector
+     * @param selector with xpath type
+     * @return transormed selector with css type
+     * @throws XpathToCssTransformerException when transformation can't be performed
+     */
     public Selector getCssSelector(Selector selector) throws XpathToCssTransformerException {
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
 
