@@ -27,13 +27,13 @@ Structure of project:
 8) JavaClassBuildable decides which type of java file has to be build and puts them in JavaClass;
 9) After all these manipulations program gives command for JavaWriter and java files are written in file.
 ## How to setup project and run examples
-###Download application
+### Download application
 You can download .zip archive by the following link: https://github.com/TAI-EPAM/page-objects-generator/archive/master.zip<br/>
 or you can use console and clone repository:
 ```text
 git clone https://github.com/TAI-EPAM/page-objects-generator.git
 ```
-###Run examples
+### Run examples
 After downloading you can open project in IDE which you prefer.
 You can find "example" folder in tests, which contains [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) file.
 Each test need to run in isolation from others, because folder with generating .java source files are cleared before each test. 
