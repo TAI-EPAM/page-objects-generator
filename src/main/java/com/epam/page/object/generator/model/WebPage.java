@@ -17,11 +17,27 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Represents web-page (which POG is parsing) with it's URI and list of {@link WebElementGroup}
+ * elements.
+ */
+
 public class WebPage {
 
     private final URI uri;
+
     private Document document;
+
+    /**
+     * List of {@link WebElementGroup} elements. Every web group represents group of page
+     * elements, which was found with one of the {@link SearchRule} search rules. Every search
+     * rule corresponds to web element group
+     */
     private List<WebElementGroup> webElementGroups;
+
+    /**
+     * Extract page elements using search rules.
+     */
     private SearchRuleExtractor searchRuleExtractor;
 
     private final static Logger logger = LoggerFactory.getLogger(WebPage.class);
@@ -50,6 +66,10 @@ public class WebPage {
         return webElementGroups;
     }
 
+    /**
+     * Get list of {@link SearchRule} and fill web element group {@link WebElementGroup }
+     * @param searchRules - search rules which is used by method to parse current web-page.
+     */
     public void addSearchRules(List<SearchRule> searchRules) {
         for (SearchRule searchRule : searchRules) {
             Elements elements = searchRuleExtractor
@@ -60,15 +80,27 @@ public class WebPage {
         }
     }
 
+    /**
+     * Checks if web-page contains forms.
+     * If it's not - no need to create separated form classes.
+     */
     public boolean isContainedFormSearchRule() {
         return webElementGroups.stream()
             .anyMatch(webElementGroup -> webElementGroup.getSearchRule() instanceof FormSearchRule);
     }
 
+    /**
+     * Validates all web element groups of current page
+     */
     public boolean hasInvalidWebElementGroup() {
         return webElementGroups.stream().anyMatch(Validatable::isInvalid);
     }
 
+    /**
+     * Generates list of {@link JavaClassBuildable} for every form found on a page.
+     * @param selectorUtils {@link SelectorUtils} object to parse selector of
+     * webElementGroup search rule
+     */
     public List<JavaClassBuildable> getFormClasses(SelectorUtils selectorUtils) {
         List<JavaClassBuildable> javaClasses = new ArrayList<>();
 
@@ -81,7 +113,6 @@ public class WebPage {
                 logger.debug("Finish creating FormClassBuildable");
             }
         }
-
         return javaClasses;
     }
 }
