@@ -33,16 +33,12 @@ public class UrlWebPageBuilder implements WebPageBuilder {
                 webPages.add(new WebPage(uri, document, searchRuleExtractor));
                 logger.debug("Create web page for url = '" + url + "'");
             } catch (IOException | URISyntaxException | IllegalArgumentException e) {
-                String message = "Not valid url: " + url;
-                logger.error(message, e);
-                invalidUrls.add(message);
+                invalidUrls.add("Not valid url: " + url);
             }
         }
         if (!invalidUrls.isEmpty()) {
             String message = invalidUrls.stream().collect(Collectors.joining("\n"));
-            NotValidUrlException e = new NotValidUrlException(message);
-            logger.error(message, e);
-            throw e;
+            throw new NotValidUrlException(message);
         }
 
         return webPages;

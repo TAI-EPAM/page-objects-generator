@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import org.assertj.core.util.Lists;
 import org.jsoup.Jsoup;
@@ -93,21 +92,14 @@ public class WebPageTestDataBuilder {
                 .toString(new File(WebPageTestDataBuilder.class.getResource(pathFile).getFile()),
                     Charsets.UTF_8);
             Document doc = Jsoup.parse(html);
-            WebPage webPage = new WebPage(new URI(uri),
-                doc, extractor);
+            WebPage webPage = new WebPage(new URI(uri), doc, extractor);
             webPage.addSearchRules(searchRules);
 
             return webPage;
         } catch (URISyntaxException e) {
-            String message = "Not correct URI for the '" + pathFile + "' file" + Arrays
-                .toString(e.getStackTrace());
-            logger.error(message, e);
-            throw new NotValidPathsException(message);
-        } catch (IOException e) {
-            String message =
-                "File '" + pathFile + "' doesn't exist!" + Arrays.toString(e.getStackTrace());
-            logger.error(message, e);
-            throw new NotValidPathsException(message);
+            throw new NotValidPathsException("Not correct URI for the '" + pathFile + "' file");
+        } catch (IOException | NullPointerException e) {
+            throw new NotValidPathsException("File '" + pathFile + "' doesn't exist!");
         }
     }
 }

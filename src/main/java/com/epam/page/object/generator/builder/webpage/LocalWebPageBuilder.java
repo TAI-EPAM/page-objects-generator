@@ -34,20 +34,14 @@ public class LocalWebPageBuilder implements WebPageBuilder {
                 URI uri = new URI("www.test.com");
                 webPages.add(new WebPage(uri, doc, searchRuleExtractor));
             } catch (IOException | NullPointerException e) {
-                String message = "File = '" + path + "' doesn't exist!";
-                logger.error(message, e);
-                invalidPaths.add(message);
+                invalidPaths.add("File = '" + path + "' doesn't exist!");
             } catch (URISyntaxException e) {
-                String message = "Not correct URI for the '" + path + "' file";
-                logger.error(message, e);
-                invalidPaths.add(message);
+                invalidPaths.add("Not correct URI for the '" + path + "' file");
             }
         }
         if (!invalidPaths.isEmpty()) {
             String message = invalidPaths.stream().collect(Collectors.joining("\n"));
-            NotValidPathsException e = new NotValidPathsException(message);
-            logger.error(message, e);
-            throw e;
+            throw new NotValidPathsException(message);
         }
 
         return webPages;
