@@ -11,9 +11,9 @@ import com.epam.jdi.uitests.web.selenium.elements.composite.WebSite;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.JSite;
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
-import com.epam.page.object.generator.adapter.classbuildable.FormClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.PageClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.SiteClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.FormClass;
+import com.epam.page.object.generator.adapter.classbuildable.PageClass;
+import com.epam.page.object.generator.adapter.classbuildable.SiteClass;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
@@ -42,14 +42,14 @@ public class JavaClassBuilderTest {
     private List<JavaField> javaFields;
 
     @Mock
-    private SiteClassBuildable siteClassBuildable;
+    private SiteClass siteClass;
     private JavaAnnotation siteAnnotation;
 
     @Mock
-    private PageClassBuildable pageClassBuildable;
+    private PageClass pageClass;
 
     @Mock
-    private FormClassBuildable formClassBuildable;
+    private FormClass formClass;
     @Mock
     private FormWebElementGroup formWebElementGroup;
     private FormSearchRule formSearchRule = new FormSearchRule("myForm", SearchRuleType.FORM,
@@ -67,10 +67,10 @@ public class JavaClassBuilderTest {
 
     @Test
     public void visitSiteClassBuildable() {
-        when(siteClassBuildable.buildAnnotation()).thenReturn(siteAnnotation);
-        when(siteClassBuildable.buildFields(PACKAGE)).thenReturn(javaFields);
+        when(siteClass.buildAnnotation()).thenReturn(siteAnnotation);
+        when(siteClass.buildFields(PACKAGE)).thenReturn(javaFields);
 
-        JavaClass javaClass = javaClassBuilder.visit(siteClassBuildable);
+        JavaClass javaClass = javaClassBuilder.build(siteClass);
 
         assertEquals(PACKAGE + ".site", javaClass.getPackageName());
         assertEquals("Site", javaClass.getClassName());
@@ -79,16 +79,16 @@ public class JavaClassBuilderTest {
         assertEquals(javaFields, javaClass.getFieldsList());
         assertEquals(Modifier.PUBLIC, javaClass.getModifier());
 
-        verify(siteClassBuildable).buildFields(eq(PACKAGE));
+        verify(siteClass).buildFields(eq(PACKAGE));
     }
 
     @Test
     public void visitPageClassBuildable() {
-        when(pageClassBuildable.getTitle()).thenReturn("Title example");
-        when(pageClassBuildable.buildAnnotation()).thenReturn(null);
-        when(pageClassBuildable.buildFields(PACKAGE)).thenReturn(javaFields);
+        when(pageClass.getTitle()).thenReturn("Title example");
+        when(pageClass.buildAnnotation()).thenReturn(null);
+        when(pageClass.buildFields(PACKAGE)).thenReturn(javaFields);
 
-        JavaClass javaClass = javaClassBuilder.visit(pageClassBuildable);
+        JavaClass javaClass = javaClassBuilder.build(pageClass);
 
         assertEquals(PACKAGE + ".page", javaClass.getPackageName());
         assertEquals("TitleExample", javaClass.getClassName());
@@ -97,17 +97,17 @@ public class JavaClassBuilderTest {
         assertEquals(javaFields, javaClass.getFieldsList());
         assertEquals(Modifier.PUBLIC, javaClass.getModifier());
 
-        verify(pageClassBuildable).buildFields(eq(PACKAGE));
+        verify(pageClass).buildFields(eq(PACKAGE));
     }
 
     @Test
     public void visitFormClassBuildable() {
-        when(formClassBuildable.getFormWebElementGroup()).thenReturn(formWebElementGroup);
+        when(formClass.getFormWebElementGroup()).thenReturn(formWebElementGroup);
         when(formWebElementGroup.getSearchRule()).thenReturn(formSearchRule);
-        when(formClassBuildable.buildAnnotation()).thenReturn(null);
-        when(formClassBuildable.buildFields(PACKAGE)).thenReturn(javaFields);
+        when(formClass.buildAnnotation()).thenReturn(null);
+        when(formClass.buildFields(PACKAGE)).thenReturn(javaFields);
 
-        JavaClass javaClass = javaClassBuilder.visit(formClassBuildable);
+        JavaClass javaClass = javaClassBuilder.build(formClass);
 
         assertEquals(PACKAGE + ".form", javaClass.getPackageName());
         assertEquals("MyForm", javaClass.getClassName());
@@ -116,6 +116,6 @@ public class JavaClassBuilderTest {
         assertEquals(Collections.emptyList(), javaClass.getFieldsList());
         assertEquals(Modifier.PUBLIC, javaClass.getModifier());
 
-        verify(formClassBuildable).buildFields(eq(PACKAGE + ".form"));
+        verify(formClass).buildFields(eq(PACKAGE + ".form"));
     }
 }

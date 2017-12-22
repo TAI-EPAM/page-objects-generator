@@ -16,6 +16,9 @@ public class SearchRuleExtractor {
         if (selector.isXpath()) {
             return Xsoup.compile(selector.getValue()).evaluate(element).getElements();
         }
-        return element.select(selector.getValue());
+        else if(selector.isCss()) {
+            return element.select(selector.getValue());
+        }
+        throw new IllegalArgumentException("Selector type is unknown " + selector.toString());
     }
 }

@@ -12,18 +12,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * {@link PageClassBuildable} allows to generate .java source file from {@link WebPage}.
- */
-public class PageClassBuildable implements JavaClassBuildable {
+public class PageClass implements JavaClassBuildable {
 
     private WebPage webPage;
     private WebElementGroupFieldBuilder webElementGroupFieldBuilder;
 
-    private final static Logger logger = LoggerFactory.getLogger(PageClassBuildable.class);
+    private final static Logger logger = LoggerFactory.getLogger(PageClass.class);
 
-    public PageClassBuildable(WebPage webPage,
-                              WebElementGroupFieldBuilder webElementGroupFieldBuilder) {
+    public PageClass(WebPage webPage,
+                     WebElementGroupFieldBuilder webElementGroupFieldBuilder) {
         this.webPage = webPage;
         this.webElementGroupFieldBuilder = webElementGroupFieldBuilder;
     }
@@ -34,7 +31,7 @@ public class PageClassBuildable implements JavaClassBuildable {
 
     @Override
     public JavaClass accept(JavaClassBuilder javaClassBuilder) {
-        return javaClassBuilder.visit(this);
+        return javaClassBuilder.build(this);
     }
 
     @Override
@@ -58,6 +55,6 @@ public class PageClassBuildable implements JavaClassBuildable {
 
     @Override
     public String toString() {
-        return "PageClassBuildable with title " + webPage.getTitle();
+        return "PageClass with title " + webPage.getTitle();
     }
 }

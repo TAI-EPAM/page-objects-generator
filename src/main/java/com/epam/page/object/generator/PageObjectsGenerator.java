@@ -2,15 +2,14 @@ package com.epam.page.object.generator;
 
 import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
 import com.epam.page.object.generator.adapter.JavaFileWriter;
-import com.epam.page.object.generator.adapter.classbuildable.PageClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.SiteClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.PageClass;
+import com.epam.page.object.generator.adapter.classbuildable.SiteClass;
 import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.builder.JavaClassBuilder;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.builder.webpage.WebPageBuilder;
 import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.WebPage;
-import com.epam.page.object.generator.builder.webpage.UrlWebPageBuilder;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.util.RawSearchRuleMapper;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
@@ -49,21 +48,6 @@ public class PageObjectsGenerator {
 
     private final static Logger logger = LoggerFactory.getLogger(PageObjectsGenerator.class);
 
-    /**
-     * Constructor
-     * @param rawSearchRuleMapper
-     * @param jsonSchemaValidator
-     * @param typeTransformer
-     * @param checker
-     * @param jsonValidators
-     * @param webValidators
-     * @param javaClassBuilder
-     * @param webElementGroupFieldBuilder
-     * @param javaFileWriter
-     * @param webPageBuilder
-     * @param selectorUtils
-     * @param searchRuleExtractor
-     */
     public PageObjectsGenerator(RawSearchRuleMapper rawSearchRuleMapper,
                                 JsonSchemaValidator jsonSchemaValidator,
                                 TypeTransformer typeTransformer,
@@ -120,11 +104,6 @@ public class PageObjectsGenerator {
         logger.info("Finish generating JavaClasses");
     }
 
-    /**
-     * Method creates rawSearchRuleList
-     * @param jsonPath
-     * @return rawSearchRuleList
-     */
     private List<RawSearchRule> getRawSearchRules(String jsonPath) {
         logger.info("Start creating list of RawSearchRules...");
         List<RawSearchRule> rawSearchRuleList = rawSearchRuleMapper.getRawSearchRuleList(jsonPath);
@@ -132,10 +111,6 @@ public class PageObjectsGenerator {
         return rawSearchRuleList;
     }
 
-    /**
-     * Method checks JSON validness
-     * @param searchRuleList
-     */
     private void jsonValidation(List<SearchRule> searchRuleList) {
         logger.info("Start Json validation...\n");
         jsonValidators.validate(searchRuleList);
@@ -189,32 +164,27 @@ public class PageObjectsGenerator {
      * @param rawJavaClasses
      * @return javaClasses
      */
-    private List<JavaClass> getJavaClasses(List<JavaClassBuildable> rawJavaClasses) {
+    private List<JavaClass> getJavaClasses(List<JavaClassBuildable> javaClassBuildables) {
         List<JavaClass> javaClasses = new ArrayList<>();
         logger.info("Start creating JavaClasses...");
-        for (JavaClassBuildable javaClass : rawJavaClasses) {
-            javaClasses.add(javaClass.accept(javaClassBuilder));
+        for (JavaClassBuildable javaClassBuildable : javaClassBuildables) {
+            javaClasses.add(javaClassBuildable.accept(javaClassBuilder));
         }
         logger.info("Finish creating JavaClasses\n");
         return javaClasses;
     }
 
-    /**
-     * Method creates JavaClassBuildables
-     * @param webPages
-     * @return rawJavaClasses
-     */
     private List<JavaClassBuildable> getJavaClassBuildables(List<WebPage> webPages) {
         List<JavaClassBuildable> rawJavaClasses = new ArrayList<>();
         logger.info("Start creating JavaClassBuildables...");
-        logger.debug("Start creating SiteClassBuildable...");
-        rawJavaClasses.add(new SiteClassBuildable(webPages));
-        logger.debug("Finish creating SiteClassBuildable\n");
+        logger.debug("Start creating SiteClass...");
+        rawJavaClasses.add(new SiteClass(webPages));
+        logger.debug("Finish creating SiteClass\n");
 
         for (WebPage webPage : webPages) {
-            logger.debug("Start PageClassBuildable for '" + webPage.getTitle() + "' page");
-            rawJavaClasses.add(new PageClassBuildable(webPage, webElementGroupFieldBuilder));
-            logger.debug("Finish creating PageClassBuildable\n");
+            logger.debug("Start PageClass for '" + webPage.getTitle() + "' page");
+            rawJavaClasses.add(new PageClass(webPage, webElementGroupFieldBuilder));
+            logger.debug("Finish creating PageClass\n");
             if (webPage.isContainedFormSearchRule()) {
                 rawJavaClasses.addAll(webPage.getFormClasses(selectorUtils));
             }
@@ -224,10 +194,6 @@ public class PageObjectsGenerator {
         return rawJavaClasses;
     }
 
-    /**
-     * Constructor is needed for tests and Method Generate
-     * @param forceGenerateFile
-     */
     public void setForceGenerateFile(boolean forceGenerateFile) {
         this.forceGenerateFile = forceGenerateFile;
     }

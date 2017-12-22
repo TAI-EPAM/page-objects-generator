@@ -2,6 +2,8 @@ package com.epam.page.object.generator.util;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import org.assertj.core.util.Lists;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
@@ -19,7 +21,6 @@ public class PropertyLoaderTest {
         Lists.newArrayList(SearchRuleType.DROPDOWN, SearchRuleType.MENU));
     private SearchRuleGroup expectedFormSearchRuleGroup = new SearchRuleGroup("formSearchRule",
         Lists.newArrayList(SearchRuleType.FORM));
-
 
     @Test
     public void getSearchRuleGroupList() {
@@ -52,23 +53,41 @@ public class PropertyLoaderTest {
     @Test
     public void getMapWithScheme() {
 
-        JSONObject jsonSchema = new JSONObject(
-            new JSONTokener(
-                PropertyLoaderTest.class
-                    .getResourceAsStream("/schemaTest/commonSearchRule_schema.json")));
-        Schema commonSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        String commonSchema = "/schemaTest/commonSearchRule_schema.json";
+        Schema commonSearchRuleSchema;
+        try (InputStream commonSchemaStream = PropertyLoaderTest.class
+            .getResourceAsStream(commonSchema)) {
+            JSONObject jsonSchema = new JSONObject(new JSONTokener(commonSchemaStream));
+            commonSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Schema = '" + commonSchema + "' doesn't exist!");
+        } catch (IOException e) {
+            throw new NullPointerException("Failed reading schema = '" + commonSchema + "'!");
+        }
 
-        jsonSchema = new JSONObject(
-            new JSONTokener(
-                PropertyLoaderTest.class
-                    .getResourceAsStream("/schemaTest/complexSearchRule_schema.json")));
-        Schema complexSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        String complexSchema = "/schemaTest/complexSearchRule_schema.json";
+        Schema complexSearchRuleSchema;
+        try (InputStream complexSchemaStream = PropertyLoaderTest.class
+            .getResourceAsStream(complexSchema)) {
+            JSONObject jsonSchema = new JSONObject(new JSONTokener(complexSchemaStream));
+            complexSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Schema = '" + complexSchema + "' doesn't exist!");
+        } catch (IOException e) {
+            throw new NullPointerException("Failed reading schema = '" + complexSchema + "'!");
+        }
 
-        jsonSchema = new JSONObject(
-            new JSONTokener(
-                PropertyLoaderTest.class
-                    .getResourceAsStream("/schemaTest/formSearchRule_schema.json")));
-        Schema formSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        String formSchema = "/schemaTest/formSearchRule_schema.json";
+        Schema formSearchRuleSchema;
+        try (InputStream formSchemaStream = PropertyLoaderTest.class
+            .getResourceAsStream(formSchema)) {
+            JSONObject jsonSchema = new JSONObject(new JSONTokener(formSchemaStream));
+            formSearchRuleSchema = SchemaLoader.load(jsonSchema);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Schema = '" + formSchema + "' doesn't exist!");
+        } catch (IOException e) {
+            throw new NullPointerException("Failed reading schema = '" + formSchema + "'!");
+        }
 
         SearchRuleGroupsScheme actualSchemaMap = propertyLoader.getMapWithScheme();
 

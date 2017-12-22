@@ -16,12 +16,12 @@ import javax.lang.model.element.Modifier;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
-public class SiteClassBuildableTest {
+public class SiteClassTest {
 
     private String packageName = "test";
 
     private List<WebPage> webPages = Lists.newArrayList(WebPageTestDataBuilder.getJdiWebPage());
-    private SiteClassBuildable siteClassBuildable = new SiteClassBuildable(webPages);
+    private SiteClass siteClass = new SiteClass(webPages);
 
     private JavaAnnotation expectedAnnotation = new JavaAnnotation(JSite.class,
         Lists.newArrayList(new AnnotationMember("value", "$S", "epam.github.io")));
@@ -35,7 +35,7 @@ public class SiteClassBuildableTest {
 
     @Test
     public void buildFields() {
-        List<JavaField> actualFields = siteClassBuildable.buildFields(packageName);
+        List<JavaField> actualFields = siteClass.buildFields(packageName);
 
         assertEquals(expectedFields.size(), actualFields.size());
 
@@ -68,7 +68,7 @@ public class SiteClassBuildableTest {
 
     @Test
     public void buildAnnotation() {
-        JavaAnnotation actualAnnotation = siteClassBuildable.buildAnnotation();
+        JavaAnnotation actualAnnotation = siteClass.buildAnnotation();
 
         assertEquals(expectedAnnotation.getAnnotationClass(),
             actualAnnotation.getAnnotationClass());

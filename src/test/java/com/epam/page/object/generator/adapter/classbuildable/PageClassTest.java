@@ -16,14 +16,13 @@ import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openqa.selenium.support.FindBy;
 
-public class PageClassBuildableTest {
+public class PageClassTest {
 
     private String packageName = "test";
 
     private WebPage webPage = WebPageTestDataBuilder.getJdiWebPage();
     private WebElementGroupFieldBuilder webElementGroupFieldBuilder = new WebElementGroupFieldBuilder();
-    private PageClassBuildable pageClassBuildable = new PageClassBuildable(webPage,
-        webElementGroupFieldBuilder);
+    private PageClass pageClass = new PageClass(webPage, webElementGroupFieldBuilder);
 
     private JavaAnnotation expectedButtonAnnotation = new JavaAnnotation(FindBy.class,
         Lists.newArrayList(new AnnotationMember("css", "$S",
@@ -50,7 +49,7 @@ public class PageClassBuildableTest {
     @Test
     public void buildFields() {
 
-        List<JavaField> actualFields = pageClassBuildable.buildFields(packageName);
+        List<JavaField> actualFields = pageClass.buildFields(packageName);
 
         for (int i = 0; i < actualFields.size(); i++) {
             JavaField actualField = actualFields.get(0);
@@ -67,8 +66,7 @@ public class PageClassBuildableTest {
                 AnnotationMember actualAnnotationMember = actualAnnotation.getAnnotationMembers()
                     .get(j);
                 AnnotationMember expectedAnnotationMember = expectedAnnotation
-                    .getAnnotationMembers()
-                    .get(j);
+                    .getAnnotationMembers().get(j);
 
                 assertEquals(expectedAnnotationMember.getName(), actualAnnotationMember.getName());
                 assertEquals(expectedAnnotationMember.getFormat(),
@@ -81,8 +79,8 @@ public class PageClassBuildableTest {
     }
 
     @Test
-    public void buildAnnotation(){
-        JavaAnnotation actualAnnotation = pageClassBuildable.buildAnnotation();
+    public void buildAnnotation() {
+        JavaAnnotation actualAnnotation = pageClass.buildAnnotation();
         assertEquals(null, actualAnnotation);
     }
 }

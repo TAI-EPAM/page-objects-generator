@@ -22,10 +22,12 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.when;
 
 public class FormSearchRuleBuilderTest {
+
     private PropertyLoader propertyLoader = new PropertyLoader("/test-property-file.json");
     private SearchRuleGroupsScheme searchRuleGroupsScheme = propertyLoader.getMapWithScheme();
     private SearchRuleGroups searchRuleGroupList = propertyLoader.getSearchRuleGroupList();
-    private RawSearchRuleMapper rawSearchRuleMapper = new RawSearchRuleMapper(searchRuleGroupsScheme,searchRuleGroupList);
+    private RawSearchRuleMapper rawSearchRuleMapper = new RawSearchRuleMapper(
+        searchRuleGroupsScheme, searchRuleGroupList);
 
     @Mock
     private RawSearchRule rawSearchRule;
@@ -39,13 +41,13 @@ public class FormSearchRuleBuilderTest {
     @Mock
     private JSONObject object;
 
-    private FormSearchRule expectedSearchRule  = new FormSearchRule("text", SearchRuleType.FORM,
-            new Selector("css", ".myClass"), Lists.newArrayList(
-            new FormInnerSearchRule("text", SearchRuleType.INPUT,
-                    new Selector("css", ".myClass"),
-                    new ClassAndAnnotationPair(Input.class, FindBy.class),
-                    transformer,searchRuleExtractor)),
-            new ClassAndAnnotationPair(Form.class, FindBy.class));
+    private FormSearchRule expectedSearchRule = new FormSearchRule("text", SearchRuleType.FORM,
+        new Selector("css", ".myClass"), Lists.newArrayList(
+        new FormInnerSearchRule("text", SearchRuleType.INPUT,
+            new Selector("css", ".myClass"),
+            new ClassAndAnnotationPair(Input.class, FindBy.class),
+            transformer, searchRuleExtractor)),
+        new ClassAndAnnotationPair(Form.class, FindBy.class));
 
     @Test
     public void buildSearchRule() {
@@ -63,7 +65,9 @@ public class FormSearchRuleBuilderTest {
         when(rawSearchRule.getElement()).thenReturn(object);
         when(rawSearchRule.getElement().getJSONArray("innerSearchRules")).thenReturn(array);
 
-        FormSearchRule searchRule = (FormSearchRule) builder.buildSearchRule(rawSearchRule, container,transformer, selectorUtils,searchRuleExtractor);
+        FormSearchRule searchRule = (FormSearchRule) builder
+            .buildSearchRule(rawSearchRule, container, transformer, selectorUtils,
+                searchRuleExtractor);
 
         assertNotNull(searchRule);
 
@@ -72,7 +76,9 @@ public class FormSearchRuleBuilderTest {
 
         assertEquals(expectedSearchRule.getType(), searchRule.getType());
         assertEquals(expectedSearchRule.getSelector(), searchRule.getSelector());
-        assertEquals(expectedSearchRule.getClassAndAnnotation().getElementAnnotation(), searchRule.getClassAndAnnotation().getElementAnnotation());
-        assertEquals(expectedSearchRule.getClassAndAnnotation().getElementClass(), searchRule.getClassAndAnnotation().getElementClass());
+        assertEquals(expectedSearchRule.getClassAndAnnotation().getElementAnnotation(),
+            searchRule.getClassAndAnnotation().getElementAnnotation());
+        assertEquals(expectedSearchRule.getClassAndAnnotation().getElementClass(),
+            searchRule.getClassAndAnnotation().getElementClass());
     }
 }
