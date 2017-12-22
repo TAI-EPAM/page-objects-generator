@@ -161,7 +161,7 @@ public class PageObjectsGenerator {
 
     /**
      * Method creates JavaClasses
-     * @param rawJavaClasses
+     * @param javaClassBuildables
      * @return javaClasses
      */
     private List<JavaClass> getJavaClasses(List<JavaClassBuildable> javaClassBuildables) {

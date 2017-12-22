@@ -8,6 +8,7 @@ import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.adapter.classbuildable.FormClass;
 import com.epam.page.object.generator.adapter.JavaClass;
+import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
 import com.epam.page.object.generator.adapter.classbuildable.PageClass;
 import com.epam.page.object.generator.adapter.classbuildable.SiteClass;
 import com.epam.page.object.generator.adapter.JavaField;

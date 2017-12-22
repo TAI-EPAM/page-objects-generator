@@ -43,8 +43,6 @@ public class PropertyLoader {
         Map<String, Schema> schemeMap = new HashMap<>();
 
         logger.info("Start reading list of schemes...");
-        JSONObject jsonObject = new JSONObject(
-            new JSONTokener(PropertyLoader.class.getResourceAsStream(propertyFile)));
         JSONObject jsonObject = getPropertyFile();
 
         JSONArray typeGroups = jsonObject.getJSONArray("typeGroups");
