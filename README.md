@@ -154,6 +154,10 @@ search rules have this parameters:
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
 ## Search Rule
+Search rule is set of rules using for searching web components on web pages. User could set search
+rules in JSON files in special structure which you could see in [JSON structure](#json-structure)
+section. There are 3 different types of search rule now: common, complex and form.
+Respectively they all have their own JSON structure.
 ## Creating searchRule
 ## How to add group
 ## Creating custom Validator
