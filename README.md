@@ -162,6 +162,90 @@ Respectively they all have their own JSON structure.
 ## How to add group
 ## Creating custom Validator
 ## What technologies we used
+### Jsoup
+Jsoup is a Java library for working with real-world HTML. It provides a very convenient API 
+for extracting and manipulating data, using the best of DOM, CSS, and jquery-like methods.
 
+**Usage in project**
 
+* Extract DOM from website and find elements by the rules with CSS selector.
 
+*More information about Jsoup you can read [here](https://jsoup.org/).*
+### Xsoup
+Xsoup is Java library which can parse DOM by using Xpath element. Xsoup parser based on Jsoup.
+
+**Usage in project**
+
+* Parse DOM and find elements by the rules with Xpath selector.
+
+*More information about Xsoup you can read [here](https://github.com/code4craft/xsoup).*
+### JavaPoet
+JavaPoet is a Java API for generating `.java` source files.
+
+**Usage in project**
+
+* Generate `.java` source files.
+
+*More information about JavaPoet you can read [here](https://github.com/square/javapoet).*
+### JSON Schema Validator
+JSON Schema is a declarative language for validating the format and structure of a JSON Object. 
+It allows us to specify the number of special primitives to describe exactly what a valid JSON Object will look like.
+
+**Usage in project**
+
+* Validation json files.
+
+*More information about JSON Schema Validator you can read 
+[here](https://github.com/everit-org/json-schema).*
+### Apache Commons Lang
+Apache Commons Lang, a package of Java utility classes for the classes 
+that are in java.lang's hierarchy, or are considered to be so standard as to 
+justify existence in java.lang.
+
+**Usage in project**
+
+* String handling.
+
+*More information about Apache Commons Lang you can read 
+[here](https://commons.apache.org/proper/commons-lang/).*
+### Apache Commons Lang
+Apache Commons Lang, a package of Java utility classes for the classes 
+that are in java.lang's hierarchy, or are considered to be so standard as to 
+justify existence in java.lang.
+
+**Usage in project**
+
+* String handling.
+
+*More information about Apache Commons Lang you can read 
+[here](https://commons.apache.org/proper/commons-lang/).*
+### Mockito
+Mockito is a mocking framework that allows write tests with a clean and simple API. 
+Tests are very readable and they produce clean verification errors.
+
+**Usage in project**
+
+* Use for unit testing.
+
+*More information about Mockito you can read [here](http://site.mockito.org/).*
+### JUnit
+JUnit is a test framework which uses annotations to identify methods that specify a test.
+
+**Usage in project**
+
+* Use for unit testing.
+
+*More information about JUnit you can read [here](http://junit.org/junit5/).*
+### Log4j
+Log4j is a reliable, fast and flexible logging framework (APIs) written in Java, 
+which is distributed under the Apache Software License. 
+Log4j is highly configurable through external configuration files at runtime. 
+It views the logging process in terms of levels of priorities and offers mechanisms 
+to direct logging information to a great variety of destinations, 
+such as a database, file, console, etc.
+
+**Usage in project**
+
+* Add logs in the project.
+
+*More information about JUnit you can read [here](https://logging.apache.org/log4j/2.x/index.html).*
