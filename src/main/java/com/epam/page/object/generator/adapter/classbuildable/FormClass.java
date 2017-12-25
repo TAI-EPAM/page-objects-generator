@@ -100,6 +100,9 @@ public class FormClass implements JavaClassBuildable {
      * element on the website.
      * @param uniquenessValue value which was found from the website by the 'uniqueness' attribute.
      * @param uniqueness name of the 'uniqueness' attribute.
+     * @return value for annotation, which consists of selector value, uniqueness name and
+     * uniqueness value.
+     * @throws IllegalArgumentException if selector type doesn't support by the application.
      */
     private String getAnnotationValue(Selector selector, String uniquenessValue,
                                       String uniqueness) {

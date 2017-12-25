@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  *
  * This class based on Visitor pattern. If you want to add a new class, you need to create a new
  * class which will implement {@link JavaClassBuildable} and than create new build(NewClass
- * newClass) method which will take your NewClass as a parameter.
+ * newClass) method in JavaClassBuilder which will take your NewClass as a parameter.
  */
 public class JavaClassBuilder {
 

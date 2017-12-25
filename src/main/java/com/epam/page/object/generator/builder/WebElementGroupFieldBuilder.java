@@ -28,7 +28,8 @@ import org.slf4j.LoggerFactory;
  *
  * This class based on Visitor pattern. If you want to add a new group of elements, you need to
  * create a new class which will implement {@link WebElementGroup} interface and than create new
- * build(NewWebElementGroup newWebElementGroup) method which will take your group as a parameter.
+ * build(NewWebElementGroup newWebElementGroup) method in WebElementGroupFieldBuilder which will
+ * take your NewWebElementGroup as a parameter.
  */
 public class WebElementGroupFieldBuilder {
 
