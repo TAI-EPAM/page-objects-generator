@@ -289,7 +289,7 @@ public class MySearchRule implements SearchRule {
 Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-search-rule-builder)
 (for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
 (which contains SearchRule and Elements found by them) creation of which is described below.
-## Creation SearchRuleBuilder
+## Creating SearchRuleBuilder
 ## How to add group
 ## Creating custom Validator
 ## What technologies we used
