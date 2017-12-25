@@ -8,7 +8,7 @@
 3. [Search Rule](#search-rule)
 4. [JSON structure](#json-structure)
 5. [Creating SearchRule](#creating-searchrule)
-6. [Creating SearchRuleBuilder](#creating-searchrulebuilder)
+6. [Creating SearchRuleBuilder](#creating-search-rule-builder)
 7. [How to add group](#how-to-add-group)
 8. [Creating custom Validator](#creating-custom-validator)
 9. [What technologies we used](#what-technologies-we-used)
@@ -286,7 +286,7 @@ public class MySearchRule implements SearchRule {
     }
 }
 ```
-Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-searchrulebuilder)
+Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-search-rule-builder)
 (for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
 (which contains SearchRule and Elements found by them) creation of which is described below.
 ## Creation SearchRuleBuilder
