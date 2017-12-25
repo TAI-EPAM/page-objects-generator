@@ -46,6 +46,11 @@ At the end of each test you can find generating .java source file in folder whic
 For example run exampleTestCommonElement. We can see our .java source files by the following path: "src/test/resources/test".<br/>
 <p align="center"><img src ="https://user-images.githubusercontent.com/13944502/34299793-e66f4ec8-e735-11e7-91b3-48a7d0787e66.png" /></p>
 
+## Search Rule
+Search rule is set of rules using for searching web components on web pages. User could set search
+rules in JSON files in special structure which you could see in [JSON structure](#json-structure)
+section. There are 3 different types of search rule now: common, complex and form.
+Respectively they all have their own JSON structure.
 ## JSON structure
 Page object generator uses JSON files to form search rules for getting elements from web pages.
 There are three types of JSON structure that can be processed by POG, for each of search rule type:
@@ -153,11 +158,6 @@ search rules have this parameters:
  
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
-## Search Rule
-Search rule is set of rules using for searching web components on web pages. User could set search
-rules in JSON files in special structure which you could see in [JSON structure](#json-structure)
-section. There are 3 different types of search rule now: common, complex and form.
-Respectively they all have their own JSON structure.
 ## Creating searchRule
 ## How to add group
 ## Creating custom Validator
