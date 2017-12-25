@@ -23,12 +23,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * WebElementGroupFieldBuilder know how to build list of {@link JavaField} from the {@link
+ * WebElementGroupFieldBuilder knows how to build list of {@link JavaField} from the {@link
  * WebElementGroup}.<br/>
  *
  * This class based on Visitor pattern. If you want to add a new group of elements, you need to
  * create a new class which will implement {@link WebElementGroup} interface and than create new
- * visit(NewWebElementGroup newWebElementGroup) method which will take your group as a parameter.
+ * build(NewWebElementGroup newWebElementGroup) method which will take your group as a parameter.
  */
 public class WebElementGroupFieldBuilder {
 
