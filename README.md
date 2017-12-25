@@ -7,10 +7,11 @@
 2. [How to setup project and run examples](#how-to-setup-project-and-run-examples)
 3. [Search Rule](#search-rule)
 4. [JSON structure](#json-structure)
-5. [Creating searchRule](#creating-searchrule)
-6. [How to add group](#how-to-add-group)
-7. [Creating custom Validator](#creating-custom-validator)
-8. [What technologies we used](#what-technologies-we-used)
+5. [Creating SearchRule](#creating-searchrule)
+6. [Creating SearchRuleBuilder](#creating-searchrulebuilder)
+7. [How to add group](#how-to-add-group)
+8. [Creating custom Validator](#creating-custom-validator)
+9. [What technologies we used](#what-technologies-we-used)
 ## About POG
 This program is needed for creating java files, which are based on JSON file with rules and list of URL.
 In general, POG is used in testing web sites and definitions different types of elements on web pages. For instance, button, dropdown list and etc.
@@ -158,7 +159,137 @@ search rules have this parameters:
  
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
-## Creating searchRule
+## Creating SearchRule
+To create a new search rule, you should implement the `SearchRule` interface which extends from 
+`Validatable` interface. Which include the following methods that you should override.
+
+[SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java) :
+```java
+public interface SearchRule extends Validatable {
+    
+    Selector getSelector();
+    
+    List<WebElement> getWebElements(Elements elements);
+    
+    void fillWebElementGroup(List<WebElementGroup> webElementGroups, Elements elements);
+}
+```
+[Validatable](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/Validatable.java) :
+```java
+public interface Validatable {
+    
+    void accept(ValidatorVisitor validatorVisitor);
+    
+    List<ValidationResult> getValidationResults();
+    
+    boolean isValid();
+    
+    boolean isInvalid();
+}
+```
+If you don't follow any of given SearchRules (e.g. you want to use another unique element), then 
+you can create your own SearchRule. Consider the creation a new SearchRule on the following example.
+
+`MySearchRule` :
+```java
+public class MySearchRule implements SearchRule {
+    private String uniqueness;
+    private SearchRuleType type;
+    private Selector selector;
+    private ClassAndAnnotationPair classAndAnnotation;
+    private XpathToCssTransformer transformer;
+    private SelectorUtils selectorUtils;
+
+    private List<ValidationResult> validationResults = new ArrayList<>();
+
+    public MySearchRule(String uniqueness, SearchRuleType type, Selector selector,
+                            ClassAndAnnotationPair classAndAnnotation,
+                            XpathToCssTransformer transformer,
+                            SelectorUtils selectorUtils) {
+        this.uniqueness = uniqueness;
+        this.type = type;
+        this.selector = selector;
+        this.classAndAnnotation = classAndAnnotation;
+        this.transformer = transformer;
+        this.selectorUtils = selectorUtils;
+    }
+
+    public String getUniqueness() {
+        return uniqueness;
+    }
+
+    public SearchRuleType getType() {
+        return type;
+    }
+
+    private String getRequiredValue(Element element) {
+        return uniqueness.equals("MyElement")
+            ? element.text()
+            : element.attr(uniqueness);
+    }
+
+    public ClassAndAnnotationPair getClassAndAnnotation() {
+        return classAndAnnotation;
+    }
+
+    public Selector getTransformedSelector() {
+        if (!uniqueness.equalsIgnoreCase("MyElement") && selector.isXpath()) {
+            try {
+                return transformer.getCssSelector(selector);
+            } catch (XpathToCssTransformerException e) {
+                e.printStackTrace();
+            }
+        }
+        return selector;
+    }
+
+    @Override
+    public Selector getSelector() {
+        return selector;
+    }
+
+    @Override
+    public List<WebElement> getWebElements(Elements elements) {
+        List<WebElement> webElements = new ArrayList<>();
+        for (Element element : elements) {
+            webElements.add(new CommonWebElement(element, getRequiredValue(element)));
+        }
+        return webElements;
+    }
+
+    @Override
+    public void fillWebElementGroup(List<WebElementGroup> webElementGroups, Elements elements) {
+        webElementGroups.add(new CommonWebElementGroup(this, getWebElements(elements),
+            selectorUtils));
+    }
+
+    @Override
+    public void accept(ValidatorVisitor validatorVisitor) {
+        ValidationResult visit = validatorVisitor.visit(this);
+        validationResults.add(visit);
+    }
+
+    @Override
+    public List<ValidationResult> getValidationResults() {
+        return validationResults;
+    }
+
+    @Override
+    public boolean isValid() {
+        return validationResults.stream().allMatch(ValidationResult::isValid);
+    }
+
+    @Override
+    public boolean isInvalid() {
+        return validationResults.stream()
+            .anyMatch(validationResultNew -> !validationResultNew.isValid());
+    }
+}
+```
+Also for the implementation of full functionality necessary to create new [SearchRuleBuilder]((#creating-searchrulebuilder)) 
+(for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
+(which contains SearchRule and Elements found by them) creation of which is described below.
+## Creation SearchRuleBuilder
 ## How to add group
 ## Creating custom Validator
 ## What technologies we used
