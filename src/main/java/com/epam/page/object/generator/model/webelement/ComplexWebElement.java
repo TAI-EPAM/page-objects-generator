@@ -3,10 +3,17 @@ package com.epam.page.object.generator.model.webelement;
 import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
 import org.jsoup.nodes.Element;
 
+/**
+ * Contains information required to find complex web elements with
+ * list of simple inner elements
+ */
 public class ComplexWebElement implements WebElement {
 
     private Element element;
     private String uniquenessValue;
+    /**
+     * Search rule required to form list of inner elements
+     */
     private ComplexInnerSearchRule searchRule;
 
     public ComplexWebElement(Element element, String uniquenessValue,

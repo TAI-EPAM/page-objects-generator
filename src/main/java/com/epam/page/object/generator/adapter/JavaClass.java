@@ -7,14 +7,13 @@ public class JavaClass {
 
     private String packageName;
     private String className;
-    private Class superClass;
+    private Class<?> superClass;
     private JavaAnnotation annotation;
     private List<JavaField> fields;
     private Modifier modifier;
 
-    public JavaClass(String packageName, String className, Class superClass,
-                     JavaAnnotation annotation,
-                     List<JavaField> fields, Modifier modifier) {
+    public JavaClass(String packageName, String className, Class<?> superClass,
+                     JavaAnnotation annotation, List<JavaField> fields, Modifier modifier) {
         this.packageName = packageName;
         this.className = className;
         this.superClass = superClass;
@@ -31,7 +30,7 @@ public class JavaClass {
         return className;
     }
 
-    public Class getSuperClass() {
+    public Class<?> getSuperClass() {
         return superClass;
     }
 

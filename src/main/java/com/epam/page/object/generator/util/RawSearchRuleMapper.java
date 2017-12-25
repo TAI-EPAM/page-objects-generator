@@ -2,6 +2,8 @@ package com.epam.page.object.generator.util;
 
 import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.validator.ValidationResult;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,17 +38,21 @@ public class RawSearchRuleMapper {
     public List<RawSearchRule> getRawSearchRuleList(String json) {
         List<RawSearchRule> rawSearchRuleList = new ArrayList<>();
 
-        JSONObject tree = new JSONObject(
-            new JSONTokener(RawSearchRuleMapper.class.getResourceAsStream(json)));
-        JSONArray elements = tree.getJSONArray("elements");
-        for (int i = 0; i < elements.length(); i++) {
-            JSONObject object = elements.getJSONObject(i);
-            String searchRuleType = object.get("type").toString();
-            SearchRuleType type = SearchRuleType
-                .getSearchRuleTypeByString(searchRuleType.toLowerCase());
-            RawSearchRule rawSearchRule = getRawSearchRule(object, searchRuleType, type);
-            rawSearchRuleList.add(rawSearchRule);
-            logger.debug("Add SearchRule ='" + rawSearchRule + "'");
+        try (InputStream jsonStream = RawSearchRuleMapper.class.getResourceAsStream(json)) {
+            JSONObject tree = new JSONObject(
+                new JSONTokener(jsonStream));
+            JSONArray elements = tree.getJSONArray("elements");
+            for (int i = 0; i < elements.length(); i++) {
+                JSONObject object = elements.getJSONObject(i);
+                String searchRuleType = object.get("type").toString();
+                SearchRuleType type = SearchRuleType
+                    .getSearchRuleTypeByString(searchRuleType.toLowerCase());
+                RawSearchRule rawSearchRule = getRawSearchRule(object, searchRuleType, type);
+                rawSearchRuleList.add(rawSearchRule);
+                logger.debug("Add SearchRule ='" + rawSearchRule + "'");
+            }
+        } catch (IOException e) {
+            throw new NullPointerException("Failed reading property file = '" + json + "'!");
         }
 
         return rawSearchRuleList;

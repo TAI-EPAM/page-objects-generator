@@ -36,7 +36,7 @@ public class FormWebElementGroup implements WebElementGroup {
     @Override
     public List<JavaField> accept(WebElementGroupFieldBuilder webElementGroupFieldBuilder,
                                   String packageName) {
-        return webElementGroupFieldBuilder.visit(this, packageName);
+        return webElementGroupFieldBuilder.build(this, packageName);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FormWebElementGroup implements WebElementGroup {
         return searchRule.toString();
     }
 
-    public JavaAnnotation getAnnotation(Class annotationClass) {
+    public JavaAnnotation getAnnotation(Class<?> annotationClass) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
         annotationMembers.add(new AnnotationMember(searchRule.getSelector().getType(), "$S",

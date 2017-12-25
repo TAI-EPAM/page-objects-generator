@@ -1,8 +1,8 @@
 package com.epam.page.object.generator.adapter.classbuildable;
 
-import static com.epam.page.object.generator.util.StringUtils.firstLetterDown;
 import static com.epam.page.object.generator.util.StringUtils.splitCamelCase;
 import static javax.lang.model.element.Modifier.*;
+import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
@@ -23,18 +23,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link FormClassBuildable} allows to generate .java source file from {@link
- * FormWebElementGroup}.
+ * FormClass allows to generate .java source file from {@link FormWebElementGroup}.
  */
-public class FormClassBuildable implements JavaClassBuildable {
+public class FormClass implements JavaClassBuildable {
 
     private FormWebElementGroup formWebElementGroup;
     private SelectorUtils selectorUtils;
 
-    private final static Logger logger = LoggerFactory.getLogger(FormClassBuildable.class);
+    private final static Logger logger = LoggerFactory.getLogger(FormClass.class);
 
-    public FormClassBuildable(FormWebElementGroup formWebElementGroup,
-                              SelectorUtils selectorUtils) {
+    public FormClass(FormWebElementGroup formWebElementGroup,
+                     SelectorUtils selectorUtils) {
         this.formWebElementGroup = formWebElementGroup;
         this.selectorUtils = selectorUtils;
     }
@@ -53,8 +52,9 @@ public class FormClassBuildable implements JavaClassBuildable {
 
             String fullClassName = innerSearchRule.getClassAndAnnotation().getElementClass()
                 .getName();
-            String fieldName = firstLetterDown(splitCamelCase(webElement.getUniquenessValue()));
-            Class annotationClass = innerSearchRule.getClassAndAnnotation().getElementAnnotation();
+            String fieldName = uncapitalize(splitCamelCase(webElement.getUniquenessValue()));
+            Class<?> annotationClass = innerSearchRule.getClassAndAnnotation()
+                .getElementAnnotation();
             logger.debug("Start creating annotation...");
             JavaAnnotation annotation = buildAnnotation(annotationClass,
                 (FormWebElement) webElement, innerSearchRule);
@@ -77,9 +77,9 @@ public class FormClassBuildable implements JavaClassBuildable {
      * @param webElement element which was found on the website.
      * @param searchRule SearchRule for which we are generating annotation.
      * @return {@link JavaAnnotation} which contains all information about future {@link
-     * AnnotationSpec}
+     * AnnotationSpec}.
      */
-    private JavaAnnotation buildAnnotation(Class annotationClass, FormWebElement webElement,
+    private JavaAnnotation buildAnnotation(Class<?> annotationClass, FormWebElement webElement,
                                            FormInnerSearchRule searchRule) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
@@ -97,9 +97,9 @@ public class FormClassBuildable implements JavaClassBuildable {
      * uniqueness value.
      *
      * @param selector {@link Selector} from SearchRule which contains information about how to find
-     * element on the website
-     * @param uniquenessValue value which was found from the website by the 'uniqueness' attribute
-     * @param uniqueness name of the 'uniqueness' attribute
+     * element on the website.
+     * @param uniquenessValue value which was found from the website by the 'uniqueness' attribute.
+     * @param uniqueness name of the 'uniqueness' attribute.
      */
     private String getAnnotationValue(Selector selector, String uniquenessValue,
                                       String uniqueness) {
@@ -108,7 +108,7 @@ public class FormClassBuildable implements JavaClassBuildable {
         } else if (selector.isCss()) {
             return selectorUtils.resultCssSelector(selector, uniquenessValue, uniqueness);
         }
-        return null;
+        throw new IllegalArgumentException("Selector type is unknown " + selector.toString());
     }
 
     @Override
@@ -118,11 +118,11 @@ public class FormClassBuildable implements JavaClassBuildable {
 
     @Override
     public JavaClass accept(JavaClassBuilder javaClassBuilder) {
-        return javaClassBuilder.visit(this);
+        return javaClassBuilder.build(this);
     }
 
     @Override
     public String toString() {
-        return "FormClassBuildable with " + formWebElementGroup.getSearchRule();
+        return "FormClass with " + formWebElementGroup.getSearchRule();
     }
 }

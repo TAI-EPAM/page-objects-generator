@@ -1,6 +1,6 @@
 package com.epam.page.object.generator.model;
 
-import com.epam.page.object.generator.adapter.classbuildable.FormClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.FormClass;
 import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
 import com.epam.page.object.generator.model.searchrule.Validatable;
@@ -75,10 +75,10 @@ public class WebPage {
         for (WebElementGroup webElementGroup : webElementGroups) {
             if (webElementGroup instanceof FormWebElementGroup) {
                 FormWebElementGroup elementGroup = (FormWebElementGroup) webElementGroup;
-                logger.debug("Start creating FormClassBuildable for '" + elementGroup.getSearchRule().getSection() + "' form");
-                javaClasses.add(new FormClassBuildable(elementGroup,
+                logger.debug("Start creating FormClass for '" + elementGroup.getSearchRule().getSection() + "' form");
+                javaClasses.add(new FormClass(elementGroup,
                     selectorUtils));
-                logger.debug("Finish creating FormClassBuildable");
+                logger.debug("Finish creating FormClass");
             }
         }
 
