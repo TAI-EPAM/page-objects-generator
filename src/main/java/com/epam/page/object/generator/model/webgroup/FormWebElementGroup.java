@@ -1,17 +1,11 @@
 package com.epam.page.object.generator.model.webgroup;
 
-import com.epam.jdi.uitests.web.selenium.elements.common.Button;
-import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.model.WebPage;
-import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
-import com.epam.page.object.generator.model.searchrule.SearchRule;
-import com.epam.page.object.generator.model.webelement.CommonWebElement;
-import com.epam.page.object.generator.model.webelement.ComplexWebElement;
 import com.epam.page.object.generator.model.webelement.FormWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.validator.ValidationResult;
