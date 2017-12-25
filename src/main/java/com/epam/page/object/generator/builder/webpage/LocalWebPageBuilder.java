@@ -25,8 +25,8 @@ public class LocalWebPageBuilder implements WebPageBuilder {
 
     /**
      * Method creates web pages by using url
-     * @param paths
-     * @param searchRuleExtractor
+     * @param paths type List of String
+     * @param searchRuleExtractor {@link SearchRuleExtractor}
      * @return webPages
      */
     @Override

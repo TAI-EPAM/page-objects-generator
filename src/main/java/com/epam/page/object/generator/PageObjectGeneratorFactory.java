@@ -29,9 +29,9 @@ public class PageObjectGeneratorFactory {
 
     /**
      * Method constructs PageObjectsGenerator
-     * @param packageName
-     * @param propertyFile
-     * @param onlineVersion
+     * @param packageName type String
+     * @param propertyFile type String
+     * @param onlineVersion type boolean
      * @return PageObjectsGenerator
      */
     public static PageObjectsGenerator getPageObjectGenerator(String packageName,

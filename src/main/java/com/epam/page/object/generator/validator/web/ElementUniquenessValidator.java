@@ -16,7 +16,7 @@ public class ElementUniquenessValidator implements ValidatorVisitor {
 
     /**
      * Check uniqueness of CommonWebElementGroup
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override
@@ -32,7 +32,7 @@ public class ElementUniquenessValidator implements ValidatorVisitor {
 
     /**
      * Check uniqueness of ComplexWebElementGroup
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override
@@ -48,7 +48,7 @@ public class ElementUniquenessValidator implements ValidatorVisitor {
 
     /**
      * Check uniqueness of FormWebElementGroup
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override
