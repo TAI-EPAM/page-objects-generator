@@ -47,7 +47,7 @@ For example run exampleTestCommonElement. We can see our .java source files by t
 <p align="center"><img src ="https://user-images.githubusercontent.com/13944502/34299793-e66f4ec8-e735-11e7-91b3-48a7d0787e66.png" /></p>
 
 ## JSON structure
-Page object generator uses JSON files to from form search rules for getting elements from web pages.
+Page object generator uses JSON files to form search rules for getting elements from web pages.
 There are three types of JSON structure that can be processed by POG, for each of search rule type:
 ### Common element
 ```json
