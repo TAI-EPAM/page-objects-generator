@@ -1,16 +1,16 @@
 package com.epam.page.object.generator.builder;
 
-import static com.epam.page.object.generator.util.StringUtils.firstLetterUp;
 import static com.epam.page.object.generator.util.StringUtils.splitCamelCase;
+import static org.apache.commons.lang3.StringUtils.capitalize;
 
 import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Section;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
-import com.epam.page.object.generator.adapter.classbuildable.FormClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.FormClass;
 import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.PageClassBuildable;
-import com.epam.page.object.generator.adapter.classbuildable.SiteClassBuildable;
+import com.epam.page.object.generator.adapter.classbuildable.PageClass;
+import com.epam.page.object.generator.adapter.classbuildable.SiteClass;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
@@ -41,16 +41,16 @@ public class JavaClassBuilder {
         this.packageName = packageName;
     }
 
-    public JavaClass visit(SiteClassBuildable siteClassBuildable) {
-        logger.debug("Start creating javaClass from " + siteClassBuildable);
+    public JavaClass build(SiteClass siteClass) {
+        logger.debug("Start creating javaClass from " + siteClass);
         String classPackageName = packageName + SITE_EXTENSION;
         String className = "Site";
-        Class superClass = com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.class;
+        Class<?> superClass = com.epam.jdi.uitests.web.selenium.elements.composite.WebSite.class;
         logger.debug("Start creating annotation...");
-        JavaAnnotation annotation = siteClassBuildable.buildAnnotation();
+        JavaAnnotation annotation = siteClass.buildAnnotation();
         logger.debug("Finish creating annotation");
         logger.debug("Start creating fields...");
-        List<JavaField> fields = siteClassBuildable.buildFields(this.packageName);
+        List<JavaField> fields = siteClass.buildFields(this.packageName);
         logger.debug("Finish creating fields");
         Modifier modifier = Modifier.PUBLIC;
         logger.debug("Finish creating javaClass\n");
@@ -58,14 +58,14 @@ public class JavaClassBuilder {
         return new JavaClass(classPackageName, className, superClass, annotation, fields, modifier);
     }
 
-    public JavaClass visit(PageClassBuildable pageClassBuildable) {
-        logger.debug("Start creating javaClass from " + pageClassBuildable);
+    public JavaClass build(PageClass pageClass) {
+        logger.debug("Start creating javaClass from " + pageClass);
         String classPackageName = packageName + PAGE_EXTENSION;
-        String className = firstLetterUp(splitCamelCase(pageClassBuildable.getTitle()));
-        Class superClass = com.epam.jdi.uitests.web.selenium.elements.composite.WebPage.class;
-        JavaAnnotation annotation = pageClassBuildable.buildAnnotation();
+        String className = capitalize(splitCamelCase(pageClass.getTitle()));
+        Class<?> superClass = com.epam.jdi.uitests.web.selenium.elements.composite.WebPage.class;
+        JavaAnnotation annotation = pageClass.buildAnnotation();
         logger.debug("Start creating fields...\n");
-        List<JavaField> fields = pageClassBuildable.buildFields(this.packageName);
+        List<JavaField> fields = pageClass.buildFields(this.packageName);
         logger.debug("Finish creating fields");
         Modifier modifier = Modifier.PUBLIC;
         logger.debug("Finish creating javaClass\n");
@@ -73,18 +73,18 @@ public class JavaClassBuilder {
         return new JavaClass(classPackageName, className, superClass, annotation, fields, modifier);
     }
 
-    public JavaClass visit(FormClassBuildable formClassBuildable) {
-        logger.debug("Start creating javaClass from " + formClassBuildable);
-        FormWebElementGroup formWebElementGroup = formClassBuildable.getFormWebElementGroup();
+    public JavaClass build(FormClass formClass) {
+        logger.debug("Start creating javaClass from " + formClass);
+        FormWebElementGroup formWebElementGroup = formClass.getFormWebElementGroup();
 
         FormSearchRule formSearchRule = formWebElementGroup.getSearchRule();
         String classPackageName = packageName + FORM_EXTENSION;
-        String className = firstLetterUp(formSearchRule.getSection());
-        Class superClass = formSearchRule.getTypeName().equals(
+        String className = capitalize(formSearchRule.getSection());
+        Class<?> superClass = formSearchRule.getTypeName().equals(
             SearchRuleType.FORM.getName()) ? Form.class : Section.class;
-        JavaAnnotation annotation = formClassBuildable.buildAnnotation();
+        JavaAnnotation annotation = formClass.buildAnnotation();
         logger.debug("Start creating fields...\n");
-        List<JavaField> fields = formClassBuildable.buildFields(classPackageName);
+        List<JavaField> fields = formClass.buildFields(classPackageName);
         logger.debug("Finish creating fields");
         Modifier modifier = Modifier.PUBLIC;
         logger.debug("Finish creating javaClass\n");

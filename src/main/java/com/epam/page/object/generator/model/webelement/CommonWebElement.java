@@ -2,6 +2,9 @@ package com.epam.page.object.generator.model.webelement;
 
 import org.jsoup.nodes.Element;
 
+/**
+ * Contains information required to find simple web elements
+ */
 public class CommonWebElement implements WebElement {
 
     private Element element;

@@ -30,10 +30,7 @@ public class ValidationChecker {
                     rawSearchRule -> stringBuilder.append("\n").append(rawSearchRule)
                         .append(" is invalid:\n").append(rawSearchRule.getExceptionMessage()));
 
-            String message = stringBuilder.toString();
-            ValidationException validationException = new ValidationException(message);
-            logger.error(message, validationException);
-            throw validationException;
+            throw new ValidationException(stringBuilder.toString());
         }
     }
 
@@ -47,10 +44,7 @@ public class ValidationChecker {
                 .map(ValidationResult::getReason)
                 .collect(Collectors.joining("\n"));
 
-            ValidationException validationException = new ValidationException(
-                validationResultString);
-            logger.error(validationResultString, validationException);
-            throw validationException;
+            throw new ValidationException(validationResultString);
         }
     }
 
@@ -74,10 +68,7 @@ public class ValidationChecker {
                 .map(ValidationResult::getReason)
                 .collect(Collectors.joining("\n"));
 
-            ValidationException validationException = new ValidationException(
-                validationResultString);
-            logger.error(validationResultString, validationException);
-            throw validationException;
+            throw new ValidationException(validationResultString);
         }
     }
 }
