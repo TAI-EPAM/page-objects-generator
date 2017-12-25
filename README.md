@@ -5,8 +5,8 @@
 # page-objects-generator
 1. [About POG](#about-pog)
 2. [How to setup project and run examples](#how-to-setup-project-and-run-examples)
-3. [JSON structure](#json-structure)
-4. [Search Rule](#search-rule)
+3. [Search Rule](#search-rule)
+4. [JSON structure](#json-structure)
 5. [Creating searchRule](#creating-searchrule)
 6. [How to add group](#how-to-add-group)
 7. [Creating custom Validator](#creating-custom-validator)
