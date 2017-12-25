@@ -30,13 +30,13 @@ public class WebPage {
 
     /**
      * List of {@link WebElementGroup} elements. Every web group represents group of page
-     * elements, which was found with one of the {@link SearchRule} search rules. Every search
-     * rule corresponds to web element group
+     * elements, which was found with one of the {@link SearchRule}. Every search
+     * rule corresponds to {@link WebElementGroup}.
      */
     private List<WebElementGroup> webElementGroups;
 
     /**
-     * Extract page elements using search rules.
+     * Extract page elements using {@link SearchRule} objects.
      */
     private SearchRuleExtractor searchRuleExtractor;
 
@@ -67,8 +67,9 @@ public class WebPage {
     }
 
     /**
-     * Get list of {@link SearchRule} and fill web element group {@link WebElementGroup }
-     * @param searchRules - search rules which is used by method to parse current web-page.
+     * Get list of {@link SearchRule} and fill web element group {@link WebElementGroup}
+     *
+     * @param searchRules - list of {@link SearchRule} which is used by method to parse current web-page.
      */
     public void addSearchRules(List<SearchRule> searchRules) {
         for (SearchRule searchRule : searchRules) {

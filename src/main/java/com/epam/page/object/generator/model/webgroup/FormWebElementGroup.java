@@ -1,16 +1,28 @@
 package com.epam.page.object.generator.model.webgroup;
 
+import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
+import com.epam.page.object.generator.model.WebPage;
+import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
+import com.epam.page.object.generator.model.searchrule.SearchRule;
+import com.epam.page.object.generator.model.webelement.CommonWebElement;
+import com.epam.page.object.generator.model.webelement.ComplexWebElement;
+import com.epam.page.object.generator.model.webelement.FormWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.validator.ValidationResult;
 import com.epam.page.object.generator.validator.ValidatorVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents {@link FormSearchRule} and list of {@link FormWebElement} which was found by
+ * this rule from certain {@link WebPage}.
+ */
 public class FormWebElementGroup implements WebElementGroup {
 
     private FormSearchRule searchRule;
@@ -65,6 +77,12 @@ public class FormWebElementGroup implements WebElementGroup {
         return searchRule.toString();
     }
 
+    /**
+     * Returns {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
+     *
+     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link FormWebElement}
+     * @return {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
+     */
     public JavaAnnotation getAnnotation(Class<?> annotationClass) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
