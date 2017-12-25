@@ -14,7 +14,7 @@ public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
 
     /**
      * Check CommonWebElementGroup on existence
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override
@@ -36,7 +36,7 @@ public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
 
     /**
      * Check ComplexWebElementGroup on existence
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override
@@ -58,7 +58,7 @@ public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
 
     /**
      * Check FormWebElementGroup on existence
-     * @param webElementGroup
+     * @param webElementGroup {@link CommonWebElementGroup}
      * @return ValidationResult
      */
     @Override

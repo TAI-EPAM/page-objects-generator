@@ -48,6 +48,21 @@ public class PageObjectsGenerator {
 
     private final static Logger logger = LoggerFactory.getLogger(PageObjectsGenerator.class);
 
+    /**
+     * Constructor
+     * @param rawSearchRuleMapper {@link RawSearchRuleMapper}
+     * @param jsonSchemaValidator {@link JsonSchemaValidator}
+     * @param typeTransformer {@link TypeTransformer}
+     * @param checker {@link ValidationChecker}
+     * @param jsonValidators {@link JsonValidators}
+     * @param webValidators {@link WebValidators}
+     * @param javaClassBuilder {@link JavaClassBuilder}
+     * @param webElementGroupFieldBuilder {@link WebElementGroupFieldBuilder}
+     * @param javaFileWriter {@link JavaFileWriter}
+     * @param webPageBuilder {@link WebPageBuilder}
+     * @param selectorUtils {@link SelectorUtils}
+     * @param searchRuleExtractor {@link SearchRuleExtractor}
+     */
     public PageObjectsGenerator(RawSearchRuleMapper rawSearchRuleMapper,
                                 JsonSchemaValidator jsonSchemaValidator,
                                 TypeTransformer typeTransformer,
@@ -76,9 +91,9 @@ public class PageObjectsGenerator {
 
     /**
      * Main method which checks and generates page objects
-     * @param jsonPath
-     * @param outputDir
-     * @param urls
+     * @param jsonPath type String
+     * @param outputDir type String
+     * @param urls type List of String
      * @throws IOException
      */
     public void generatePageObjects(String jsonPath, String outputDir, List<String> urls)
@@ -104,6 +119,11 @@ public class PageObjectsGenerator {
         logger.info("Finish generating JavaClasses");
     }
 
+    /**
+     * Method creates rawSearchRuleList
+     * @param jsonPath type String
+     * @return rawSearchRuleList
+     */
     private List<RawSearchRule> getRawSearchRules(String jsonPath) {
         logger.info("Start creating list of RawSearchRules...");
         List<RawSearchRule> rawSearchRuleList = rawSearchRuleMapper.getRawSearchRuleList(jsonPath);
@@ -111,6 +131,10 @@ public class PageObjectsGenerator {
         return rawSearchRuleList;
     }
 
+    /**
+     * Method checks JSON validness
+     * @param searchRuleList type List of Search Rule
+     */
     private void jsonValidation(List<SearchRule> searchRuleList) {
         logger.info("Start Json validation...\n");
         jsonValidators.validate(searchRuleList);
@@ -121,7 +145,7 @@ public class PageObjectsGenerator {
 
     /**
      * Method transforms RawSearchRules in SearchRules
-     * @param rawSearchRuleList
+     * @param rawSearchRuleList type List of Raw Search Rule
      * @return SearchRules
      */
     private List<SearchRule> getSearchRules(List<RawSearchRule> rawSearchRuleList) {
@@ -134,7 +158,7 @@ public class PageObjectsGenerator {
 
     /**
      * Method validates RawSearchRules with using Json Schema
-     * @param rawSearchRuleList
+     * @param rawSearchRuleList type List of Raw Search Rule
      */
     private void jsonSchemaValidation(List<RawSearchRule> rawSearchRuleList) {
         logger.info("Start validation RawSearchRules with using Json Schema...");
@@ -146,8 +170,8 @@ public class PageObjectsGenerator {
 
     /**
      * Method creates web pages
-     * @param urls
-     * @param searchRuleList
+     * @param urls type List of String
+     * @param searchRuleList type List of Search Rule
      * @return webPages
      */
     private List<WebPage> createWebPages(List<String> urls, List<SearchRule> searchRuleList) {
@@ -161,7 +185,7 @@ public class PageObjectsGenerator {
 
     /**
      * Method creates JavaClasses
-     * @param javaClassBuildables
+     * @param javaClassBuildables {@link JavaClassBuildable}
      * @return javaClasses
      */
     private List<JavaClass> getJavaClasses(List<JavaClassBuildable> javaClassBuildables) {
@@ -174,6 +198,11 @@ public class PageObjectsGenerator {
         return javaClasses;
     }
 
+    /**
+     * Method creates JavaClassBuildables
+     * @param webPages type List of Web Page
+     * @return rawJavaClasses
+     */
     private List<JavaClassBuildable> getJavaClassBuildables(List<WebPage> webPages) {
         List<JavaClassBuildable> rawJavaClasses = new ArrayList<>();
         logger.info("Start creating JavaClassBuildables...");
@@ -194,6 +223,10 @@ public class PageObjectsGenerator {
         return rawJavaClasses;
     }
 
+    /**
+     * Constructor is needed for tests and Method Generate
+     * @param forceGenerateFile type boolean
+     */
     public void setForceGenerateFile(boolean forceGenerateFile) {
         this.forceGenerateFile = forceGenerateFile;
     }
