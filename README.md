@@ -3,16 +3,30 @@
 [![codecov](https://codecov.io/gh/TAI-EPAM/page-objects-generator/branch/master/graph/badge.svg)](https://codecov.io/gh/TAI-EPAM/page-objects-generator)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e527808dc8bd7806783f/maintainability)](https://codeclimate.com/github/TAI-EPAM/page-objects-generator/maintainability)
 # page-objects-generator
-1. [About POG](#about-pog)
-2. [How to setup project and run examples](#how-to-setup-project-and-run-examples)
-3. [Search Rule](#search-rule)
+Page Object Generator allows generate .java source files for JDI UI Test Automation Framework. 
+You only need to create json file with SearchRules, run application and finally get .java source files. 
+
+1. [Synopsis](#synopsis)
+2. [Getting Started](#getting-started)
+	- [Download application](#download-application)
+	- [Example Use](#example-use)
+	- [Example Tests](#example-tests)
+		- [Simple Tests](#simple-tests)
+		- [EndToEnd Tests](#endtoend-tests)	
+3. [SearchRule](#searchrule)
 4. [JSON structure](#json-structure)
-5. [Creating SearchRule](#creating-searchrule)
-6. [Creating SearchRuleBuilder](#creating-search-rule-builder)
-7. [How to add group](#how-to-add-group)
-8. [Creating custom Validator](#creating-custom-validator)
-9. [What technologies we used](#what-technologies-we-used)
-## About POG
+	- [Common SearchRule](#common-searchrule)
+	- [Complex SearchRule](#common-searchrule)
+	- [Form and Section SearchRules](#form-and-section-searchrules)
+5. [SearchRuleGroups](#searchrulegroups)
+5. [Custom elements](#custom-elements)
+	- [Creating SearchRule](#creating-searchrule)
+	- [Creating SearchRuleBuilder](#creating-searchrulebuilder)
+	- [How to add a new group](#how-to-add-a-new-group)
+	- [How to add a new type of element in an existing group](#how-to-add-a-new-type-of-element-in-an-existing-group)
+	- [Creating Validator](#creating-custom-validator)
+6. [What technologies we used](#what-technologies-we-used)
+## Synopsis
 In general, POG is used for JDI-framework for testing web sites and definitions different types of elements on web pages. For instance, button, dropdown list and etc.
 POG is needed for generating .java source files, which are based on JSON file with rules and list of URL.
 By using POG tester-engineer can generate java file for JDI-framework and can do work faster.
@@ -27,19 +41,54 @@ Structure of project:
 7) Then program creates list of WebElementGroup by checking accordance WebPage and SearchRule;
 8) JavaClassBuilder decides which type of java file has to be build and puts them in JavaClass;
 9) After all these manipulations program gives command for JavaWriter and .java source files are written in file.
-## How to setup project and run examples
+## Getting Started
 ### Download application
-You can download .zip archive by the following link: https://github.com/TAI-EPAM/page-objects-generator/archive/master.zip<br/>
-or you can use console and clone repository:
+For downloading application you can use console and clone repository:
 ```text
 git clone https://github.com/TAI-EPAM/page-objects-generator.git
 ```
-### Run examples
-After downloading you can open project in IDE which you prefer.
+### Example Use
+All that you need to do is create PageObjectGenerator instance by the PageObjectGeneratorFactory and call generatePageObjects method.
+```java
+package com.epam.page.object.generator.example;
+
+import com.epam.page.object.generator.PageObjectGeneratorFactory;
+import com.epam.page.object.generator.PageObjectsGenerator;
+import java.io.IOException;
+import java.util.Collections;
+
+public class ExampleTest {
+
+    public static void main(String[] args) throws IOException {
+        String outputDir = "src/test/resources/";
+        String packageName = "test";
+
+        PageObjectsGenerator pog = PageObjectGeneratorFactory
+            .getPageObjectGenerator(packageName, "/groups.json", false);
+
+        pog.generatePageObjects("/example/calculate.json", outputDir,
+            Collections.singletonList("/example/example.html"));
+    }
+}
+```
+When you create PageObjectGenerator you need to specify three parameters:
+ - `packageName` - name of the package where will be must placed all generated .java source files.
+ - `propertyFile` - the path to the property file which contains all information about groups of SearchRule.
+ - `onlineVersion` - boolean parameter which specify what kind of PageObjectGenerator you will use.<br/>
+ If `onlineVersion` will be true - PageObjectGenerator will work with urls and web sites which exist in the Internet.<br/>
+ If `onlineVersion` will be false - PageObjectGenerator will work with local .html files.
+ 
+In generatePageObjects method you need to specify three parameters:
+ - `jsonPath` - path to the input json file, which must start from folder resources.
+ - `outputDir` - path to the folder where it is needed to be generated .java source files.
+ - `urls/paths` - list of web site urls or list of string paths to the local .html files. 
+### Example Tests
+#### Simple Tests
 You can find "example" folder in tests, which contains [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) file.
 Each test need to run in isolation from others, because folder with generating .java source files are cleared before each test. 
-In [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) you can change outputDir where will be generate .java source files and packageName from which will be started structure of the project.
-```text
+In [ExampleTest](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/test/java/com/epam/page/object/generator/example/ExampleTest.java) 
+you can change outputDir where will be generate .java source files and packageName from which will be started structure of the project.
+```
 private String outputDir = "src/test/resources/";
 private String packageName = "test";
 ```
@@ -47,6 +96,7 @@ At the end of each test you can find generating .java source file in folder whic
 For example run exampleTestCommonElement. We can see our .java source files by the following path: "src/test/resources/test".<br/>
 <p align="center"><img src ="https://user-images.githubusercontent.com/13944502/34299793-e66f4ec8-e735-11e7-91b3-48a7d0787e66.png" /></p>
 
+#### EndToEnd Tests
 ## Search Rule
 Search rule is set of rules using for searching web components on web pages. User could set search
 rules in JSON files in special structure which you could see in [JSON structure](#json-structure)
@@ -55,7 +105,7 @@ Respectively they all have their own JSON structure.
 ## JSON structure
 Page object generator uses JSON files to form search rules for getting elements from web pages.
 There are three types of JSON structure that can be processed by POG, for each of search rule type:
-### Common element
+### Common SearchRule
 ```json
 {
   "elements": [
@@ -78,7 +128,7 @@ As seen on given example, JSON for common element consist of this parameters:
    * `type` - the type of selector, `xpath` or `css` by which we search element on page
    * `value` - the value that element must correspond to search result by described type.
    
-### Complex element
+### Complex SearchRule
 Complex elements, such as dropdown menus, containing list of simple elements processed by
 `ComplexSearchRule` :
 ```json
@@ -110,7 +160,7 @@ search rules have this parameters:
    
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
-### Form and Section
+### Form and Section SearchRules
 Form with section (such as login form) requires specific kind of json. 
 ```json
 {
@@ -159,34 +209,39 @@ search rules have this parameters:
  
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
-## Creating SearchRule
-To create a new search rule, you should implement the `SearchRule` interface which extends from 
-`Validatable` interface. Which include the following methods that you should override.
+## SearchRuleGroups
+In page object generator there are three types of SearchRuleGroups:
+1. CommonSearchRule.
+2. ComplexSearchRule.
+3. FormSearchRule.
 
-[SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java) :
-```java
-public interface SearchRule extends Validatable {
-    
-    Selector getSelector();
-    
-    List<WebElement> getWebElements(Elements elements);
-    
-    void fillWebElementGroup(List<WebElementGroup> webElementGroups, Elements elements);
+You can find all existing groups in "/groups.json" file which places in the resources folder. In this file you can see `typeGroups` array which contains all accessible SearchRuleGroups.
+
+Each group has three parameters: 
+1. `name` - name of the group, which will be used in the java code for getting information about this group.
+2. `searchRuleTypes` - list of element types which contains in this group.
+3. `schema` - name of json schema which will be validate elements that suitable for this group. (the path is starting from the resources folder).
+
+For example consider FormSearchRule group:
+```
+{
+  "name": "formSearchRule",
+  "searchRuleTypes": [
+    "form",
+    "section"
+  ],
+  "schema": "/schema/formSearchRule_schema.json"
 }
 ```
-[Validatable](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/Validatable.java) :
-```java
-public interface Validatable {
-    
-    void accept(ValidatorVisitor validatorVisitor);
-    
-    List<ValidationResult> getValidationResults();
-    
-    boolean isValid();
-    
-    boolean isInvalid();
-}
-```
+We can see that this group has "formSearchRule" name and only two types of SearchRules (form and section) suit for this group.
+You can add your custom group. About this you can read in the [following section](#how-to-add-a-new-group).
+## Custom elements
+In this section we will look at examples how to add your own custom elements.
+### Creating SearchRule
+To create a new search rule, you should implement the [SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java)
+ interface which extends from [Validatable](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/Validatable.java)
+  interface. Which include the following methods that you should override.
+
 If you don't follow any of given SearchRules (e.g. you want to use another unique element), then 
 you can create your own SearchRule. Consider the creation a new SearchRule on the following example.
 
@@ -289,9 +344,56 @@ public class MySearchRule implements SearchRule {
 Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-search-rule-builder)
 (for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
 (which contains SearchRule and Elements found by them) creation of which is described below.
-## Creating SearchRuleBuilder
-## How to add group
-## Creating custom Validator
+### Creating SearchRuleBuilder
+### How to add group
+### How to add a new type of element in an existing group
+1)Add a new type of element in the properties file.
+
+You need to add a new type of element in "/groups.json" file. (if you don't read about this file, you can do it by the [following link](#searchrulegroups)).
+For adding a new type of element you need to choose one of existing group which suitable for this element and add a new type in `searchRuleTypes` array of this group.
+
+For example, adding CustomButton type in ComplexSearchRule:
+```
+{
+  "name": "complexSearchRule",
+  "searchRuleTypes": [
+    "table",
+    "combobox",
+    "dropdown",
+    "droplist",
+    "menu",
+    "custombutton"
+  ],
+  "schema": "/schema/complexSearchRule_schema.json"
+}
+```
+2)Add a new type of element in SearchRuleType enum.
+
+If you open SearchRuleType enum, you can see list of element types which is supported by the page object generator. If you add a new type of element, you must add him in this enum.
+
+Enum consists of:
+- `enum value` - used in the java code for identify type of the element;
+- `string name` - used in json file when we write "type" for SearchRule.
+
+In the previous example we have added a CustomButton type and it's new, so it is necessary to add in [SearchRuleType](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/util/SearchRuleType.java) enum:
+ 
+```
+//added new type
+CUSTOMBUTTON("custombutton")
+```
+3)Add a new type of element in SupportedTypesMap from SupportedTypesContainer class.
+
+The last thing you need to do is add a new type of element in SupportedTypesMap from [SupportedTypesContainer](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/container/SupportedTypesContainer.java) class. This map contains:
+- `key` - type of supported elements;
+- `value` - pairs which consists of class and annotation that will be used for generating this type of elements.
+ 
+For our example we need to add the following code in [SupportedTypesContainer](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/container/SupportedTypesContainer.java):
+```
+//added new type
+supportedTypesMap.put(SearchRuleType.CUSTOMBUTTON.getName(),
+    new ClassAndAnnotationPair(CustomButton.class, FindBy.class));
+```
+### Creating custom Validator
 ## What technologies we used
 ### Jsoup
 Jsoup is a Java library for working with real-world HTML. It provides a very convenient API 
