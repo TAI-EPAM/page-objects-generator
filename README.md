@@ -97,7 +97,7 @@ For example run exampleTestCommonElement. We can see our .java source files by t
 <p align="center"><img src ="https://user-images.githubusercontent.com/13944502/34299793-e66f4ec8-e735-11e7-91b3-48a7d0787e66.png" /></p>
 
 #### EndToEnd Tests
-## Search Rule
+## SearchRule
 Search rule is set of rules using for searching web components on web pages. User could set search
 rules in JSON files in special structure which you could see in [JSON structure](#json-structure)
 section. There are 3 different types of search rule now: common, complex and form.
@@ -345,7 +345,7 @@ Also for the implementation of full functionality necessary to create new [Searc
 (for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
 (which contains SearchRule and Elements found by them) creation of which is described below.
 ### Creating SearchRuleBuilder
-### How to add group
+### How to add a new group
 ### How to add a new type of element in an existing group
 1)Add a new type of element in the properties file.
 
