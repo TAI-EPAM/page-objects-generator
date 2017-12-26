@@ -21,12 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * JavaClassBuilder know how to build each {@link JavaClassBuildable} and at the end we get prepared
- * {@link JavaClass} for generating .java source file.<br/>
+ * JavaClassBuilder knows how to build each {@link JavaClassBuildable} and at the end we get
+ * prepared {@link JavaClass} for generating .java source file.<br/>
  *
  * This class based on Visitor pattern. If you want to add a new class, you need to create a new
- * class which will implement {@link JavaClassBuildable} and than create new visit(NewClass
- * newClass) method which will take your NewClass as a parameter.
+ * class which will implement {@link JavaClassBuildable} and than create new build(NewClass
+ * newClass) method in JavaClassBuilder which will take your NewClass as a parameter.
  */
 public class JavaClassBuilder {
 

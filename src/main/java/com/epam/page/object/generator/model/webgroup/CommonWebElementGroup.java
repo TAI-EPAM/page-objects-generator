@@ -1,11 +1,15 @@
 package com.epam.page.object.generator.model.webgroup;
 
+import com.epam.jdi.uitests.web.selenium.elements.common.Button;
+import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
+import com.epam.page.object.generator.model.searchrule.SearchRule;
+import com.epam.page.object.generator.model.webelement.CommonWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SelectorUtils;
 import com.epam.page.object.generator.validator.ValidationResult;
@@ -15,6 +19,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ *
+ * Represents group of {@link CommonWebElement} of a page and {@link SearchRule} by which this
+ * elements were found.
+ * Common web elements are just simplest elements of a page,
+ * for example: {@link Button} or {@link Label}.
+ */
 public class CommonWebElementGroup implements WebElementGroup {
 
     private CommonSearchRule searchRule;
@@ -74,6 +85,13 @@ public class CommonWebElementGroup implements WebElementGroup {
         return searchRule.toString();
     }
 
+    /**
+     * Returns {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
+     *
+     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link WebElement}
+     * @param webElement {@link WebElement} that have to be represented in generated java class.
+     * @return {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
+     */
     public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
@@ -87,6 +105,15 @@ public class CommonWebElementGroup implements WebElementGroup {
         return new JavaAnnotation(annotationClass, annotationMembers);
     }
 
+    /**
+     * Returns string representation of annotation for class that will be generated.
+     *
+     * @param uniquenessValue value of 'uniqueness' attribute
+     * @param uniqueness name of the 'uniqueness' attribute
+     * @throws IllegalArgumentException if selector type is unknown
+     * @return string representation of annotation for class that will be generated
+     *
+     */
     private String getAnnotationValue(Selector selector, String uniquenessValue,
                                       String uniqueness) {
         if (selector.isXpath()) {

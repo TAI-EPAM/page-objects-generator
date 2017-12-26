@@ -2,11 +2,19 @@ package com.epam.page.object.generator.util;
 
 public class StringUtils {
 
+    /**
+     * Constant that indicates maximum amount of words in sentence.
+     */
     private static final int MAX_NUMBER_OF_WORDS_IN_NAME = 3;
 
     private StringUtils() {
     }
 
+    /**
+     * Convert original sentence into variable in camelcase, also clean from any random symbols.
+     * @param camel
+     * @return camelcase variable
+     */
     public static String splitCamelCase(String camel) {
         String trim = camel.replaceAll("[^\\p{L}0-9 ]", "").trim();
 
