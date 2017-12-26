@@ -12,20 +12,20 @@
 7. [Creating custom Validator](#creating-custom-validator)
 8. [What technologies we used](#what-technologies-we-used)
 ## About POG
-This program is needed for creating java files, which are based on JSON file with rules and list of URL.
-In general, POG is used in testing web sites and definitions different types of elements on web pages. For instance, button, dropdown list and etc.
+In general, POG is used for JDI-framework for testing web sites and definitions different types of elements on web pages. For instance, button, dropdown list and etc.
+POG is needed for generating .java source files, which are based on JSON file with rules and list of URL.
 By using POG tester-engineer can generate java file for JDI-framework and can do work faster.
 
 Structure of project:
-1) First step is user has to download JSON file;
-2) After that program create list of Search Rules;
-3) Then JSON Schema Validator checks JSON file on validness: as result throw exceptions if file has some problem, otherwise all list of Search Rules goes further;
-4) After successful validation method FormTypeValidator splits every Rules on three types: Common, Complex, Form;
-5) Then every types is checked by business logic on accordance. This is another place, where we can see exception;
-6) If we have list of valid JSON files, program takes list of URL and WebPageBuilder and creates WebPage or generate exception;
-7) Then program checks WebPages and puts acceptable WebPages in list of JavaClassBuildable;
-8) JavaClassBuildable decides which type of java file has to be build and puts them in JavaClass;
-9) After all these manipulations program gives command for JavaWriter and java files are written in file.
+1) First step is user has to write JSON file by rules;
+2) After that program creates list of Search Rules which are based on JSON file;
+3) Then JSON Schema Validator checks list of Search Rules on validness: as result throw exceptions if file has some problem, otherwise all list of Search Rules goes further;
+4) After successful validation TypeTransformer class splits every Rules on three types: Common, Complex, Form;
+5) Then every search rules is checked by business logic on accordance. This is another place, where we can see exception;
+6) If we have list of Search Rules, program takes list of URL and WebPageBuilder and creates WebPage or generate exception;
+7) Then program creates list of WebElementGroup by checking accordance WebPage and SearchRule;
+8) JavaClassBuilder decides which type of java file has to be build and puts them in JavaClass;
+9) After all these manipulations program gives command for JavaWriter and .java source files are written in file.
 ## How to setup project and run examples
 ### Download application
 You can download .zip archive by the following link: https://github.com/TAI-EPAM/page-objects-generator/archive/master.zip<br/>
