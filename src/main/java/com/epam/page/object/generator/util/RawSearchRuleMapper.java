@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Util methods for {@link RawSearchRule}.
+ * Util methods for returning list of {@link RawSearchRule} from json or parent {@link RawSearchRule}.
  */
 public class RawSearchRuleMapper {
 

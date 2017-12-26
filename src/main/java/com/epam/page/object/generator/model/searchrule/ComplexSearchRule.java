@@ -41,10 +41,6 @@ public class ComplexSearchRule implements SearchRule {
         this.selectorUtils = selectorUtils;
     }
 
-    /**
-     * Returns enum value of {@link ComplexSearchRule} type.
-     * @return {@link SearchRuleType}
-     */
     public SearchRuleType getType() {
         return type;
     }
@@ -76,19 +72,10 @@ public class ComplexSearchRule implements SearchRule {
             : element.attr(uniqueness);
     }
 
-    /**
-     * Returns {@link ClassAndAnnotationPair} of {@link ComplexSearchRule} defined in
-     * {@link com.epam.page.object.generator.container.SupportedTypesContainer}
-     * @return pair of JDI type class and annotation class
-     */
     public ClassAndAnnotationPair getClassAndAnnotation() {
         return classAndAnnotation;
     }
 
-    /**
-     * Returns uniqueness attribute from {@link ComplexInnerSearchRule} with "root" title.
-     * @return uniqueness attribute
-     */
     public String getUniqueness() {
         return getRoot().getUniqueness();
     }

@@ -38,18 +38,10 @@ public class ComplexInnerSearchRule implements SearchRule {
         this.transformer = transformer;
     }
 
-    /**
-     * Returns uniqueness attribute defined in .json file of this {@link ComplexInnerSearchRule}.
-     * @return uniqueness attribute of {@link ComplexInnerSearchRule}
-     */
     public String getUniqueness() {
         return uniqueness;
     }
 
-    /**
-     * Returns title attribute defined in .json file of this {@link ComplexInnerSearchRule}.
-     * @return title attribute of {@link ComplexInnerSearchRule}
-     */
     public String getTitle() {
         return title;
     }
