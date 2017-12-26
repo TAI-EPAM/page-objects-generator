@@ -469,6 +469,58 @@ supportedTypesMap.put(SearchRuleType.CUSTOMBUTTON.getName(),
     new ClassAndAnnotationPair(CustomButton.class, FindBy.class));
 ```
 ### Creating custom Validator
+
+To create new ```Validator```, you should implement the [ValidatorVisitor](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/validator/ValidatorVisitor.java)
+ interface.
+ 
+Consider the creation a new ```Validator``` on the following example.
+
+```
+public class TitleOfComplexElementValidator implements ValidatorVisitor {
+
+    private final static Logger logger = LoggerFactory
+        .getLogger(TitleOfComplexElementValidator.class);
+
+    @Override
+    public ValidationResult visit(ComplexSearchRule complexSearchRule) {
+        logger.debug("Start validate " + complexSearchRule);
+
+        Class<?> elementAnnotation = complexSearchRule.getClassAndAnnotation().getElementAnnotation();
+        StringBuilder stringBuilder = new StringBuilder();
+        Method[] declaredMethods = elementAnnotation.getDeclaredMethods();
+        for (ComplexInnerSearchRule complexInnerSearchRule : complexSearchRule
+            .getInnerSearchRules()) {
+            if (Arrays.stream(declaredMethods)
+                .noneMatch(method -> complexInnerSearchRule.getTitle().equals(method.getName()))) {
+                stringBuilder.append("Title: ").append(complexInnerSearchRule.getTitle())
+                    .append(" is not valid for Type: ").append(complexSearchRule.getType())
+                    .append("\n");
+                logger.warn(
+                    "Title = '" + complexInnerSearchRule.getTitle() + "'  is not valid for Type: "
+                        + complexSearchRule.getType());
+                logger.warn("Invalid " + complexSearchRule + "\n");
+            }
+        }
+
+        if (stringBuilder.length() == 0) {
+            logger.debug("Valid " + complexSearchRule + "\n");
+            return new ValidationResult(true, this + " passed!");
+        }
+
+        return new ValidationResult(false, stringBuilder.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "TitleOfComplexElementValidator";
+    }
+}
+```
+
+To validate ```SearchRule``` objects with your custom ```Validator```, you need to add it to 
+```JsonValidators```.
+To validate ```WebPage``` objects with your custom ```Validator```, you need to add it to 
+```WebValidators```.
 ## What technologies we used
 ### Jsoup
 Jsoup is a Java library for working with real-world HTML. It provides a very convenient API 
