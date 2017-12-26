@@ -346,6 +346,50 @@ Also for the implementation of full functionality necessary to create new [Searc
 (which contains SearchRule and Elements found by them) creation of which is described below.
 ### Creating SearchRuleBuilder
 ### How to add a new group
+All supported groups of web-elements are described in the file in `[groups.json]`
+
+By default the POG supported three element's group
+1. `CommonSearchRule`  group - simple single elements without internal contents
+2. `ComplexSearchRule` group - complex elements with internal contents
+3. `FormSearchRule`  group - forms that include internal elements.
+if you want to add only a new web-element you may add them to existing groups [see here](#how-to-add-a-new-type-of-element-in-an-existing-group).
+
+To create a new group, with a new web-element or elements you must follow these steps:
+* Add a description of the new group into `"typeGroups"` section  of `[groups.json]` file. Specify:
+    * `name`  -  group name
+    * `searchRuleTypes` - types of elements related to this group. 
+    * `schema` - schema by which the new group will be validated.
+```json
+{
+"typeGroups": [
+       {
+          "name": "newGroup",
+          "searchRuleTypes": [
+            "newElement1",
+            "newElement2"
+          ],
+          "schema": "/schema/newGroup_schema.json"
+        }
+  ]
+}
+```
+* Create `[JSON scheme]` for a new group, this scheme uses for json search rule validation by
+[JSON Schema Validator](#JSON Schema Validator)
+* Specify element types in the `util.SearchRuleType.java` class
+    * Should add a new element types to enum
+* Specify elements of group in the `container.SupportedTypesContainer.java` class
+    * Should add a new `ClassAndAnnotationPair` for all new web-elements in you group
+* Create a new `search rule` for the group [see here](#creating-searchrule) if necessary
+* Create a new web element class implementing `WebElement` interface
+* Create a new group class implementing `WebElementGroup` interface and realize it methods
+* Add a new overloaded method `bulid` in class `WebElementGroupFieldBuilder` as parameter
+    uses created web-group element
+    ```
+    public List<JavaField> build(NewGroup newGroup) {
+        ...
+    }
+    ```
+
 ### How to add a new type of element in an existing group
 1)Add a new type of element in the properties file.
 
