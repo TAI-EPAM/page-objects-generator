@@ -238,12 +238,12 @@ You can add your custom group. About this you can read in the [following section
 ## Custom elements
 In this section we will look at examples how to add your own custom elements.
 ### Creating SearchRule
-To create a new search rule, you should implement the [SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java)
- interface which extends from [Validatable](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/Validatable.java)
-  interface. Which include the following methods that you should override.
+To create a new `SearchRule`, you should implement the [SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java)
+interface which extends from [Validatable](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/Validatable.java)
+interface.
 
-If you don't follow any of given SearchRules (e.g. you want to use another unique element), then 
-you can create your own SearchRule. Consider the creation a new SearchRule on the following example.
+If you don't follow any of given `SearchRules` (e.g. you want to use another unique element), then 
+you can create your own `SearchRule`. Consider the creation a new `SearchRule` on the following example.
 
 `MySearchRule` :
 ```java
@@ -342,9 +342,40 @@ public class MySearchRule implements SearchRule {
 }
 ```
 Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-search-rule-builder)
-(for building custom SearchRule) and [WebElementGroup](#how-to-add-group)
-(which contains SearchRule and Elements found by them) creation of which is described below.
+(for building custom `SearchRule`) and [WebElementGroup](#how-to-add-group)
+(which contains `SearchRule` and `Elements` found by them) creation of which is described below.
 ### Creating SearchRuleBuilder
+`SearchRuleBuilder` describes how to create a typed [SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java)
+from an existing [RawSearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/RawSearchRule.java)
+using supported types of elements. (`SearchRule` is a validated `RawSearchRule`)
+
+To create a new `SearchRuleBuilder`, you should implement the [SearchRuleBuilder](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/builder/searchrule/SearchRuleBuilder.java)
+interface. Consider the creation a new `SearchRuleBuilder` on the following example.
+
+`MySearchRuleBuilder` :
+```java
+public class MySearchRuleBuilder implements SearchRuleBuilder {
+
+    @Override
+    public SearchRule buildSearchRule(RawSearchRule rawSearchRule,
+                                      SupportedTypesContainer typesContainer,
+                                      XpathToCssTransformer transformer,
+                                      SelectorUtils selectorUtils,
+                                      SearchRuleExtractor searchRuleExtractor) {
+        String uniqueness = rawSearchRule.getValue("uniqueness");
+        SearchRuleType type = rawSearchRule.getType();
+        Selector selector = rawSearchRule.getSelector();
+        ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
+                                                                  .get(type.getName());
+        
+        MySearchRule mySearchRule = new SearchRule(uniqueness, type, selector,
+            classAndAnnotation, transformer,
+            selectorUtils);
+
+        return mySearchRule;
+    }
+}
+``` 
 ### How to add a new group
 All supported groups of web-elements are described in the file in `[groups.json]`
 
