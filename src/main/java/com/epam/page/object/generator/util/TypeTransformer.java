@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This class is responsible for building of List of {@link SearchRule} and also keep all crucial information for this.
+ */
 public class TypeTransformer {
 
     private final static Logger logger = LoggerFactory.getLogger(TypeTransformer.class);
@@ -20,11 +23,7 @@ public class TypeTransformer {
 
     private Map<String, SearchRuleBuilder> builders;
 
-    /**
-     * @param typesContainer {@link SupportedTypesContainer}
-     * @param transformer    {@link XpathToCssTransformer}
-     * @param builders       {@link SearchRuleBuilder}
-     */
+
     public TypeTransformer(SupportedTypesContainer typesContainer,
                            XpathToCssTransformer transformer,
                            Map<String, SearchRuleBuilder> builders) {
@@ -34,12 +33,12 @@ public class TypeTransformer {
     }
 
     /**
-     * this method  filters all invalid RawSearchRules and for each valid one builds {@link SearchRule} with appropriate builder.
+     * This method  filters all invalid RawSearchRules and for each valid one builds {@link SearchRule} with appropriate builder.
      *
      * @param rawSearchRuleList   list of {@link RawSearchRule}
      * @param selectorUtils       {@link SelectorUtils}
      * @param searchRuleExtractor {@link SearchRuleExtractor}
-     * @return List of ser
+     * @return List of {@link SearchRule} which are build of {@link RawSearchRule}
      */
     public List<SearchRule> transform(List<RawSearchRule> rawSearchRuleList,
                                       SelectorUtils selectorUtils,
@@ -56,19 +55,11 @@ public class TypeTransformer {
                 .collect(Collectors.toList());
     }
 
-    /**
-     *
-     * @return Map of builders.
-     */
+
     public Map<String, SearchRuleBuilder> getBuilders() {
         return builders;
     }
 
-    /**
-     *
-     * @param rawSearchRule {@link RawSearchRule}
-     * @return return {@link SearchRuleBuilder} by rawSearchRule's group name.
-     */
     private SearchRuleBuilder getBuilder(RawSearchRule rawSearchRule) {
         return builders.get(rawSearchRule.getGroupName());
     }

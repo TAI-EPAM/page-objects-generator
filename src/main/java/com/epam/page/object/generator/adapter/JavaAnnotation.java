@@ -10,25 +10,17 @@ public class JavaAnnotation {
     private Class<?> annotationClass;
     private List<AnnotationMember> annotationMembers;
 
-    /**
-     * @param annotationClass   annotation type
-     * @param annotationMembers List of all {@link AnnotationMember}
-     */
+
     public JavaAnnotation(Class<?> annotationClass, List<AnnotationMember> annotationMembers) {
         this.annotationClass = annotationClass;
         this.annotationMembers = annotationMembers;
     }
 
-    /**
-     * @return Annotation type
-     */
     public Class<?> getAnnotationClass() {
         return annotationClass;
     }
 
-    /**
-     * @return List of {@link AnnotationMember}
-     */
+
     public List<AnnotationMember> getAnnotationMembers() {
         return annotationMembers;
     }
