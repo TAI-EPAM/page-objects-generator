@@ -1,9 +1,12 @@
 package com.epam.page.object.generator.model.searchrule;
 
 import com.epam.page.object.generator.model.Selector;
+import com.epam.page.object.generator.model.WebPage;
 import com.epam.page.object.generator.model.webgroup.WebElementGroup;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import java.util.List;
+
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
@@ -16,23 +19,25 @@ import org.jsoup.select.Elements;
 public interface SearchRule extends Validatable {
 
     /**
-     * @return This method returns the {@link Selector} of particular SearchRule
+     * This method returns the {@link Selector} of particular {@link SearchRule}
+     * @return {@link Selector} of particular {@link SearchRule}
      */
     Selector getSelector();
 
     /**
-     * This method wraps the jsoup {@link org.jsoup.nodes.Element}s in list of {@link WebElement}s
-     * @param elements Which jsoup parse from HTML page
-     * @return List of {@link WebElement}s
+     * This method wraps the JSOUP {@link Elements} in the list of {@link WebElement}
+     * @param elements which JSOUP parse from HTML page
+     * @return list of {@link WebElement}
      */
     List<WebElement> getWebElements(Elements elements);
 
     /**
-     * This method fills list of {@link WebElementGroup} with {@link org.jsoup.nodes.Element}s that
-     * were found by certain search rules (that are included in definite group) on the HTML page
-     * @param webElementGroups List in which will be written elements which belong to a certain
-     *                        group of web elements
-     * @param elements Which jsoup parse from HTML page
+     * This method fills list of {@link WebElementGroup} with {@link Element} that were found by
+     * certain {@link SearchRule} on the HTML page
+     * @param webElementGroups list of {@link WebElementGroup} from certain {@link WebPage}, where
+     * we want to add new groups
+     * @param elements {@link Elements} which we find from HTML page by the {@link SearchRule} and
+     * we want to add them to the certain {@link WebPage} as a new {@link WebElementGroup}
      */
     void fillWebElementGroup(List<WebElementGroup> webElementGroups,
                              Elements elements);

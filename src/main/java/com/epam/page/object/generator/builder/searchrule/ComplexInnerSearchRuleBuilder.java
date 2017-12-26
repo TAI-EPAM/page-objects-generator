@@ -13,8 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed to create {@link ComplexInnerSearchRule} and contains only one method
- * which makes it
+ * This class is needed to create {@link ComplexInnerSearchRule}
  */
 public class ComplexInnerSearchRuleBuilder implements SearchRuleBuilder {
 
