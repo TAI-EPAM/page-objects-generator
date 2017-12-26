@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class is needed to create {@link ComplexSearchRule} which includes
- * {@link ComplexInnerSearchRule}s
+ * {@link ComplexInnerSearchRule}
  */
 public class ComplexSearchRuleBuilder implements SearchRuleBuilder {
 
@@ -36,9 +36,9 @@ public class ComplexSearchRuleBuilder implements SearchRuleBuilder {
     /**
      * This method builds {@link ComplexSearchRule} getting the necessary information about
      * {@link RawSearchRule} such as {@link RawSearchRule#type}. Then based on this parameter get
-     * {@link ClassAndAnnotationPair}. After it looking for {@link ComplexInnerSearchRule}s in
+     * {@link ClassAndAnnotationPair}. After it looking for {@link ComplexInnerSearchRule} in
      * {@link RawSearchRule} and build it. At last sent {@link RawSearchRule#type},
-     * {@link ComplexInnerSearchRule}s, {@link ClassAndAnnotationPair} and {@link SelectorUtils} in
+     * {@link ComplexInnerSearchRule}, {@link ClassAndAnnotationPair} and {@link SelectorUtils} in
      * constructor and get new {@link ComplexSearchRule}
      * @return {@link ComplexSearchRule}
      */
