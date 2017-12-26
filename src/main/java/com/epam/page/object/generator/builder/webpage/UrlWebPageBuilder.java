@@ -24,7 +24,7 @@ public class UrlWebPageBuilder implements WebPageBuilder {
 
     /**
      * Method creates web pages by using url
-     * @param paths type List of String
+     * @param paths path for input json file, which must start from folder resources.
      * @param searchRuleExtractor {@link SearchRuleExtractor}
      * @return webPages
      */
