@@ -22,8 +22,8 @@ You only need to create json file with SearchRules, run application and finally 
 5. [Custom elements](#custom-elements)
 	- [Creating SearchRule](#creating-searchrule)
 	- [Creating SearchRuleBuilder](#creating-searchrulebuilder)
-	- [How to add a new group](#how-to-add-a-new-group)
-	- [How to add a new type of element in an existing group](#how-to-add-a-new-type-of-element-in-an-existing-group)
+	- [How to add a new type of element in an existing group](#how-to-add-a-new-type-of-element-in-an-existing-webelementgroup)
+	- [How to add a new group](#how-to-add-a-new-webelementgroup)
 	- [Creating Validator](#creating-custom-validator)
 6. [What technologies we used](#what-technologies-we-used)
 ## Synopsis
@@ -210,12 +210,13 @@ search rules have this parameters:
       * `type` - the type of selector, `xpath` or `css` by which we search element on page
       * `value` - the value that element must correspond to search result by described type.
 ## SearchRuleGroups
-In page object generator there are three types of SearchRuleGroups:
-1. CommonSearchRule.
-2. ComplexSearchRule.
-3. FormSearchRule.
+By default the POG supported three groups of elements:
+1. `CommonSearchRule`  group - simple single elements without internal contents
+2. `ComplexSearchRule` group - complex elements with internal contents
+3. `FormSearchRule`  group - forms that include internal elements.
 
-You can find all existing groups in "/groups.json" file which places in the resources folder. In this file you can see `typeGroups` array which contains all accessible SearchRuleGroups.
+You can find all existing groups in `groups.json` file which places in the resources folder. 
+In this file you can see `typeGroups` array which contains all accessible SearchRuleGroups.
 
 Each group has three parameters: 
 1. `name` - name of the group, which will be used in the java code for getting information about this group.
@@ -234,7 +235,7 @@ For example consider FormSearchRule group:
 }
 ```
 We can see that this group has "formSearchRule" name and only two types of SearchRules (form and section) suit for this group.
-You can add your custom group. About this you can read in the [following section](#how-to-add-a-new-group).
+You can add your custom group. About this you can read in the [following section](#how-to-add-a-new-webelementgroup).
 ## Custom elements
 In this section we will look at examples how to add your own custom elements.
 ### Creating SearchRule
@@ -341,9 +342,8 @@ public class MySearchRule implements SearchRule {
     }
 }
 ```
-Also for the implementation of full functionality necessary to create new [SearchRuleBuilder](#creating-search-rule-builder)
-(for building custom `SearchRule`) and [WebElementGroup](#how-to-add-group)
-(which contains `SearchRule` and `Elements` found by them) creation of which is described below.
+Also for the implementation of full functionality necessary to create new `SearchRuleBuilder` (for building custom `SearchRule`)
+and `WebElementGroup` (which contains `SearchRule` and `Elements` found by them). About creation these elements you can read below.
 ### Creating SearchRuleBuilder
 `SearchRuleBuilder` describes how to create a typed [SearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/searchrule/SearchRule.java)
 from an existing [RawSearchRule](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/RawSearchRule.java)
@@ -368,63 +368,17 @@ public class MySearchRuleBuilder implements SearchRuleBuilder {
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
                                                                   .get(type.getName());
         
-        MySearchRule mySearchRule = new SearchRule(uniqueness, type, selector,
-            classAndAnnotation, transformer,
-            selectorUtils);
+        SearchRule mySearchRule = new MySearchRule(uniqueness, type, selector,
+            classAndAnnotation, transformer, selectorUtils);
 
         return mySearchRule;
     }
 }
 ``` 
-### How to add a new group
-All supported groups of web-elements are described in the file in `[groups.json]`
-
-By default the POG supported three element's group
-1. `CommonSearchRule`  group - simple single elements without internal contents
-2. `ComplexSearchRule` group - complex elements with internal contents
-3. `FormSearchRule`  group - forms that include internal elements.
-if you want to add only a new web-element you may add them to existing groups [see here](#how-to-add-a-new-type-of-element-in-an-existing-group).
-
-To create a new group, with a new web-element or elements you must follow these steps:
-* Add a description of the new group into `"typeGroups"` section  of `[groups.json]` file. Specify:
-    * `name`  -  group name
-    * `searchRuleTypes` - types of elements related to this group. 
-    * `schema` - schema by which the new group will be validated.
-```json
-{
-"typeGroups": [
-       {
-          "name": "newGroup",
-          "searchRuleTypes": [
-            "newElement1",
-            "newElement2"
-          ],
-          "schema": "/schema/newGroup_schema.json"
-        }
-  ]
-}
-```
-* Create `[JSON scheme]` for a new group, this scheme uses for json search rule validation by
-[JSON Schema Validator](#JSON Schema Validator)
-* Specify element types in the `util.SearchRuleType.java` class
-    * Should add a new element types to enum
-* Specify elements of group in the `container.SupportedTypesContainer.java` class
-    * Should add a new `ClassAndAnnotationPair` for all new web-elements in you group
-* Create a new `search rule` for the group [see here](#creating-searchrule) if necessary
-* Create a new web element class implementing `WebElement` interface
-* Create a new group class implementing `WebElementGroup` interface and realize it methods
-* Add a new overloaded method `bulid` in class `WebElementGroupFieldBuilder` as parameter
-    uses created web-group element
-    ```
-    public List<JavaField> build(NewGroup newGroup) {
-        ...
-    }
-    ```
-
-### How to add a new type of element in an existing group
+### How to add a new type of element in an existing WebElementGroup
 1)Add a new type of element in the properties file.
 
-You need to add a new type of element in "/groups.json" file. (if you don't read about this file, you can do it by the [following link](#searchrulegroups)).
+You need to add a new type of element in `groups.json` file. (if you don't read about this file, you can do it by the [following link](#searchrulegroups)).
 For adding a new type of element you need to choose one of existing group which suitable for this element and add a new type in `searchRuleTypes` array of this group.
 
 For example, adding CustomButton type in ComplexSearchRule:
@@ -467,6 +421,48 @@ For our example we need to add the following code in [SupportedTypesContainer](h
 //added new type
 supportedTypesMap.put(SearchRuleType.CUSTOMBUTTON.getName(),
     new ClassAndAnnotationPair(CustomButton.class, FindBy.class));
+```
+### How to add a new WebElementGroup
+All supported groups of web-elements are described in the file in `groups.json`. 
+About existing groups you can [read here](#searchrulegroups).
+
+If you want to add only a new web-element you may add them to existing `WebElementGroup` [see here](#how-to-add-a-new-type-of-element-in-an-existing-webelementgroup).
+
+For creating a new group, with a new web-element or elements you must follow these steps:
+* Add a description of the new group into `typeGroups` section  of `groups.json` file. Specify:
+    * `name`  -  group name
+    * `searchRuleTypes` - types of elements related to this group. 
+    * `schema` - schema by which the new group will be validated.
+```
+{
+  "typeGroups": [
+    {
+      "name": "newGroup",
+      "searchRuleTypes": [
+        "newElement1",
+        "newElement2"
+      ],
+      "schema": "/schema/newGroup_schema.json"
+    }
+  ]
+}
+```
+* Create `JSON schema` for a new group, this schema uses for json search rule validation by
+[JSON Schema Validator](#JSON Schema Validator)
+* Specify element types in the [SearchRuleType](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/util/SearchRuleType.java) class
+    * Should add a new element types to enum
+* Specify elements of group in the [SupportedTypesContainer](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/container/SupportedTypesContainer.java) class
+    * Should add a new `ClassAndAnnotationPair` for all new web-elements in you group
+* Create a new `SearchRule` for the group [see here](#creating-searchrule) if necessary
+* Create a new web element class implementing [WebElement](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/webelement/WebElement.java) interface
+* Create a new group class implementing [WebElementGroup](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/model/webgroup/WebElementGroup.java) interface and realize it methods
+* Add a new overloaded `bulid` method in [WebElementGroupFieldBuilder](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/builder/WebElementGroupFieldBuilder.java) class as parameter
+    uses created web-group element
+    
+```
+public List<JavaField> build(NewGroup newGroup) {
+    ...
+}
 ```
 ### Creating custom Validator
 
@@ -530,7 +526,7 @@ for extracting and manipulating data, using the best of DOM, CSS, and jquery-lik
 
 * Extract DOM from website and find elements by the rules with CSS selector.
 
-*More information about Jsoup you can read [here](https://jsoup.org/).*
+*More information about Jsoup you can read [here](https://jsoup.org).*
 ### Xsoup
 Xsoup is Java library which can parse DOM by using Xpath element. Xsoup parser based on Jsoup.
 
@@ -567,7 +563,7 @@ justify existence in java.lang.
 * String handling.
 
 *More information about Apache Commons Lang you can read 
-[here](https://commons.apache.org/proper/commons-lang/).*
+[here](https://commons.apache.org/proper/commons-lang).*
 ### Apache Commons Lang
 Apache Commons Lang, a package of Java utility classes for the classes 
 that are in java.lang's hierarchy, or are considered to be so standard as to 
@@ -578,7 +574,7 @@ justify existence in java.lang.
 * String handling.
 
 *More information about Apache Commons Lang you can read 
-[here](https://commons.apache.org/proper/commons-lang/).*
+[here](https://commons.apache.org/proper/commons-lang).*
 ### Mockito
 Mockito is a mocking framework that allows write tests with a clean and simple API. 
 Tests are very readable and they produce clean verification errors.
@@ -587,7 +583,7 @@ Tests are very readable and they produce clean verification errors.
 
 * Use for unit testing.
 
-*More information about Mockito you can read [here](http://site.mockito.org/).*
+*More information about Mockito you can read [here](http://site.mockito.org).*
 ### JUnit
 JUnit is a test framework which uses annotations to identify methods that specify a test.
 
@@ -595,7 +591,7 @@ JUnit is a test framework which uses annotations to identify methods that specif
 
 * Use for unit testing.
 
-*More information about JUnit you can read [here](http://junit.org/junit5/).*
+*More information about JUnit you can read [here](http://junit.org/junit5).*
 ### Log4j
 Log4j is a reliable, fast and flexible logging framework (APIs) written in Java, 
 which is distributed under the Apache Software License. 
