@@ -1,5 +1,6 @@
 package com.epam.page.object.generator.validator;
 
+import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.model.searchrule.Validatable;
@@ -38,13 +39,12 @@ public class JsonValidators {
     /**
      * This method will validate list of {@link SearchRule} by all {@link
      * JsonValidators#validators}. The result is list of {@link ValidationResult} for each {@link
-     * SearchRule} which contains fields: isValid:true reason: rawSearchRule + " is correct!" --for
-     * valid {@link SearchRule} isValid:false. reason: exception messege --for invalid {@link
-     * SearchRule}
+     * SearchRule} which contains fields:<ul><li>isValid: true; reason: rawSearchRule + " passed!"
+     * -- for valid {@link RawSearchRule}</li><li>isValid: false; reason: exception messege -- for
+     * invalid {@link RawSearchRule}</li></ul>
      *
      * The result is setting inside {@link SearchRule} (for example inside {@link
      * CommonSearchRule#validationResults})
-     *
      */
     public void validate(List<SearchRule> searchRules) {
 

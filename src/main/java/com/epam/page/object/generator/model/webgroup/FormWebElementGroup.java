@@ -74,8 +74,7 @@ public class FormWebElementGroup implements WebElementGroup {
     /**
      * Returns {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
      *
-     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link
-     * FormWebElement}
+     * @param annotationClass annotation class which used for generation annotation.
      * @return {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
      */
     public JavaAnnotation getAnnotation(Class<?> annotationClass) {

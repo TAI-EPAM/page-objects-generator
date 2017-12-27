@@ -1,14 +1,13 @@
 package com.epam.page.object.generator.model.webgroup;
 
-import com.epam.jdi.uitests.web.selenium.elements.common.Button;
-import com.epam.jdi.uitests.web.selenium.elements.common.Label;
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
+import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.model.Selector;
+import com.epam.page.object.generator.model.WebPage;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
-import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.model.webelement.CommonWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SelectorUtils;
@@ -20,9 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents group of {@link CommonWebElement} of a page and {@link SearchRule} by which this
- * elements were found. Common web elements are just simplest elements of a page, for example:
- * {@link Button} or {@link Label}.
+ * Represents {@link CommonSearchRule} and list of {@link CommonWebElement} which was found by
+ * this rule from certain {@link WebPage}.
  */
 public class CommonWebElementGroup implements WebElementGroup {
 
@@ -86,9 +84,9 @@ public class CommonWebElementGroup implements WebElementGroup {
     /**
      * Returns {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      *
-     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link
-     * WebElement}
-     * @param webElement {@link WebElement} that have to be represented in generated java class.
+     * @param annotationClass annotation class which used for generation annotation.
+     * @param webElement {@link WebElement} that has to be represented in generated {@link
+     * JavaClass}.
      * @return {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      */
     public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
@@ -107,7 +105,8 @@ public class CommonWebElementGroup implements WebElementGroup {
     /**
      * Returns string representation of annotation for class that will be generated.
      *
-     * @param uniquenessValue value of 'uniqueness' attribute
+     * @param selector {@link Selector} from specified {@link CommonSearchRule}
+     * @param uniquenessValue value of the 'uniqueness' attribute
      * @param uniqueness name of the 'uniqueness' attribute
      * @return string representation of annotation for class that will be generated
      * @throws IllegalArgumentException if selector type is unknown

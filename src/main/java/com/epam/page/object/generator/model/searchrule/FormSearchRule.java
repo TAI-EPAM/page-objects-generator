@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link FormSearchRule} describes {@link SearchRule} with one of the type defined in property file
- * in formSearchRule group.
+ * in 'formSearchRule' group.
  */
 public class FormSearchRule implements SearchRule {
 

@@ -16,18 +16,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Checks validation status of {@link SearchRule} search rules and web pages after validation.
+ * Checks validation status of {@link SearchRule} and {@link WebPage} after validation.
  */
 public class ValidationChecker {
 
     private final static Logger logger = LoggerFactory.getLogger(ValidationChecker.class);
 
     /**
-     * Checks if all elements of list of {@link RawSearchRule} are valid, otherwise throws
-     * Validation exception.
+     * Checks if all {@link RawSearchRule} are valid, otherwise throws {@link ValidationException}.
      *
-     * @param rawSearchRules list of search rules to check
-     * @throws ValidationException for first found invalid raw search rule
+     * @param rawSearchRules list of {@link SearchRule} to check
+     * @throws ValidationException if we have invalid {@link RawSearchRule}
      */
     public void checkRawSearchRules(List<RawSearchRule> rawSearchRules) {
         if (rawSearchRules.stream().anyMatch(RawSearchRule::isInvalid)) {
@@ -45,12 +44,13 @@ public class ValidationChecker {
     }
 
     /**
-     * Checks if all {@link SearchRule} elements are valid, otherwise throws Validation exception.
-     * Basically, all logic is reduced to get message with validation information (reasons of
-     * invalid state etc.) and then throw Validation exception with this message
+     * Checks if all {@link SearchRule} elements are valid, otherwise throws {@link
+     * ValidationException}. Basically, all logic is reduced to get message with validation
+     * information (reasons of invalid state etc.) and then throw {@link ValidationException} with
+     * this message.
      *
      * @param searchRuleList list of {@link SearchRule} to check validation status
-     * @throws ValidationException for first found invalid {@link SearchRule} in list
+     * @throws ValidationException if we have invalid {@link SearchRule}
      */
     public void checkSearchRules(List<SearchRule> searchRuleList) {
         if (searchRuleList.stream().anyMatch(Validatable::isInvalid)) {
@@ -66,22 +66,20 @@ public class ValidationChecker {
         }
     }
 
-    //forceGenerate - пояснить (когда true, когда false)
-
     /**
-     * Checks validation status of {@link WebPage} list elements which are used to generate
-     * java-files. Throws Validation exception for first found invalid web page in list. If
-     * forceGenerateFile flag is true, then java classes are generating anyway (even if {@link
-     * WebPage} is invalid, otherwise generation doesn't start. ValidationException throws in both
-     * cases.
+     * Checks validation status for list of {@link WebPage} which are used to generate java-files.
+     * Throw {@link ValidationException} if we have invalid {@link WebPage}.<br/> If
+     * forceGenerateFile flag is true, then list of {@link JavaClass} are generating anyway (even if
+     * {@link WebPage} is invalid), otherwise generation doesn't start. {@link ValidationException}
+     * throws in both cases.
      *
-     * @param webPages pages to check
+     * @param webPages list of {@link WebPage} to check
      * @param javaClasses list of {@link JavaClass}
-     * @param outputDir path for the folder where need to generate .java source files.
+     * @param outputDir path to the folder where need to generate .java source files.
      * @param javaFileWriter {@link JavaFileWriter} used to generate classes
      * @param forceGenerateFile flag used to generate class (even if it's invalid)
      * @throws IOException if unable to write files because of IO
-     * @throws ValidationException if invalid web pages were found
+     * @throws ValidationException if invalid {@link WebPage} were found
      */
     public void checkWebPages(List<WebPage> webPages, List<JavaClass> javaClasses, String outputDir,
                               JavaFileWriter javaFileWriter, boolean forceGenerateFile)

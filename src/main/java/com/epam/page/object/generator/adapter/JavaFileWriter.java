@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Main class which generate Java classes for each {@link JavaClass} from input list.
+ * Main class which generates .java source file for each {@link JavaClass} from input list.
  */
 public class JavaFileWriter {
 
@@ -22,7 +22,7 @@ public class JavaFileWriter {
     /**
      * Calls a method to write each {@link JavaClass} in outputDir folder.
      *
-     * @param outputDir path for the folder where need to generate .java source files.
+     * @param outputDir path to the folder where need to generate .java source files.
      * @param javaClasses list of {@link JavaClass}.
      * @throws IOException can be throwing if outputDir path doesn't correct.
      */
@@ -37,7 +37,7 @@ public class JavaFileWriter {
     /**
      * Write .java source file in outputDir folder.
      *
-     * @param outputDir path for the folder where need to generate .java source files.
+     * @param outputDir path to the folder where need to generate .java source files.
      * @param javaClass {@link JavaClass} which we will be writing.
      * @throws IOException can be throwing if outputDir path doesn't correct.
      */

@@ -10,7 +10,7 @@ import java.util.List;
  * Implementing this interface allows to get {@link JavaClass} which can be generated to .java
  * source file.<br/>
  *
- * After creating a new class you need to add visit() method in {@link JavaClassBuilder} with you
+ * After creating a new class you need to add build() method in {@link JavaClassBuilder} with you
  * class as a parameter.
  *
  * @see SiteClass

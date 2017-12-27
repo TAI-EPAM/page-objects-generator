@@ -24,9 +24,9 @@ public class JsonSchemaValidator {
     /**
      * This method gets list of {@link RawSearchRule} and validate it with {@link Schema}. The
      * result is {@link ValidationResult} for each {@link RawSearchRule} which contains fields:
-     * isValid:true reason: rawSearchRule + " passed!" --for valid {@link RawSearchRule}
-     * isValid:false. reason: exception messege --for invalid {@link RawSearchRule}
-     *
+     * <ul><li>isValid: true; reason: rawSearchRule + " passed!" -- for valid {@link
+     * RawSearchRule}</li> <li>isValid: false; reason: exception messege -- for invalid {@link
+     * RawSearchRule}</li></ul>
      */
     public void validate(List<RawSearchRule> rawSearchRuleList) {
         for (RawSearchRule rawSearchRule : rawSearchRuleList) {
@@ -45,6 +45,4 @@ public class JsonSchemaValidator {
             }
         }
     }
-
-
 }

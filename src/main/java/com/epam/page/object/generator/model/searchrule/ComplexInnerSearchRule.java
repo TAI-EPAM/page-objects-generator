@@ -47,16 +47,16 @@ public class ComplexInnerSearchRule implements SearchRule {
     }
 
     /**
-     * Returns true if title equals "root". Otherwise returns false;
+     * Returns true if title equals "root". Otherwise returns false.
      *
-     * @return boolean
+     * @return true if title equals "root", otherwise returns false.
      */
     public boolean isRoot() {
         return title.equals("root");
     }
 
     /**
-     * If uniqueness attribute not equals text and selector of xpath type, then we could transform
+     * If 'uniqueness' attribute not equals "text" and selector of xpath type, then we could transform
      * it to css.
      *
      * Otherwise return selector without transformation.

@@ -3,7 +3,7 @@ package com.epam.page.object.generator.util;
 
 /**
  * This is an util class that responsible for transformation of original sentence to camelcase
- * variable
+ * variable.
  */
 public class StringUtils {
 
@@ -18,11 +18,11 @@ public class StringUtils {
     /**
      * Convert original sentence into variable in camelcase, also clean from any random symbols.
      *
-     * @param camel input parameter that represents original sentence.
-     * @return camelcase variable as a {@link String} value
+     * @param inputString represents original sentence which will be converted to camelcase.
+     * @return string converted to camelcase.
      */
-    public static String splitCamelCase(String camel) {
-        String trim = camel.replaceAll("[^\\p{L}0-9 ]", "").trim();
+    public static String splitCamelCase(String inputString) {
+        String trim = inputString.replaceAll("[^\\p{L}0-9 ]", "").trim();
 
         if (trim.length() < 1) {
             return trim;

@@ -15,7 +15,6 @@ public class JavaClass {
     private List<JavaField> fields;
     private Modifier modifier;
 
-
     public JavaClass(String packageName, String className, Class<?> superClass,
                      JavaAnnotation annotation, List<JavaField> fields, Modifier modifier) {
         this.packageName = packageName;
@@ -26,31 +25,25 @@ public class JavaClass {
         this.modifier = modifier;
     }
 
-
     public String getPackageName() {
         return packageName;
     }
-
 
     public String getClassName() {
         return className;
     }
 
-
     public Class<?> getSuperClass() {
         return superClass;
     }
-
 
     public JavaAnnotation getAnnotation() {
         return annotation;
     }
 
-
     public List<JavaField> getFieldsList() {
         return fields;
     }
-
 
     public Modifier getModifier() {
         return modifier;

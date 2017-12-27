@@ -2,6 +2,7 @@ package com.epam.page.object.generator.model.webgroup;
 
 import com.epam.page.object.generator.adapter.AnnotationMember;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
+import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
 import com.epam.page.object.generator.model.Selector;
@@ -85,9 +86,9 @@ public class ComplexWebElementGroup implements WebElementGroup {
     /**
      * Returns {@link JavaAnnotation} that represents {@link ComplexWebElement} in generated class.
      *
-     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link
-     * WebElement}
-     * @param webElement {@link WebElement} that have to be represented in generated java class.
+     * @param annotationClass annotation class which used for generation annotation.
+     * @param webElement {@link WebElement} that has to be represented in generated {@link
+     * JavaClass}.
      * @return {@link JavaAnnotation} that represents {@link ComplexWebElement} in generated class.
      */
     public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
@@ -132,8 +133,8 @@ public class ComplexWebElementGroup implements WebElementGroup {
      * representation consist of selector value, name and value of 'uniqueness' attribute.
      *
      * @param selector {@link Selector} from specified {@link ComplexInnerSearchRule}
-     * @param uniquenessValue value of 'uniqueness' attribute
-     * @param uniqueness name of 'uniqueness' attribute
+     * @param uniquenessValue value of the 'uniqueness' attribute
+     * @param uniqueness name of the 'uniqueness' attribute
      * @return string representation of annotation for class that will be generated
      * @throws IllegalArgumentException if selector type is unknown
      */

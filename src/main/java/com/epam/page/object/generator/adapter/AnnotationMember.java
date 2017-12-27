@@ -10,20 +10,17 @@ public class AnnotationMember {
     private String arg;
     private JavaAnnotation annotation;
 
-
     public AnnotationMember(String name, String format, String arg) {
         this.name = name;
         this.format = format;
         this.arg = arg;
     }
 
-
     public AnnotationMember(String name, String format, JavaAnnotation annotation) {
         this.name = name;
         this.format = format;
         this.annotation = annotation;
     }
-
 
     public String getName() {
         return name;

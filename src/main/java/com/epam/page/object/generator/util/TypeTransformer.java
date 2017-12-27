@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * This class is responsible for building of List of {@link SearchRule} and also keep all crucial
- * information for this.
+ * This class is responsible for building list of {@link SearchRule} from list of {@link
+ * RawSearchRule} and also keep all crucial information for this.
  */
 public class TypeTransformer {
 
@@ -24,7 +24,6 @@ public class TypeTransformer {
 
     private Map<String, SearchRuleBuilder> builders;
 
-
     public TypeTransformer(SupportedTypesContainer typesContainer,
                            XpathToCssTransformer transformer,
                            Map<String, SearchRuleBuilder> builders) {
@@ -34,13 +33,13 @@ public class TypeTransformer {
     }
 
     /**
-     * This method  filters all invalid RawSearchRules and for each valid one builds {@link
-     * SearchRule} with appropriate builder.
+     * This method filters all invalid {@link RawSearchRule} and for each valid one builds {@link
+     * SearchRule} with appropriate {@link SearchRuleBuilder}.
      *
      * @param rawSearchRuleList list of {@link RawSearchRule}
      * @param selectorUtils {@link SelectorUtils}
      * @param searchRuleExtractor {@link SearchRuleExtractor}
-     * @return List of {@link SearchRule} which are build of {@link RawSearchRule}
+     * @return list of {@link SearchRule} which are build of {@link RawSearchRule}
      */
     public List<SearchRule> transform(List<RawSearchRule> rawSearchRuleList,
                                       SelectorUtils selectorUtils,
@@ -56,7 +55,6 @@ public class TypeTransformer {
             })
             .collect(Collectors.toList());
     }
-
 
     public Map<String, SearchRuleBuilder> getBuilders() {
         return builders;

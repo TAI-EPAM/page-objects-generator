@@ -71,10 +71,10 @@ public class FormClass implements JavaClassBuildable {
     }
 
     /**
-     * Create {@link JavaAnnotation} for the specific SearchRule.
+     * Create {@link JavaAnnotation} for the {@link FormInnerSearchRule}.
      *
      * @param annotationClass class which used for the annotation.
-     * @param webElement element which was found on the website.
+     * @param webElement {@link FormWebElement} which was found on the website.
      * @param searchRule SearchRule for which we are generating annotation.
      * @return {@link JavaAnnotation} which contains all information about future {@link
      * AnnotationSpec}.
@@ -93,11 +93,11 @@ public class FormClass implements JavaClassBuildable {
     }
 
     /**
-     * Get annotation value for the SearchRule by concatenation selector value, uniqueness name and
-     * uniqueness value.
+     * Get annotation value for the {@link FormInnerSearchRule} by concatenation selector value,
+     * uniqueness name and uniqueness value.
      *
-     * @param selector {@link Selector} from SearchRule which contains information about how to find
-     * element on the website.
+     * @param selector {@link Selector} from {@link FormInnerSearchRule}  which contains information
+     * about how to find element on the website.
      * @param uniquenessValue value which was found from the website by the 'uniqueness' attribute.
      * @param uniqueness name of the 'uniqueness' attribute.
      * @return value for annotation, which consists of selector value, uniqueness name and

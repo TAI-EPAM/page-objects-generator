@@ -1,5 +1,6 @@
 package com.epam.page.object.generator.model.webgroup;
 
+import com.epam.page.object.generator.adapter.JavaClass;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.adapter.classbuildable.PageClass;
 import com.epam.page.object.generator.builder.WebElementGroupFieldBuilder;
@@ -27,16 +28,16 @@ public interface WebElementGroup extends Validatable {
     /**
      * Returns list of {@link WebElement} of current group
      *
-     * @return web elements of current group
+     * @return list of {@link WebElement} of current group
      */
     List<WebElement> getWebElements();
 
     /**
-     * Returns list of {@link JavaField} that will be used during building java class from {@link
-     * PageClass}.
+     * Returns list of {@link JavaField} that will be used during building {@link JavaClass} from
+     * {@link PageClass}.
      *
      * @param webElementGroupFieldBuilder instance of {@link WebElementGroupFieldBuilder}
-     * @return list of {@link JavaField} fields for current web group.
+     * @return list of {@link JavaField} for current web group.
      */
     List<JavaField> accept(WebElementGroupFieldBuilder webElementGroupFieldBuilder,
                            String packageName);

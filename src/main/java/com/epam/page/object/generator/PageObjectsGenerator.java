@@ -80,8 +80,8 @@ public class PageObjectsGenerator {
     /**
      * Main method which checks and generates page objects.
      *
-     * @param jsonPath path for input json file, which must start from resources folder.
-     * @param outputDir path for the folder where it is needed to be generated .java source files.
+     * @param jsonPath path to input json file, which must start from resources folder.
+     * @param outputDir path to the folder where it is needed to be generated .java source files.
      * @param urls list of urls which PageObjectsGenerator must visit and try to find elements on
      * each of them.
      * @throws IOException can be thrown from {@link JavaFileWriter#writeFiles(String, List)} if

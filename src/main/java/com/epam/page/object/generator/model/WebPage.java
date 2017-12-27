@@ -32,7 +32,7 @@ public class WebPage {
     /**
      * List of {@link WebElementGroup} elements. Every {@link WebElementGroup} represents list of
      * {@link WebElement}, which was found with one of the {@link SearchRule}. Every {@link
-     * SearchRule} corresponds to {@link WebElementGroup}.
+     * SearchRule} corresponds to the {@link WebElementGroup}.
      */
     private List<WebElementGroup> webElementGroups;
 
@@ -68,9 +68,11 @@ public class WebPage {
     }
 
     /**
-     * Get list of {@link SearchRule} and fill list of {@link WebElementGroup}
+     * This method tries to extract {@link Elements} by each {@link SearchRule} and if elements were
+     * found on this web-page, then add them into this {@link WebPage} as a new {@link
+     * WebElementGroup}.
      *
-     * @param searchRules - list of {@link SearchRule} which is used by method to parse current
+     * @param searchRules list of {@link SearchRule} which is used by method to parse current
      * web-page.
      */
     public void addSearchRules(List<SearchRule> searchRules) {
@@ -92,14 +94,15 @@ public class WebPage {
     }
 
     /**
-     * Validates all web element groups of current page
+     * Validates all {@link WebElementGroup} of current {@link WebPage}.
      */
     public boolean hasInvalidWebElementGroup() {
         return webElementGroups.stream().anyMatch(Validatable::isInvalid);
     }
 
     /**
-     * Generates list of {@link JavaClassBuildable} for every form found on a page.
+     * Generates list of {@link JavaClassBuildable} for every {@link FormWebElementGroup} found on a
+     * page.
      *
      * @param selectorUtils {@link SelectorUtils} object to parse selector of webElementGroup search
      * rule

@@ -11,7 +11,6 @@ public class JavaAnnotation {
     private Class<?> annotationClass;
     private List<AnnotationMember> annotationMembers;
 
-
     public JavaAnnotation(Class<?> annotationClass, List<AnnotationMember> annotationMembers) {
         this.annotationClass = annotationClass;
         this.annotationMembers = annotationMembers;
@@ -20,7 +19,6 @@ public class JavaAnnotation {
     public Class<?> getAnnotationClass() {
         return annotationClass;
     }
-
 
     public List<AnnotationMember> getAnnotationMembers() {
         return annotationMembers;

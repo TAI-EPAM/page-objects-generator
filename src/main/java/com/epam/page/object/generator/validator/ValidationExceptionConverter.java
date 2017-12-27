@@ -1,13 +1,14 @@
 package com.epam.page.object.generator.validator;
 
+import com.epam.page.object.generator.model.searchrule.SearchRule;
 import java.util.ArrayList;
 import java.util.List;
 import org.everit.json.schema.ValidationException;
 
 /**
  * ValidationExceptionConverter converts {@link ValidationException} from JSON Schema Validator to
- * list of {@link ValidationResult} which will be set to the SearchRule as a JSON Schema Validator
- * results.
+ * list of {@link ValidationResult} which will be set to the {@link SearchRule} as a JSON Schema
+ * Validator results.
  */
 public class ValidationExceptionConverter {
 

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link ComplexSearchRule} describes {@link SearchRule} with one of the type defined in
- * property file in complexSearchRule group.
+ * property file in 'complexSearchRule' group.
  */
 public class ComplexSearchRule implements SearchRule {
 

@@ -1,6 +1,5 @@
 package com.epam.page.object.generator.validator;
 
-import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.WebPage;
 import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.WebElementGroup;
@@ -32,9 +31,9 @@ public class WebValidators {
     /**
      * This method will validate all {@link WebElementGroup} of list of {@link WebPage} by all
      * {@link WebValidators} The result is {@link ValidationResult} for each {@link WebElementGroup}
-     * which contains fields: isValid:true reason: rawSearchRule + " is correct!" --for valid {@link
-     * WebElementGroup} isValid:false. reason: exception messege --for invalid {@link
-     * RawSearchRule}
+     * which contains fields: <ul><li>isValid: true; reason: rawSearchRule + " passed!" -- for valid
+     * {@link WebElementGroup}</li><li>isValid: false; reason: exception messege -- for invalid
+     * {@link WebElementGroup}</li></ul>
      *
      * * The result is setting inside {@link WebElementGroup} (for example inside {@link
      * CommonWebElementGroup#validationResults)
