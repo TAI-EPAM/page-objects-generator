@@ -50,7 +50,6 @@ public class PageObjectsGenerator {
 
     private final static Logger logger = LoggerFactory.getLogger(PageObjectsGenerator.class);
 
-
     public PageObjectsGenerator(RawSearchRuleMapper rawSearchRuleMapper,
                                 JsonSchemaValidator jsonSchemaValidator,
                                 TypeTransformer typeTransformer,
