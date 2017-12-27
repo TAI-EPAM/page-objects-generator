@@ -22,8 +22,8 @@ You only need to create json file with SearchRules, run application and finally 
 5. [Custom elements](#custom-elements)
 	- [Creating SearchRule](#creating-searchrule)
 	- [Creating SearchRuleBuilder](#creating-searchrulebuilder)
-	- [How to add a new type of element in an existing group](#how-to-add-a-new-type-of-element-in-an-existing-webelementgroup)
-	- [How to add a new group](#how-to-add-a-new-webelementgroup)
+	- [How to add a new type of element in an existing WebElementGroup](#how-to-add-a-new-type-of-element-in-an-existing-webelementgroup)
+	- [How to add a new WebElementGroup](#how-to-add-a-new-webelementgroup)
 	- [Creating Validator](#creating-custom-validator)
 6. [What technologies we used](#what-technologies-we-used)
 ## Synopsis
