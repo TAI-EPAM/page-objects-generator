@@ -1,16 +1,19 @@
 package com.epam.page.object.generator.validator;
 
-import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
 import com.epam.page.object.generator.model.searchrule.FormInnerSearchRule;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
+import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 
 /**
- *  Realization of visitor pattern. Here we call method visit for all types of searchRules
+ * Realization of visitor pattern. Here we call method visit for all types of searchRules to
+ * validate them.
+ *
+ * If you add new validatable object, you have to add here method visit for it.
  */
 public interface ValidatorVisitor {
 

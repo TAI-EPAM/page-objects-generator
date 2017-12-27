@@ -3,13 +3,14 @@ package com.epam.page.object.generator.validator;
 import com.epam.page.object.generator.model.RawSearchRule;
 import com.google.common.collect.Lists;
 import java.util.List;
+import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Validator for Json scheme. Check that searchRule have required field, which contains required inner fields and they have't
- * null values. Don't validate any business logic.
+ * Validator for Json scheme. Check that searchRule have required field, which contains required
+ * inner fields and they have't null values. Don't validate any business logic.
  */
 public class JsonSchemaValidator {
 
@@ -20,6 +21,13 @@ public class JsonSchemaValidator {
         this.converter = converter;
     }
 
+    /**
+     * This method gets list of {@link RawSearchRule} and validate it with {@link Schema}. The
+     * result is {@link ValidationResult} for each {@link RawSearchRule} which contains fields:
+     * isValid:true reason: rawSearchRule + " passed!" --for valid {@link RawSearchRule}
+     * isValid:false. reason: exception messege --for invalid {@link RawSearchRule}
+     *
+     */
     public void validate(List<RawSearchRule> rawSearchRuleList) {
         for (RawSearchRule rawSearchRule : rawSearchRuleList) {
             if (rawSearchRule.isInvalid()) {
