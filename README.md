@@ -473,7 +473,7 @@ To create new `Validator`, you should implement the [ValidatorVisitor](https://g
  
 Consider the creation a new `Validator` on the following example:
 
-```
+```java
 public class TitleOfComplexElementValidator implements ValidatorVisitor {
 
     @Override
