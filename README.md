@@ -467,7 +467,9 @@ public List<JavaField> build(NewGroup newGroup) {
 ### Creating Validator
 
 To create new `Validator`, you should implement the [ValidatorVisitor](https://github.com/TAI-EPAM/page-objects-generator/blob/master/src/main/java/com/epam/page/object/generator/validator/ValidatorVisitor.java)
- interface.
+ interface. After success validation `visit` methods should return new instance of `ValidationResult`
+ with `true` value of `isValid` field. If something went wrong than `ValidationResult` should be 
+ with `false` value of `isValid` field and description of `reason` field.
  
 Consider the creation a new `Validator` on the following example:
 
@@ -476,7 +478,6 @@ public class TitleOfComplexElementValidator implements ValidatorVisitor {
 
     @Override
     public ValidationResult visit(ComplexSearchRule complexSearchRule) {
-        logger.debug("Start validate " + complexSearchRule);
 
         Class<?> elementAnnotation = complexSearchRule.getClassAndAnnotation().getElementAnnotation();
         StringBuilder stringBuilder = new StringBuilder();
@@ -496,11 +497,6 @@ public class TitleOfComplexElementValidator implements ValidatorVisitor {
         }
 
         return new ValidationResult(false, stringBuilder.toString());
-    }
-
-    @Override
-    public String toString() {
-        return "TitleOfComplexElementValidator";
     }
 }
 ```
