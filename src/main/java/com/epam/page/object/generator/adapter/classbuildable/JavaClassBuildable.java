@@ -12,6 +12,10 @@ import java.util.List;
  *
  * After creating a new class you need to add visit() method in {@link JavaClassBuilder} with you
  * class as a parameter.
+ *
+ * @see SiteClass
+ * @see PageClass
+ * @see FormClass
  */
 public interface JavaClassBuildable {
 

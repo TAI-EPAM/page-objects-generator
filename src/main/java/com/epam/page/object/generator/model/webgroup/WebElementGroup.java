@@ -32,8 +32,8 @@ public interface WebElementGroup extends Validatable {
     List<WebElement> getWebElements();
 
     /**
-     * Returns list of {@link JavaField} that will be used during building java
-     * class from {@link PageClass}.
+     * Returns list of {@link JavaField} that will be used during building java class from {@link
+     * PageClass}.
      *
      * @param webElementGroupFieldBuilder instance of {@link WebElementGroupFieldBuilder}
      * @return list of {@link JavaField} fields for current web group.

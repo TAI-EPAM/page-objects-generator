@@ -4,6 +4,7 @@ import com.epam.page.object.generator.adapter.classbuildable.FormClass;
 import com.epam.page.object.generator.adapter.classbuildable.JavaClassBuildable;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
 import com.epam.page.object.generator.model.searchrule.Validatable;
+import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.WebElementGroup;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
@@ -29,9 +30,9 @@ public class WebPage {
     private Document document;
 
     /**
-     * List of {@link WebElementGroup} elements. Every web group represents group of page
-     * elements, which was found with one of the {@link SearchRule}. Every search
-     * rule corresponds to {@link WebElementGroup}.
+     * List of {@link WebElementGroup} elements. Every {@link WebElementGroup} represents list of
+     * {@link WebElement}, which was found with one of the {@link SearchRule}. Every {@link
+     * SearchRule} corresponds to {@link WebElementGroup}.
      */
     private List<WebElementGroup> webElementGroups;
 
@@ -67,9 +68,10 @@ public class WebPage {
     }
 
     /**
-     * Get list of {@link SearchRule} and fill web element group {@link WebElementGroup}
+     * Get list of {@link SearchRule} and fill list of {@link WebElementGroup}
      *
-     * @param searchRules - list of {@link SearchRule} which is used by method to parse current web-page.
+     * @param searchRules - list of {@link SearchRule} which is used by method to parse current
+     * web-page.
      */
     public void addSearchRules(List<SearchRule> searchRules) {
         for (SearchRule searchRule : searchRules) {
@@ -82,8 +84,7 @@ public class WebPage {
     }
 
     /**
-     * Checks if web-page contains forms.
-     * If it's not - no need to create separated form classes.
+     * Checks if web-page contains forms. If it's not - no need to create separated form classes.
      */
     public boolean isContainedFormSearchRule() {
         return webElementGroups.stream()
@@ -99,8 +100,9 @@ public class WebPage {
 
     /**
      * Generates list of {@link JavaClassBuildable} for every form found on a page.
-     * @param selectorUtils {@link SelectorUtils} object to parse selector of
-     * webElementGroup search rule
+     *
+     * @param selectorUtils {@link SelectorUtils} object to parse selector of webElementGroup search
+     * rule
      */
     public List<JavaClassBuildable> getFormClasses(SelectorUtils selectorUtils) {
         List<JavaClassBuildable> javaClasses = new ArrayList<>();
@@ -108,7 +110,9 @@ public class WebPage {
         for (WebElementGroup webElementGroup : webElementGroups) {
             if (webElementGroup instanceof FormWebElementGroup) {
                 FormWebElementGroup elementGroup = (FormWebElementGroup) webElementGroup;
-                logger.debug("Start creating FormClass for '" + elementGroup.getSearchRule().getSection() + "' form");
+                logger.debug(
+                    "Start creating FormClass for '" + elementGroup.getSearchRule().getSection()
+                        + "' form");
                 javaClasses.add(new FormClass(elementGroup,
                     selectorUtils));
                 logger.debug("Finish creating FormClass");

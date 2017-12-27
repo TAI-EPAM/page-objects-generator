@@ -20,8 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link CommonSearchRule} describes {@link SearchRule} with one of the type defined in
- * groups.json file in commonSearchRule group.
+ * {@link CommonSearchRule} describes {@link SearchRule} with one of the type defined in property
+ * file in commonSearchRule group.
  */
 public class CommonSearchRule implements SearchRule {
 
@@ -66,10 +66,11 @@ public class CommonSearchRule implements SearchRule {
     }
 
     /**
-     * If uniqueness attribute not equals text and selector of xpath type,
-     * then we could transform it to css.
+     * If uniqueness attribute not equals text and selector of xpath type, then we could transform
+     * it to css.
      *
      * Otherwise return selector without transformation.
+     *
      * @return transformed {@link Selector}
      */
     public Selector getTransformedSelector() {

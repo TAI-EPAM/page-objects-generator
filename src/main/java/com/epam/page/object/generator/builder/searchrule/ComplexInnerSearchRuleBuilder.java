@@ -13,11 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed to create {@link ComplexInnerSearchRule}
+ * This class is needed for creating {@link ComplexInnerSearchRule} from {@link RawSearchRule}
  */
 public class ComplexInnerSearchRuleBuilder implements SearchRuleBuilder {
 
-    private final static Logger logger = LoggerFactory.getLogger(ComplexInnerSearchRuleBuilder.class);
+    private final static Logger logger = LoggerFactory
+        .getLogger(ComplexInnerSearchRuleBuilder.class);
 
     /**
      * This method builds {@link ComplexInnerSearchRule} getting the necessary information about
@@ -26,6 +27,7 @@ public class ComplexInnerSearchRuleBuilder implements SearchRuleBuilder {
      * element). Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. At
      * last sent this parameters plus {@link XpathToCssTransformer} in constructor and get new
      * {@link ComplexInnerSearchRule}
+     *
      * @return {@link ComplexInnerSearchRule}
      */
     @Override

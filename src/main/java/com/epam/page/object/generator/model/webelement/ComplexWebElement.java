@@ -4,8 +4,8 @@ import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
 import org.jsoup.nodes.Element;
 
 /**
- * Contains information required to find complex web elements with
- * list of simple inner elements
+ * This class represents {@link Element} which was found in the web site by the {@link
+ * ComplexInnerSearchRule} and its 'uniqueness' value from this element
  */
 public class ComplexWebElement implements WebElement {
 

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link ComplexSearchRule} describes {@link SearchRule} with one of the type defined in
- * groups.json file in complexSearchRule group.
+ * property file in complexSearchRule group.
  */
 public class ComplexSearchRule implements SearchRule {
 
@@ -46,8 +46,9 @@ public class ComplexSearchRule implements SearchRule {
     }
 
     /**
-     * Returns list of {@link ComplexInnerSearchRule} belongs
-     * to this {@link ComplexSearchRule} and defined in .json file.
+     * Returns list of {@link ComplexInnerSearchRule} belongs to this {@link ComplexSearchRule} and
+     * defined in .json file.
+     *
      * @return list of {@link ComplexInnerSearchRule}
      */
     public List<ComplexInnerSearchRule> getInnerSearchRules() {

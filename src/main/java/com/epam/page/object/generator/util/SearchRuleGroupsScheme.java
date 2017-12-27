@@ -4,7 +4,7 @@ import java.util.Map;
 import org.everit.json.schema.Schema;
 
 /**
- * This class uses by JSON scheme validator, and contain information about schemes uses for
+ * This class uses by JSON scheme validator and contains information about schemes uses for
  * validations groups founded in JSON file.
  */
 public class SearchRuleGroupsScheme {
@@ -17,7 +17,7 @@ public class SearchRuleGroupsScheme {
     }
 
     /**
-     * Find required scheme by uses type of group
+     * Find required scheme by group name
      *
      * @param groupName which we search for the group scheme
      * @return json schema {@link Schema}

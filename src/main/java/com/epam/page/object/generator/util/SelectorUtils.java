@@ -9,8 +9,7 @@ import com.epam.page.object.generator.model.Selector;
 public class SelectorUtils {
 
     /**
-     * Generate string by concatenation css selector value, uniqueness name and
-     * uniqueness value.
+     * Generate string by concatenation css selector value, uniqueness name and uniqueness value.
      *
      * @param selector {@link Selector} css selector
      * @param requiredValue value received from webPage by 'uniqueness' attribute
@@ -28,8 +27,7 @@ public class SelectorUtils {
     }
 
     /**
-     * Generate string by concatenation xpath selector value, uniqueness name and
-     * uniqueness value.
+     * Generate string by concatenation xpath selector value, uniqueness name and uniqueness value.
      *
      * @param selector {@link Selector} xpath selector
      * @param requiredValue value received from webPage by 'uniqueness' attribute

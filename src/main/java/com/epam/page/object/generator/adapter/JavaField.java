@@ -15,7 +15,6 @@ public class JavaField {
     private Modifier[] modifiers;
 
 
-
     public JavaField(String fullClassField, String fieldName, JavaAnnotation annotation,
                      Modifier[] modifiers) {
         this.fullClassField = fullClassField;
@@ -47,10 +46,10 @@ public class JavaField {
     @Override
     public String toString() {
         return "JavaField{" +
-                "fullClassField='" + fullClassField + '\'' +
-                ", fieldName='" + fieldName + '\'' +
-                ", annotation=" + annotation +
-                ", modifiers=" + Arrays.toString(modifiers) +
-                '}';
+            "fullClassField='" + fullClassField + '\'' +
+            ", fieldName='" + fieldName + '\'' +
+            ", annotation=" + annotation +
+            ", modifiers=" + Arrays.toString(modifiers) +
+            '}';
     }
 }

@@ -23,7 +23,14 @@ import com.epam.page.object.generator.validator.ValidationExceptionConverter;
 import com.epam.page.object.generator.validator.WebValidators;
 
 /**
- * Creates new PageObjectsGenerator
+ * PageObjectGeneratorFactory allows to create {@link PageObjectsGenerator}.<br/> When you create
+ * {@link PageObjectsGenerator} you need to specify three parameters: <ul> <li>packageName - name of
+ * the package where will be must placed all generated .java source files.</li> <li>propertyFile -
+ * the path to the property file which contains all information about groups of SearchRule.</li>
+ * <li>onlineVersion - boolean parameter which specify what kind of PageObjectGenerator you will
+ * use.<br/> If onlineVersion will be true - PageObjectGenerator will work with urls and web sites
+ * which exist in the Internet.<br/> If onlineVersion will be false - PageObjectGenerator will work
+ * with local .html files.</li> </ul>
  */
 public class PageObjectGeneratorFactory {
 

@@ -20,11 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * Represents group of {@link CommonWebElement} of a page and {@link SearchRule} by which this
- * elements were found.
- * Common web elements are just simplest elements of a page,
- * for example: {@link Button} or {@link Label}.
+ * elements were found. Common web elements are just simplest elements of a page, for example:
+ * {@link Button} or {@link Label}.
  */
 public class CommonWebElementGroup implements WebElementGroup {
 
@@ -88,7 +86,8 @@ public class CommonWebElementGroup implements WebElementGroup {
     /**
      * Returns {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      *
-     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link WebElement}
+     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link
+     * WebElement}
      * @param webElement {@link WebElement} that have to be represented in generated java class.
      * @return {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      */
@@ -110,9 +109,8 @@ public class CommonWebElementGroup implements WebElementGroup {
      *
      * @param uniquenessValue value of 'uniqueness' attribute
      * @param uniqueness name of the 'uniqueness' attribute
-     * @throws IllegalArgumentException if selector type is unknown
      * @return string representation of annotation for class that will be generated
-     *
+     * @throws IllegalArgumentException if selector type is unknown
      */
     private String getAnnotationValue(Selector selector, String uniquenessValue,
                                       String uniqueness) {

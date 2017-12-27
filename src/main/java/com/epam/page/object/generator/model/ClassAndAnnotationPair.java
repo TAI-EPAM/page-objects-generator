@@ -1,16 +1,16 @@
 package com.epam.page.object.generator.model;
 
 /**
- * Forms pairs of JDI elements and Selenium annotations
+ * Forms pairs of class from JDI as basis of POG web element class and its annotations
  */
 public class ClassAndAnnotationPair {
 
     /**
-     * JDI class for specific web element
+     * Class for specific web element
      */
     private Class<?> elementClass;
     /**
-     * Selenium annotation
+     * Corresponding annotation
      */
     private Class<?> elementAnnotation;
 

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Validator for Json scheme. Check that searchRule have required field, which contains required
+ * Validator for Json schema. Check that searchRule have required field, which contains required
  * inner fields and they have't null values. Don't validate any business logic.
  */
 public class JsonSchemaValidator {
