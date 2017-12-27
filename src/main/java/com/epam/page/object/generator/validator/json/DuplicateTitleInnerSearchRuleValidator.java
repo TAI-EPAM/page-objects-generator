@@ -2,6 +2,7 @@ package com.epam.page.object.generator.validator.json;
 
 import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
+import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.validator.ValidationResult;
 import com.epam.page.object.generator.validator.ValidatorVisitor;
 import java.util.HashSet;
@@ -11,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Validator only for {@link ComplexSearchRule}. It's checking that there is no duplicated titles
- * within searchRule For all others types of searchRule it will always return passed
- * ValidationResult.
+ * within {@link ComplexInnerSearchRule}. For all others types of {@link SearchRule} it will always
+ * return passed {@link ValidationResult}.
  */
 public class DuplicateTitleInnerSearchRuleValidator implements ValidatorVisitor {
 

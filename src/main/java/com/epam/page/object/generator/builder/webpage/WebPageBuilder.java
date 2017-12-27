@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Interface is needed for creates two types webPageBuilders: Local and Global
- * It gets paths as List of String and searchRuleExtractor {@link SearchRuleExtractor}
+ * It gets paths from input json file as List of String and searchRuleExtractor {@link SearchRuleExtractor}
  */
 public interface WebPageBuilder {
 

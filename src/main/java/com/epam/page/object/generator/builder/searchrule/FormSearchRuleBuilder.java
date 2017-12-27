@@ -18,7 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed to create {@link FormSearchRule} which includes {@link FormInnerSearchRule}s
+ * This class is needed for creating {@link FormSearchRule} which includes {@link
+ * FormInnerSearchRule} from {@link RawSearchRule}
  */
 public class FormSearchRuleBuilder implements SearchRuleBuilder {
 
@@ -32,13 +33,13 @@ public class FormSearchRuleBuilder implements SearchRuleBuilder {
     }
 
     /**
-     * This method builds {@link FormSearchRule} getting the necessary information about
-     * {@link RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector} and section
-     * parameter. Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}.
-     * After it looking for {@link FormInnerSearchRule}s in {@link RawSearchRule} and build it.
-     * At last sent {@link RawSearchRule#type}, {@link FormInnerSearchRule}s,
-     * {@link ClassAndAnnotationPair},{@link Selector} and sections in constructor and get new
-     * {@link FormSearchRule}
+     * This method builds {@link FormSearchRule} getting the necessary information about {@link
+     * RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector} and section parameter.
+     * Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. After it looking
+     * for {@link FormInnerSearchRule} in {@link RawSearchRule} and build it. At last sent {@link
+     * RawSearchRule#type}, {@link FormInnerSearchRule}, {@link ClassAndAnnotationPair},{@link
+     * Selector} and sections in constructor and get new {@link FormSearchRule}
+     *
      * @return {@link FormSearchRule}
      */
     @Override

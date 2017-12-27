@@ -9,7 +9,7 @@ import java.util.List;
 import org.assertj.core.util.Lists;
 
 /**
- * This class use to validate all searchRules by all  WEB validators.
+ * This class use to validate all searchRules by all WEB validators.
  */
 public class WebValidators {
 
@@ -28,8 +28,8 @@ public class WebValidators {
     }
 
     /**
-     * This method will validate all {@link WebElementGroup} of List of {@link WebPage} by all {@link
-     * WebValidators}
+     * This method will validate all {@link WebElementGroup} of List of {@link WebPage} by all
+     * {@link WebValidators}
      */
     public void validate(List<WebPage> webPages) {
         for (ValidatorVisitor validator : validators) {

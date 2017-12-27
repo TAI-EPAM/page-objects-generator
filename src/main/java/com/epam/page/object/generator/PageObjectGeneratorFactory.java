@@ -27,13 +27,6 @@ import com.epam.page.object.generator.validator.WebValidators;
  */
 public class PageObjectGeneratorFactory {
 
-    /**
-     * Method constructs PageObjectsGenerator
-     * @param packageName type String
-     * @param propertyFile type String
-     * @param onlineVersion type boolean
-     * @return PageObjectsGenerator
-     */
     public static PageObjectsGenerator getPageObjectGenerator(String packageName,
                                                               String propertyFile,
                                                               boolean onlineVersion) {

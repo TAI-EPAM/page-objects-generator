@@ -1,15 +1,16 @@
 package com.epam.page.object.generator.validator.json;
 
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
+import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.validator.ValidationResult;
 import com.epam.page.object.generator.validator.ValidatorVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Validator only for {@link ComplexSearchRule}. It's checking that complex searchRule have title
- * with value "root". For all others types of searchRule it will always return passed
- * ValidationResult.
+ * Validator only for {@link ComplexSearchRule}. It's checking that {@link ComplexSearchRule} have
+ * title with value "root". For all others types of {@link SearchRule} it will always return passed
+ * {@link SearchRule}.
  */
 public class RootExistenceValidator implements ValidatorVisitor {
 

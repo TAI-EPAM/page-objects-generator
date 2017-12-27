@@ -46,27 +46,14 @@ public class FormInnerSearchRule implements SearchRule {
         this.searchRuleExtractor = searchRuleExtractor;
     }
 
-    /**
-     * Returns uniqueness attribute defined in .json file of this {@link FormInnerSearchRule}.
-     * @return uniqueness attribute of {@link FormInnerSearchRule}
-     */
     public String getUniqueness() {
         return uniqueness;
     }
 
-    /**
-     * Returns enum value of {@link FormInnerSearchRule} type.
-     * @return {@link SearchRuleType}
-     */
     public SearchRuleType getType() {
         return type;
     }
 
-    /**
-     * Returns {@link ClassAndAnnotationPair} of {@link FormInnerSearchRule} defined in
-     * {@link com.epam.page.object.generator.container.SupportedTypesContainer}
-     * @return pair of JDI type class and annotation class
-     */
     public ClassAndAnnotationPair getClassAndAnnotation() {
         return classAndAnnotation;
     }

@@ -15,14 +15,7 @@ public class JavaClass {
     private List<JavaField> fields;
     private Modifier modifier;
 
-    /**
-     * @param packageName name of package where generated .java file will be placed
-     * @param className is name this class.
-     * @param superClass is a parent {@link JavaClass} not obligatory
-     * @param annotation is {@link JavaAnnotation} that belongs this class.
-     * @param fields List of {@link JavaField}
-     * @param modifier
-     */
+
     public JavaClass(String packageName, String className, Class<?> superClass,
                      JavaAnnotation annotation, List<JavaField> fields, Modifier modifier) {
         this.packageName = packageName;
@@ -33,50 +26,32 @@ public class JavaClass {
         this.modifier = modifier;
     }
 
-    /**
-     *
-     * @return package name.
-     */
+
     public String getPackageName() {
         return packageName;
     }
 
-    /**
-     *
-     * @return name of this class.
-     */
+
     public String getClassName() {
         return className;
     }
 
-    /**
-     *
-     * @return super {@link JavaClass}
-     */
+
     public Class<?> getSuperClass() {
         return superClass;
     }
 
-    /**
-     *
-     * @return {@link JavaAnnotation}
-     */
+
     public JavaAnnotation getAnnotation() {
         return annotation;
     }
 
-    /**
-     *
-     * @return {@link JavaField}
-     */
+
     public List<JavaField> getFieldsList() {
         return fields;
     }
 
-    /**
-     *
-     * @return class modifier.
-     */
+
     public Modifier getModifier() {
         return modifier;
     }

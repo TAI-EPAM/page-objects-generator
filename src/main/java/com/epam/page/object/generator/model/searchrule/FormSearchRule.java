@@ -40,18 +40,10 @@ public class FormSearchRule implements SearchRule {
         this.classAndAnnotation = classAndAnnotation;
     }
 
-    /**
-     * Returns section attribute defined in .json file of this {@link FormSearchRule} .
-     * @return section attribute
-     */
     public String getSection() {
         return section;
     }
 
-    /**
-     * Returns enum value of {@link FormSearchRule} type.
-     * @return {@link SearchRuleType}
-     */
     public SearchRuleType getType() {
         return type;
     }
@@ -92,11 +84,6 @@ public class FormSearchRule implements SearchRule {
         return innerSearchRules;
     }
 
-    /**
-     * Returns {@link ClassAndAnnotationPair} of {@link FormSearchRule} defined in
-     * {@link com.epam.page.object.generator.container.SupportedTypesContainer}
-     * @return pair of JDI type class and annotation class
-     */
     public ClassAndAnnotationPair getClassAndAnnotation() {
         return classAndAnnotation;
     }

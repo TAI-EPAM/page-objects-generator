@@ -1,5 +1,9 @@
 package com.epam.page.object.generator.util;
 
+
+/**
+ * This is an util class that responsible for transformation of original sentence to camelcase variable
+ */
 public class StringUtils {
 
     /**
@@ -12,8 +16,8 @@ public class StringUtils {
 
     /**
      * Convert original sentence into variable in camelcase, also clean from any random symbols.
-     * @param camel
-     * @return camelcase variable
+     * @param camel input parameter that represents original sentence.
+     * @return camelcase variable as a {@link String} value
      */
     public static String splitCamelCase(String camel) {
         String trim = camel.replaceAll("[^\\p{L}0-9 ]", "").trim();

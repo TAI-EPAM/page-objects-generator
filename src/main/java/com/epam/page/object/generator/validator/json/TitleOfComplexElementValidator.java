@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class check that the title value of complex searchRule is supported. It finds appropriate
- * class in {@link SupportedTypesContainer} and check that {@link ClassAndAnnotationPair} contain
- * our value from searchRule title.
+ * This class check that the title value of {@link ComplexSearchRule} is supported. It finds
+ * appropriate class in {@link SupportedTypesContainer} and check that {@link
+ * ClassAndAnnotationPair} contain our value from searchRule title.
  */
 public class TitleOfComplexElementValidator implements ValidatorVisitor {
 
@@ -25,7 +25,8 @@ public class TitleOfComplexElementValidator implements ValidatorVisitor {
     public ValidationResult visit(ComplexSearchRule complexSearchRule) {
         logger.debug("Start validate " + complexSearchRule);
 
-        Class<?> elementAnnotation = complexSearchRule.getClassAndAnnotation().getElementAnnotation();
+        Class<?> elementAnnotation = complexSearchRule.getClassAndAnnotation()
+            .getElementAnnotation();
         StringBuilder stringBuilder = new StringBuilder();
         Method[] declaredMethods = elementAnnotation.getDeclaredMethods();
         for (ComplexInnerSearchRule complexInnerSearchRule : complexSearchRule
