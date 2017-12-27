@@ -1,9 +1,11 @@
 package com.epam.page.object.generator.model.webelement;
 
+import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import org.jsoup.nodes.Element;
 
 /**
- * Contains information required to find simple web elements
+ * This class represents {@link Element} which was found in the web site by the {@link
+ * CommonSearchRule} and its 'uniqueness' value from this element
  */
 public class CommonWebElement implements WebElement {
 

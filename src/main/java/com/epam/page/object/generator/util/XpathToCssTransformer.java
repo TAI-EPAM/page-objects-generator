@@ -18,9 +18,10 @@ public class XpathToCssTransformer {
     }
 
     /**
-     * invokes cssfy.js on css Selector
+     * Transforms xpath {@link Selector} to css using `cssify.js`
+     *
      * @param selector with xpath type
-     * @return transormed selector with css type
+     * @return transformed selector with css type
      * @throws XpathToCssTransformerException when transformation can't be performed
      */
     public Selector getCssSelector(Selector selector) throws XpathToCssTransformerException {

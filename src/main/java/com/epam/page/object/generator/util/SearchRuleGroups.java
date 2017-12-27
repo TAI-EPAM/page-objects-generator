@@ -4,8 +4,8 @@ import com.epam.page.object.generator.model.searchrule.SearchRule;
 import java.util.List;
 
 /**
- * An instance of this class {@link SearchRuleGroups} contain information about all possible groups
- * of {@link SearchRuleGroup}
+ * An instance of this class {@link SearchRuleGroups} contain information about all possible {@link
+ * SearchRuleGroup}
  */
 public class SearchRuleGroups {
 

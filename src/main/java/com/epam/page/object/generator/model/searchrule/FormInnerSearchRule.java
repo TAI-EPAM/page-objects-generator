@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link FormInnerSearchRule} describes {@link SearchRule} placed inside {@link FormSearchRule}
- * in .json file.
+ * {@link FormInnerSearchRule} describes {@link SearchRule} placed inside {@link FormSearchRule} in
+ * .json file.
  */
 public class FormInnerSearchRule implements SearchRule {
 
@@ -64,10 +64,11 @@ public class FormInnerSearchRule implements SearchRule {
     }
 
     /**
-     * If uniqueness attribute not equals text and selector of xpath type,
-     * then we could transform it to css.
+     * If uniqueness attribute not equals text and selector of xpath type, then we could transform
+     * it to css.
      *
      * Otherwise return selector without transformation.
+     *
      * @return transformed {@link Selector}
      */
     public Selector getTransformedSelector() {

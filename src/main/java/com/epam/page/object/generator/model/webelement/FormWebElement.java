@@ -4,7 +4,8 @@ import com.epam.page.object.generator.model.searchrule.FormInnerSearchRule;
 import org.jsoup.nodes.Element;
 
 /**
- * Contains information required to find forms with list of sections
+ * This class represents {@link Element} which was found in the web site by the {@link
+ * FormInnerSearchRule} and its 'uniqueness' value from this element
  */
 public class FormWebElement implements WebElement {
 

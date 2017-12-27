@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents {@link FormSearchRule} and list of {@link FormWebElement} which was found by
- * this rule from certain {@link WebPage}.
+ * Represents {@link FormSearchRule} and list of {@link FormWebElement} which was found by this rule
+ * from certain {@link WebPage}.
  */
 public class FormWebElementGroup implements WebElementGroup {
 
@@ -74,7 +74,8 @@ public class FormWebElementGroup implements WebElementGroup {
     /**
      * Returns {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
      *
-     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link FormWebElement}
+     * @param annotationClass {@link JavaAnnotation} instance that is suitable for {@link
+     * FormWebElement}
      * @return {@link JavaAnnotation} that represents {@link FormWebElement} in generated class.
      */
     public JavaAnnotation getAnnotation(Class<?> annotationClass) {

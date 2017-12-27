@@ -29,6 +29,7 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JDropdown;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JMenu;
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JTable;
+import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.util.SearchRuleType;
 import java.util.HashMap;
@@ -38,8 +39,9 @@ import org.openqa.selenium.support.FindBy;
 /**
  * {@link SupportedTypesContainer} stores information about all supported types of web elements.
  *
- * The class makes relationship between current types of elements used in PageObjectGenerator and
- * classes used in selenium elements collection .
+ * The class makes relationship between current type of element used and {@link
+ * ClassAndAnnotationPair} which contains information about class and annotation from JDI-framework
+ * that used for generating this element.
  */
 public class SupportedTypesContainer {
 
@@ -109,7 +111,7 @@ public class SupportedTypesContainer {
     }
 
     /**
-     * Get current Map of supported types of elements of PageObjectGenerator
+     * Get current Map of supported types of elements of {@link PageObjectsGenerator}
      *
      * @return map of all supported types
      */

@@ -12,21 +12,24 @@ import java.util.stream.Collectors;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class for building correct web pages
+ * Class for building {@link WebPage} by using website url.
  */
 public class UrlWebPageBuilder implements WebPageBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(UrlWebPageBuilder.class);
 
     /**
-     * Method creates web pages by using url
-     * @param paths path for input json file, which must start from folder resources.
-     * @param searchRuleExtractor {@link SearchRuleExtractor}
-     * @return webPages
+     * Main method which generates list of {@link WebPage}.
+     *
+     * @param paths list of string which contains list of website urls.
+     * @param searchRuleExtractor {@link SearchRuleExtractor} allows {@link WebPage} extract {@link
+     * Element} from website.
+     * @return list of {@link WebPage}
      */
     @Override
     public List<WebPage> generate(List<String> paths,

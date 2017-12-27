@@ -4,19 +4,15 @@ import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 import com.epam.page.object.generator.model.webelement.FormWebElement;
+import com.epam.page.object.generator.model.webgroup.WebElementGroup;
 import com.epam.page.object.generator.validator.ValidationResult;
 import com.epam.page.object.generator.validator.ValidatorVisitor;
 
 /**
- * Validate existence of Common, Complex, Form groups
+ * Validate that {@link WebElementGroup} has existence 'uniqueness' attribute.
  */
 public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
 
-    /**
-     * Check CommonWebElementGroup on existence
-     * @param webElementGroup {@link CommonWebElementGroup}
-     * @return ValidationResult
-     */
     @Override
     public ValidationResult visit(CommonWebElementGroup webElementGroup) {
         if (webElementGroup.getWebElements().stream()
@@ -34,11 +30,6 @@ public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
         return new ValidationResult(true, this + " passed!");
     }
 
-    /**
-     * Check ComplexWebElementGroup on existence
-     * @param webElementGroup {@link CommonWebElementGroup}
-     * @return ValidationResult
-     */
     @Override
     public ValidationResult visit(ComplexWebElementGroup webElementGroup) {
         if (webElementGroup.getWebElements().stream()
@@ -56,11 +47,6 @@ public class UniquenessAttributeExistenceValidator implements ValidatorVisitor {
         return new ValidationResult(true, this + " passed!");
     }
 
-    /**
-     * Check FormWebElementGroup on existence
-     * @param webElementGroup {@link CommonWebElementGroup}
-     * @return ValidationResult
-     */
     @Override
     public ValidationResult visit(FormWebElementGroup webElementGroup) {
         if (webElementGroup.getWebElements().stream()

@@ -34,7 +34,8 @@ public class RawSearchRule {
 
     /**
      * Retrieves value of given parameter from JSON object.
-     * @param parameter to get
+     *
+     * @param parameter the name of parameter that we want to extract from JSON file.
      * @return value of parameter if it's present, else returns null.
      */
     public String getValue(String parameter) {
@@ -46,9 +47,10 @@ public class RawSearchRule {
     }
 
     /**
-     * Retrievs selector from JSON object
-     * @return new instance of {@link Selector} if parameter "selector" is present in JSON,
-     * else returns null.
+     * Retrieves selector from JSON object
+     *
+     * @return new instance of {@link Selector} if parameter "selector" is present in JSON, else
+     * returns null.
      */
     public Selector getSelector() {
         JSONObject selector = element.getJSONObject("selector");
@@ -76,6 +78,7 @@ public class RawSearchRule {
 
     /**
      * Form exception message from every failed validation result of search rule instance
+     *
      * @return concatenated messages from validation results
      */
     public String getExceptionMessage() {

@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * This class is responsible for building of List of {@link SearchRule} and also keep all crucial information for this.
+ * This class is responsible for building of List of {@link SearchRule} and also keep all crucial
+ * information for this.
  */
 public class TypeTransformer {
 
@@ -33,10 +34,11 @@ public class TypeTransformer {
     }
 
     /**
-     * This method  filters all invalid RawSearchRules and for each valid one builds {@link SearchRule} with appropriate builder.
+     * This method  filters all invalid RawSearchRules and for each valid one builds {@link
+     * SearchRule} with appropriate builder.
      *
-     * @param rawSearchRuleList   list of {@link RawSearchRule}
-     * @param selectorUtils       {@link SelectorUtils}
+     * @param rawSearchRuleList list of {@link RawSearchRule}
+     * @param selectorUtils {@link SelectorUtils}
      * @param searchRuleExtractor {@link SearchRuleExtractor}
      * @return List of {@link SearchRule} which are build of {@link RawSearchRule}
      */
@@ -44,15 +46,15 @@ public class TypeTransformer {
                                       SelectorUtils selectorUtils,
                                       SearchRuleExtractor searchRuleExtractor) {
         return rawSearchRuleList.stream()
-                .filter(RawSearchRule::isValid)
-                .map(rawSearchRule -> {
-                    SearchRule searchRule = getBuilder(rawSearchRule)
-                            .buildSearchRule(rawSearchRule, typesContainer, transformer, selectorUtils,
-                                    searchRuleExtractor);
-                    logger.debug("Success transformation " + rawSearchRule + "!\n");
-                    return searchRule;
-                })
-                .collect(Collectors.toList());
+            .filter(RawSearchRule::isValid)
+            .map(rawSearchRule -> {
+                SearchRule searchRule = getBuilder(rawSearchRule)
+                    .buildSearchRule(rawSearchRule, typesContainer, transformer, selectorUtils,
+                        searchRuleExtractor);
+                logger.debug("Success transformation " + rawSearchRule + "!\n");
+                return searchRule;
+            })
+            .collect(Collectors.toList());
     }
 
 

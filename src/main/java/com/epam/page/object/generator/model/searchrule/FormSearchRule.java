@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link FormSearchRule} describes {@link SearchRule} with one of the type defined in
- * groups.json file in formSearchRule group.
+ * {@link FormSearchRule} describes {@link SearchRule} with one of the type defined in property file
+ * in formSearchRule group.
  */
 public class FormSearchRule implements SearchRule {
 
@@ -50,6 +50,7 @@ public class FormSearchRule implements SearchRule {
 
     /**
      * Returns {@link SearchRuleType} in String format.
+     *
      * @return type name
      */
     public String getTypeName() {
@@ -76,8 +77,9 @@ public class FormSearchRule implements SearchRule {
     }
 
     /**
-     * Returns list of {@link FormInnerSearchRule} belongs
-     * to this {@link FormSearchRule} and defined in .json file.
+     * Returns list of {@link FormInnerSearchRule} belongs to this {@link FormSearchRule} and
+     * defined in .json file.
+     *
      * @return list of {@link FormInnerSearchRule}
      */
     public List<FormInnerSearchRule> getInnerSearchRules() {

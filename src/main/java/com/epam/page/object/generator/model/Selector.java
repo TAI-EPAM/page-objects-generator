@@ -12,7 +12,7 @@ public class Selector {
      */
     private String type;
     /**
-     * the value that element must correspond to search result by described type
+     * The value that element must correspond to search result by described type
      */
     private String value;
 

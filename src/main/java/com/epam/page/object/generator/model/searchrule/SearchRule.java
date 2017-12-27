@@ -14,6 +14,12 @@ import org.jsoup.select.Elements;
  * on the HTML page. {@link SearchRule} interface extends {@link Validatable} interface that is
  * responsible for verifying the correctness of the {@link SearchRule}. This is the main interface
  * that you should implement to create a new {@link SearchRule}.
+ *
+ * @see CommonSearchRule
+ * @see ComplexSearchRule
+ * @see ComplexInnerSearchRule
+ * @see FormSearchRule
+ * @see FormInnerSearchRule
  */
 public interface SearchRule extends Validatable {
 

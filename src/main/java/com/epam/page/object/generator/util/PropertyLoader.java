@@ -17,11 +17,12 @@ import com.epam.page.object.generator.model.webgroup.WebElementGroup;
 import com.epam.page.object.generator.model.webelement.WebElement;
 
 /**
- * {@link PropertyLoader} reads and loads validation schemes from .JSON file then groups into WebElementGroup
+ * {@link PropertyLoader} reads and loads the property JSON file.<br/>
  *
- * The JSON file contains information about group properties {@link WebElementGroup}
- * Like group name and  included elements {@link WebElement}
- * and required schema for validation of current groups
+ * The JSON file contains the following information about each {@link WebElementGroup}: <ul>
+ * <li>group name</li> <li>{@link SearchRuleType} which includes in this {@link
+ * WebElementGroup}</li> <li>path to the {@link Schema} which can validate this {@link
+ * WebElementGroup}</li> </ul>
  */
 public class PropertyLoader {
 
@@ -35,7 +36,7 @@ public class PropertyLoader {
 
 
     /**
-     * Get {@link SearchRuleGroupsScheme} for all found groups in JSON property file
+     * Get {@link SearchRuleGroupsScheme} for all found groups in JSON property file.
      *
      * @return {@link SearchRuleGroupsScheme} current instance
      */
@@ -72,7 +73,7 @@ public class PropertyLoader {
     }
 
     /**
-     * Get list of SearchRuleGroup founded in JSON property file
+     * Get list of SearchRuleGroup founded in JSON property file.
      *
      * @return {@link SearchRuleGroups}
      */

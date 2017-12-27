@@ -44,10 +44,10 @@ public class AnnotationMember {
     @Override
     public String toString() {
         return "AnnotationMember{" +
-                "name='" + name + '\'' +
-                ", format='" + format + '\'' +
-                ", arg='" + arg + '\'' +
-                ", annotation=" + annotation +
-                '}';
+            "name='" + name + '\'' +
+            ", format='" + format + '\'' +
+            ", arg='" + arg + '\'' +
+            ", annotation=" + annotation +
+            '}';
     }
 }

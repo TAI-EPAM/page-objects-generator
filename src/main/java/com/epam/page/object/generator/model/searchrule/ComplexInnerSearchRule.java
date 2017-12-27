@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link ComplexInnerSearchRule} describes {@link SearchRule} placed inside {@link ComplexSearchRule}
- * in .json file.
+ * {@link ComplexInnerSearchRule} describes {@link SearchRule} placed inside {@link
+ * ComplexSearchRule} in .json file.
  */
 public class ComplexInnerSearchRule implements SearchRule {
 
@@ -47,8 +47,8 @@ public class ComplexInnerSearchRule implements SearchRule {
     }
 
     /**
-     * Returns true if title equals "root".
-     * Otherwise returns false;
+     * Returns true if title equals "root". Otherwise returns false;
+     *
      * @return boolean
      */
     public boolean isRoot() {
@@ -56,10 +56,11 @@ public class ComplexInnerSearchRule implements SearchRule {
     }
 
     /**
-     * If uniqueness attribute not equals text and selector of xpath type,
-     * then we could transform it to css.
+     * If uniqueness attribute not equals text and selector of xpath type, then we could transform
+     * it to css.
      *
      * Otherwise return selector without transformation.
+     *
      * @return transformed {@link Selector}
      */
     public Selector getTransformedSelector() {

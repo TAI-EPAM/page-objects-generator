@@ -9,15 +9,21 @@ import com.epam.page.object.generator.util.SelectorUtils;
 import com.epam.page.object.generator.util.XpathToCssTransformer;
 
 /**
- * This {@link SearchRuleBuilder} interface describe how to create a typed search rule {@link SearchRule} from
- * an existing search rule {@link RawSearchRule} using supported types of elements.
+ * This {@link SearchRuleBuilder} interface describes how to create a {@link SearchRule} from an
+ * existing {@link RawSearchRule} using supported types of elements.
+ *
+ * @see CommonSearchRuleBuilder
+ * @see CommonSearchRuleBuilder
+ * @see ComplexInnerSearchRuleBuilder
+ * @see FormSearchRuleBuilder
+ * @see FormInnerSearchRuleBuilder
  */
 public interface SearchRuleBuilder {
 
     /**
-     * Method creates a typed search rule {@link SearchRule} from an existing {@link RawSearchRule}
+     * Method creates a {@link SearchRule} from an existing {@link RawSearchRule}
      *
-     * @param rawSearchRule unprocessed(raw) search rule for transformation to {@link RawSearchRule}
+     * @param rawSearchRule unprocessed(raw) search rule for transformation to {@link SearchRule}
      * @param typesContainer current supported types of elements
      * @param transformer transforms xpath {@link Selector} to css
      * @param selectorUtils generator string contains css or xpath selector for SearchRule.
