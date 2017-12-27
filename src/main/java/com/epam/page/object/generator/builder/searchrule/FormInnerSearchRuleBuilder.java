@@ -14,18 +14,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed to create {@link FormInnerSearchRule}
+ * This class is needed for creating {@link FormInnerSearchRule} from {@link RawSearchRule}
  */
 public class FormInnerSearchRuleBuilder implements SearchRuleBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(FormInnerSearchRuleBuilder.class);
 
     /**
-     * This method builds {@link FormInnerSearchRule} getting the necessary information about
-     * {@link RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector}, uniqueness
-     * parameter. Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}.
-     * At last sent this parameters plus {@link XpathToCssTransformer}, {@link SearchRuleExtractor}
-     * and in constructor and get new {@link FormInnerSearchRule}
+     * This method builds {@link FormInnerSearchRule} getting the necessary information about {@link
+     * RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector}, uniqueness parameter.
+     * Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. At last sent
+     * this parameters plus {@link XpathToCssTransformer}, {@link SearchRuleExtractor} and in
+     * constructor and get new {@link FormInnerSearchRule}
+     *
      * @return {@link FormInnerSearchRule}
      */
     @Override
