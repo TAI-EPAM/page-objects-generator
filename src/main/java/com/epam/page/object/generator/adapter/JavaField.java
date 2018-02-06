@@ -16,7 +16,8 @@ public class JavaField {
     private String fieldName;
     private JavaAnnotation annotation;
     private Modifier[] modifiers;
-    private Map<String, String> initializer;
+    private Map<String, Object[]> initializer;
+    private boolean isAnnotation;
 
     public JavaField(String fullClassField, String fieldName, JavaAnnotation annotation,
                      Modifier[] modifiers) {
@@ -26,8 +27,12 @@ public class JavaField {
         this.modifiers = modifiers;
     }
 
-    public boolean isSelenideField() {
-        return fullClassField.contains("Selenide"); // and flag, use annotations or not
+    public boolean isSelenideTypeField() {
+        return fullClassField.contains("Selenide") && !isAnnotation;
+    }
+
+    public void setAnnotationFlag(boolean isAnnotation) {
+        this.isAnnotation = isAnnotation;
     }
 
     public void setInitializer(Selector selector) {
@@ -35,10 +40,10 @@ public class JavaField {
         String prefix = selector.getType().equals("xpath")
                 ? "$x"
                 : "$";
-        initializer.put("$S", String.format("%s(%s)", prefix, selector.getValue()));
+        initializer.put("$L($S)", new String[] {prefix, selector.getValue()});
     }
 
-    Map<String, String> getInitializer() {
+    Map<String, Object[]> getInitializer() {
         return this.initializer;
     }
 

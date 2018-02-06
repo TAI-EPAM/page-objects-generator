@@ -4,7 +4,6 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -83,7 +82,7 @@ public class JavaFileWriter {
      * @return {@link FieldSpec} used by JavaPoet for generation {@link TypeSpec}.
      */
     private FieldSpec buildFieldSpec(JavaField field) {
-        return field.isSelenideField()
+        return field.isSelenideTypeField()
                 ? buildSelenideFieldSpec(field)
                 : buildRegularFieldSpec(field);
     }
@@ -100,7 +99,7 @@ public class JavaFileWriter {
         return FieldSpec
                 .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
                 .addModifiers(field.getModifiers())
-                .initializer("$S", field.getInitializer().get("$L($S)"))
+                .initializer("$L($S)", field.getInitializer().get("$L($S)"))
                 .build();
     }
 

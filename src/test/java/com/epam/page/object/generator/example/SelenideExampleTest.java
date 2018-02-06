@@ -37,5 +37,4 @@ public class SelenideExampleTest {
         pog.generatePageObjects("/example/selenide_element_xpath.json", outputDir,
                 Collections.singletonList("/example/example.html"));
     }
-
 }
