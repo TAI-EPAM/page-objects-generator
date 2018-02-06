@@ -51,17 +51,14 @@ public class WebElementGroupFieldBuilder {
             JavaAnnotation annotation = commonWebElementGroup
                     .getAnnotation(annotationClass, webElement);
 
-            if (className.contains("SelenideElement")) {
+            javaField = new JavaField(className, fieldName, annotation, modifiers);
+
+
+            if (javaField.isSelenideField()) {
                 Selector selector = commonWebElementGroup.getSearchRule().getTransformedSelector();
-                String prefix = "$";
-                if (selector.getType().equals("xpath")) {
-                    prefix = "$x";
-                }
-                javaField = new JavaField(className, fieldName, annotation, modifiers,
-                        new String[] {"$S", String.format("%s(%s)", prefix, selector.getValue())});
-            } else {
-                javaField = new JavaField(className, fieldName, annotation, modifiers);
+                javaField.setInitializer(selector);
             }
+
             javaFields.add(javaField);
             logger.debug("Add field = " + javaField);
         }

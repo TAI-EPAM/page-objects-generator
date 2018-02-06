@@ -4,6 +4,7 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -59,11 +60,7 @@ public class JavaFileWriter {
 
         for (JavaField field : javaClass.getFieldsList()) {
             logger.debug("Start building " + field);
-            if (field.getFullFieldClass().contains("SelenideElement")) {
-                fieldSpecList.add(buildFieldSpec(field));
-            } else {
-                fieldSpecList.add(buildFieldSpec(field));
-            }
+            fieldSpecList.add(buildFieldSpec(field));
             logger.debug("Finish building field\n");
         }
 
@@ -86,33 +83,26 @@ public class JavaFileWriter {
      * @return {@link FieldSpec} used by JavaPoet for generation {@link TypeSpec}.
      */
     private FieldSpec buildFieldSpec(JavaField field) {
-        String key = field.getInitializer() != null ? "$S" : "";
+        return field.isSelenideField()
+                ? buildSelenideFieldSpec(field)
+                : buildRegularFieldSpec(field);
+    }
 
-        String value = "";
-        AnnotationSpec annotationSpec = buildAnnotationSpec(field.getAnnotation());
-
-        return field.getInitializer() != null ?
-                FieldSpec
-            .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
-            .addModifiers(field.getModifiers())
-            .initializer(key, value)
-            .addAnnotation(annotationSpec)
-            .build() :
-                FieldSpec
+    private FieldSpec buildRegularFieldSpec(JavaField field) {
+        return FieldSpec
                 .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
                 .addModifiers(field.getModifiers())
-                .initializer(field.getInitializer()[0], field.getInitializer()[1])
+                .addAnnotation(buildAnnotationSpec(field.getAnnotation()))
                 .build();
     }
-//
-//    private FieldSpec buildSelenideFieldSpec(JavaField field) {
-//        return FieldSpec
-//                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
-//                .addModifiers(field.getModifiers())
-//                .initializer(field.getInitializer()[0], field.getInitializer()[1])
-//                .build();
-//    }
 
+    private FieldSpec buildSelenideFieldSpec(JavaField field) {
+        return FieldSpec
+                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+                .addModifiers(field.getModifiers())
+                .initializer("$S", field.getInitializer().get("$L($S)"))
+                .build();
+    }
 
     /**
      * Build annotation for .java source file.
