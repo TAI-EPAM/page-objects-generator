@@ -59,7 +59,11 @@ public class JavaFileWriter {
 
         for (JavaField field : javaClass.getFieldsList()) {
             logger.debug("Start building " + field);
-            fieldSpecList.add(buildFieldSpec(field));
+            if (field.getFullFieldClass().contains("SelenideElement")) {
+                fieldSpecList.add(buildFieldSpec(field));
+            } else {
+                fieldSpecList.add(buildFieldSpec(field));
+            }
             logger.debug("Finish building field\n");
         }
 
@@ -82,12 +86,33 @@ public class JavaFileWriter {
      * @return {@link FieldSpec} used by JavaPoet for generation {@link TypeSpec}.
      */
     private FieldSpec buildFieldSpec(JavaField field) {
-        return FieldSpec
+        String key = field.getInitializer() != null ? "$S" : "";
+
+        String value = "";
+        AnnotationSpec annotationSpec = buildAnnotationSpec(field.getAnnotation());
+
+        return field.getInitializer() != null ?
+                FieldSpec
             .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
             .addModifiers(field.getModifiers())
-            .addAnnotation(buildAnnotationSpec(field.getAnnotation()))
-            .build();
+            .initializer(key, value)
+            .addAnnotation(annotationSpec)
+            .build() :
+                FieldSpec
+                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+                .addModifiers(field.getModifiers())
+                .initializer(field.getInitializer()[0], field.getInitializer()[1])
+                .build();
     }
+//
+//    private FieldSpec buildSelenideFieldSpec(JavaField field) {
+//        return FieldSpec
+//                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+//                .addModifiers(field.getModifiers())
+//                .initializer(field.getInitializer()[0], field.getInitializer()[1])
+//                .build();
+//    }
+
 
     /**
      * Build annotation for .java source file.

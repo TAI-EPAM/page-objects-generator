@@ -12,6 +12,7 @@ public class JavaField {
     private String fieldName;
     private JavaAnnotation annotation;
     private Modifier[] modifiers;
+    private String[] initializer;
 
     public JavaField(String fullClassField, String fieldName, JavaAnnotation annotation,
                      Modifier[] modifiers) {
@@ -19,6 +20,16 @@ public class JavaField {
         this.fieldName = fieldName;
         this.annotation = annotation;
         this.modifiers = modifiers;
+    }
+
+    public JavaField(String fullClassField, String fieldName, JavaAnnotation annotation,
+                     Modifier[] modifiers, String[] initializer) {
+        this(fullClassField, fieldName,annotation, modifiers);
+        this.initializer = initializer;
+    }
+
+    public String[] getInitializer() {
+        return this.initializer;
     }
 
     public String getFullFieldClass() {

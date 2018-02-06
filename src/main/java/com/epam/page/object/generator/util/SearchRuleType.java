@@ -32,7 +32,8 @@ public enum SearchRuleType {
     DROPLIST("droplist"),
     MENU("menu"),
     FORM("form"),
-    SECTION("section");
+    SECTION("section"),
+    SELENIDE_ELEMENT("selenide_element");
 
     private final String name;
 
