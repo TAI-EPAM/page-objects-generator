@@ -8,10 +8,10 @@ public class Google extends WebPage {
     @FindBy(
         css = "input[type=submit][value='Поиск в Google']"
     )
-    public Button поискВGoogle;
+    public Button поискВGoogleButton;
 
     @FindBy(
         css = "input[type=submit][value='Мне повезёт!']"
     )
-    public Button мнеПовезёт;
+    public Button мнеПовезётButton;
 }

@@ -15,9 +15,8 @@ import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.model.webgroup.WebElementGroup;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
+import java.util.*;
 import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,10 @@ import org.slf4j.LoggerFactory;
  */
 public class WebElementGroupFieldBuilder {
 
-    private final static Logger logger = LoggerFactory.getLogger(WebElementGroupFieldBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebElementGroupFieldBuilder.class);
+    private static final Set<String> ALLOWED_SUFFIXES = new HashSet<>(Arrays.asList("button", "form", "page"));
+
+    private boolean addElementSuffix = true;
 
     public List<JavaField> build(CommonWebElementGroup commonWebElementGroup) {
         List<JavaField> javaFields = new ArrayList<>();
@@ -41,8 +43,9 @@ public class WebElementGroupFieldBuilder {
 
         logger.debug("Add fields found by " + searchRule);
         for (WebElement webElement : commonWebElementGroup.getWebElements()) {
-            String className = searchRule.getClassAndAnnotation().getElementClass().getName();
-            String fieldName = uncapitalize(splitCamelCase(webElement.getUniquenessValue()));
+            Class<?> elementClass = searchRule.getClassAndAnnotation().getElementClass();
+            String className = elementClass.getName();
+            String fieldName = extractFieldName(webElement, elementClass.getSimpleName());
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
             JavaAnnotation annotation = commonWebElementGroup
                 .getAnnotation(annotationClass, webElement);
@@ -63,8 +66,9 @@ public class WebElementGroupFieldBuilder {
 
         logger.debug("Add fields found by " + searchRule);
         for (WebElement webElement : complexWebElementGroup.getWebElements()) {
-            String className = searchRule.getClassAndAnnotation().getElementClass().getName();
-            String fieldName = uncapitalize(splitCamelCase(webElement.getUniquenessValue()));
+            Class<?> elementClass = searchRule.getClassAndAnnotation().getElementClass();
+            String className = elementClass.getName();
+            String fieldName = extractFieldName(webElement, elementClass.getSimpleName());
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
             JavaAnnotation annotation = complexWebElementGroup
                 .getAnnotation(annotationClass, webElement);
@@ -94,5 +98,34 @@ public class WebElementGroupFieldBuilder {
         logger.debug("Add field = " + javaField);
         logger.debug("Finish " + searchRule + "\n");
         return Collections.singletonList(javaField);
+    }
+
+    private String extractFieldName(WebElement webElement, String suffix) {
+        String fieldName = uncapitalize(splitCamelCase(webElement.getUniquenessValue()));
+
+        if (addElementSuffix) {
+            fieldName = addSuffix(fieldName, suffix);
+        }
+        return fieldName;
+    }
+
+    private String addSuffix(String fieldName, String suffix) {
+        String lowerCaseSuffix = suffix.toLowerCase();
+        boolean suffixAllowed = ALLOWED_SUFFIXES.contains(lowerCaseSuffix);
+        boolean fieldNameEndsWithSuffix = fieldName.toLowerCase().endsWith(lowerCaseSuffix);
+        if (suffixAllowed && !fieldNameEndsWithSuffix){
+            fieldName = fieldName + suffix;
+        }
+        return fieldName;
+    }
+
+    /**
+     * Method allows to edit output method names by element name suffix<br/>
+     * e.g <i>public Button value -> public Button valueButton</i><br/>
+     * <p>
+     * Works only with suffixes 'Button', 'Page', 'Form' if the element doesn't end with suffix
+     */
+    public void setAddElementSuffix(boolean addElementSuffix) {
+        this.addElementSuffix = addElementSuffix;
     }
 }
