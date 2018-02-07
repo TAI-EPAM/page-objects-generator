@@ -21,20 +21,20 @@ public class SelenideExampleTest {
     public void setUp() throws IOException {
         FileUtils.deleteDirectory(new File(outputDir + packageName));
         pog = PageObjectGeneratorFactory
-                .getPageObjectGenerator(packageName, "/groups.json", false);
+                .getPageObjectGenerator(packageName, "/groups.json", true);
     }
 
     @Test
     public void exampleSelenideElementCSS() throws Exception {
         pog.setForceGenerateFile(false);
-        pog.generatePageObjects("/example/selenide_element_css.json", outputDir,
-                Collections.singletonList("/example/example.html"));
+        pog.generatePageObjects("/selenide_element_css.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
     }
 
     @Test
     public void exampleSelenideElementXPATH() throws Exception {
         pog.setForceGenerateFile(false);
-        pog.generatePageObjects("/example/selenide_element_xpath.json", outputDir,
-                Collections.singletonList("/example/example.html"));
+        pog.generatePageObjects("/selenide_element_xpath.json", outputDir,
+                Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
     }
 }
