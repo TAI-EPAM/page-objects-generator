@@ -2,11 +2,11 @@
   "elements": [
     {
       "type": "selenide_element",
-      "uniqueness": "text",
+      "uniqueness": "texet",
       "annotation": "false",
       "selector": {
         "type": "xpath",
-        "value": "//button[@id='calculate-button']"
+        "value": "/html/body/div[6]/div[1]/div[1]/div[2]/a[2]"
       }
     }
   ]
