@@ -1,5 +1,6 @@
 package com.epam.page.object.generator.builder;
 
+import static com.epam.page.object.generator.util.ReadFileIntoList.ReadFileIntoList;
 import static com.epam.page.object.generator.util.StringUtils.splitCamelCase;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -33,9 +34,11 @@ import org.slf4j.LoggerFactory;
 public class WebElementGroupFieldBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(WebElementGroupFieldBuilder.class);
-    private static final Set<String> ALLOWED_SUFFIXES = new HashSet<>(Arrays.asList("button", "form", "page"));
 
-    private boolean addElementSuffix = true;
+    private static final String ALLOUWED_SUFFIXES_FILE = "src/main/resources/allowedSuffixes.properties";
+
+
+    private boolean addElementSuffix = false;
 
     public List<JavaField> build(CommonWebElementGroup commonWebElementGroup) {
         List<JavaField> javaFields = new ArrayList<>();
@@ -111,19 +114,25 @@ public class WebElementGroupFieldBuilder {
 
     private String addSuffix(String fieldName, String suffix) {
         String lowerCaseSuffix = suffix.toLowerCase();
-        boolean suffixAllowed = ALLOWED_SUFFIXES.contains(lowerCaseSuffix);
+
+        Set<String> allowedSuffixes = new HashSet<>();
+        allowedSuffixes.addAll(ReadFileIntoList(ALLOUWED_SUFFIXES_FILE));
+
+        boolean suffixAllowed = allowedSuffixes.contains(lowerCaseSuffix);
+
         boolean fieldNameEndsWithSuffix = fieldName.toLowerCase().endsWith(lowerCaseSuffix);
-        if (suffixAllowed && !fieldNameEndsWithSuffix){
+        if (suffixAllowed && !fieldNameEndsWithSuffix) {
             fieldName = fieldName + suffix;
         }
         return fieldName;
     }
 
     /**
-     * Method allows to edit output method names by element name suffix<br/>
-     * e.g <i>public Button value -> public Button valueButton</i><br/>
-     * <p>
-     * Works only with suffixes 'Button', 'Page', 'Form' if the element doesn't end with suffix
+     * Method allows to edit output method names by element name suffix<br/> e.g <i>public Button
+     * value -> public Button valueButton</i><br/> <p>
+     *
+     * Works only with suffixes from file <i>resources/allowedSuffixes.properties</i>,
+     * if the element doesn't end with suffix
      */
     public void setAddElementSuffix(boolean addElementSuffix) {
         this.addElementSuffix = addElementSuffix;

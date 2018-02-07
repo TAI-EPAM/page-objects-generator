@@ -20,6 +20,7 @@ public class Generate {
         PageObjectsGenerator pog = PageObjectGeneratorFactory.getPageObjectGenerator("w3c.tests",
             "/groups.json", true);
         pog.setForceGenerateFile(true);
+        pog.setAddElementSuffix(true);
         pog.generatePageObjects("/webElement.json", "src/main/java/", urls);
     }
 }
