@@ -1,6 +1,5 @@
 package com.epam.page.object.generator.builder;
 
-import static com.epam.page.object.generator.util.ReadFileIntoList.ReadFileIntoList;
 import static com.epam.page.object.generator.util.StringUtils.splitCamelCase;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -35,10 +34,8 @@ public class WebElementGroupFieldBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(WebElementGroupFieldBuilder.class);
 
-    private static final String ALLOUWED_SUFFIXES_FILE = "src/main/resources/allowedSuffixes.properties";
-
-
-    private boolean addElementSuffix = false;
+    private Set<String> allowedSuffixes = new HashSet<>();
+    private boolean addElementSuffix;
 
     public List<JavaField> build(CommonWebElementGroup commonWebElementGroup) {
         List<JavaField> javaFields = new ArrayList<>();
@@ -115,9 +112,6 @@ public class WebElementGroupFieldBuilder {
     private String addSuffix(String fieldName, String suffix) {
         String lowerCaseSuffix = suffix.toLowerCase();
 
-        Set<String> allowedSuffixes = new HashSet<>();
-        allowedSuffixes.addAll(ReadFileIntoList(ALLOUWED_SUFFIXES_FILE));
-
         boolean suffixAllowed = allowedSuffixes.contains(lowerCaseSuffix);
 
         boolean fieldNameEndsWithSuffix = fieldName.toLowerCase().endsWith(lowerCaseSuffix);
@@ -136,5 +130,9 @@ public class WebElementGroupFieldBuilder {
      */
     public void setAddElementSuffix(boolean addElementSuffix) {
         this.addElementSuffix = addElementSuffix;
+    }
+
+    public void setAllowedSuffixes(Set<String> allowedSuffixes) {
+        this.allowedSuffixes = allowedSuffixes;
     }
 }

@@ -8,11 +8,13 @@ import com.epam.page.object.generator.builder.webpage.UrlWebPageBuilder;
 import com.epam.page.object.generator.builder.searchrule.SearchRuleBuildersFactory;
 import com.epam.page.object.generator.builder.webpage.WebPageBuilder;
 import com.epam.page.object.generator.container.SupportedTypesContainer;
+import com.epam.page.object.generator.util.JsonFileMapper;
 import com.epam.page.object.generator.util.PropertyLoader;
 import com.epam.page.object.generator.util.RawSearchRuleMapper;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
 import com.epam.page.object.generator.util.SearchRuleGroupsScheme;
 import com.epam.page.object.generator.util.SelectorUtils;
+import com.epam.page.object.generator.util.SuffixConfig;
 import com.epam.page.object.generator.util.TypeTransformer;
 import com.epam.page.object.generator.util.ValidationChecker;
 import com.epam.page.object.generator.util.XpathToCssTransformer;
@@ -21,6 +23,7 @@ import com.epam.page.object.generator.validator.JsonSchemaValidator;
 import com.epam.page.object.generator.validator.JsonValidators;
 import com.epam.page.object.generator.validator.ValidationExceptionConverter;
 import com.epam.page.object.generator.validator.WebValidators;
+import java.util.HashSet;
 
 /**
  * PageObjectGeneratorFactory allows to create {@link PageObjectsGenerator}.<br/> When you create
@@ -32,7 +35,10 @@ import com.epam.page.object.generator.validator.WebValidators;
  * which exist in the Internet.<br/> If onlineVersion will be false - PageObjectGenerator will work
  * with local .html files.</li> </ul>
  */
+
 public class PageObjectGeneratorFactory {
+
+    private static final String ALLOWED_SUFFIXES_FILE = "suffix-config.json";
 
     public static PageObjectsGenerator getPageObjectGenerator(String packageName,
                                                               String propertyFile,
@@ -64,6 +70,12 @@ public class PageObjectGeneratorFactory {
         } else {
             builder = new LocalWebPageBuilder();
         }
+
+        SuffixConfig suffixConfig = JsonFileMapper
+            .readFile(ALLOWED_SUFFIXES_FILE, SuffixConfig.class);
+
+        webElementGroupFieldBuilder.setAllowedSuffixes(new HashSet<>(suffixConfig.getAllowedSuffixes()));
+        webElementGroupFieldBuilder.setAddElementSuffix(suffixConfig.isEnable());
 
         return new PageObjectsGenerator(rawSearchRuleMapper, validator, transformer, checker,
             jsonValidators, webValidators, javaClassBuilder, webElementGroupFieldBuilder,

@@ -1,0 +1,8 @@
+{
+  "enable": false,
+  "allowedSuffixes": [
+    "page",
+    "button",
+    "form"
+  ]
+}
