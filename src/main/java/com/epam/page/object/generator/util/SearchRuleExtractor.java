@@ -57,7 +57,7 @@ public class SearchRuleExtractor {
                 List<ComplexInnerSearchRule> removedRules = rules.subList(1, rules.size()).stream()
                     .filter(complexInnerSearchRule -> extractElementsFromDocument(element.parent(),
                         complexInnerSearchRule).isEmpty()).collect(Collectors.toList());
-                logger.warn("Incorrect search rules: " + removedRules.toString());
+                logger.warn("Incorrect search rules: " + removedRules);
                 rules.removeAll(removedRules);
             }
         }
