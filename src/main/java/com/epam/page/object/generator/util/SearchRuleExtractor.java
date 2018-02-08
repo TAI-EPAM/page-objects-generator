@@ -10,6 +10,8 @@ import us.codecraft.xsoup.Xsoup;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * This class responsible for extracting of inner {@link Elements} from {@link Element}.
@@ -46,22 +48,9 @@ public class SearchRuleExtractor {
 
     private void checkInnerElements(Elements elements, SearchRule searchRule) {
         List<ComplexInnerSearchRule> rules = ((ComplexSearchRule) searchRule).getInnerSearchRules();
-
-        for (Element element : elements) {
+        elements.forEach(element -> {
             Element document = element.parent();
-            try {
-                rules = rules.subList(1, rules.size());
-            } catch (IndexOutOfBoundsException e) {
-                break;
-            }
-            Iterator<ComplexInnerSearchRule> iterator = rules.iterator();
-
-            while (iterator.hasNext()) {
-                Elements innerElements = extractElementsFromDocument(document, iterator.next());
-                if (innerElements.size() == 0) {
-                    iterator.remove();
-                }
-            }
-        }
+            rules.removeIf(item -> extractElementsFromDocument(document, item).size() == 0);
+        });
     }
 }
