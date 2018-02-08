@@ -15,10 +15,10 @@ public class SupportedTypesContainerTest {
     @Test
     public void addSupportedType_MapWithStringsAndAnnotationPairs_Valid() {
         Map<String, ClassAndAnnotationPair> supportedTypesMap = container.getSupportedTypesMap();
-        assertEquals(24, supportedTypesMap.size());
+        assertEquals(25, supportedTypesMap.size());
 
         container.addSupportedType("test", new ClassAndAnnotationPair(Form.class, FindBy.class));
-        assertEquals(25, supportedTypesMap.size());
+        assertEquals(26, supportedTypesMap.size());
     }
 
 }

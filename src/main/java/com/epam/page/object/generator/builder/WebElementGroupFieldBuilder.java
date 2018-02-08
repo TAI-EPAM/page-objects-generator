@@ -7,6 +7,7 @@ import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
+import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
 import com.epam.page.object.generator.model.searchrule.FormSearchRule;
@@ -43,12 +44,24 @@ public class WebElementGroupFieldBuilder {
         for (WebElement webElement : commonWebElementGroup.getWebElements()) {
             String className = searchRule.getClassAndAnnotation().getElementClass().getName();
             String fieldName = uncapitalize(splitCamelCase(webElement.getUniquenessValue()));
+
+            JavaField javaField;
+            Modifier[] modifiers = new Modifier[]{PUBLIC};
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
             JavaAnnotation annotation = commonWebElementGroup
-                .getAnnotation(annotationClass, webElement);
-            Modifier[] modifiers = new Modifier[]{PUBLIC};
+                    .getAnnotation(annotationClass, webElement);
 
-            JavaField javaField = new JavaField(className, fieldName, annotation, modifiers);
+            javaField = new JavaField(className, fieldName, annotation, modifiers);
+
+            if (searchRule.isAnnotationPropertySet()) {
+                javaField.setAnnotationFlag(true);
+            }
+
+            if (javaField.isSelenideTypeField()) {
+                Selector selector = searchRule.getTransformedSelector();
+                javaField.setInitializer(selector);
+            }
+
             javaFields.add(javaField);
             logger.debug("Add field = " + javaField);
         }

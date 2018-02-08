@@ -11,6 +11,12 @@
       "description": "Name of the attribute which must be unique",
       "type": "string"
     },
+    "annotation": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
     "selector": {
       "$ref": "file:./src/main/resources/schema/subschema/selector.json"
     }

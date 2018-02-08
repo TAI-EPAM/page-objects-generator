@@ -41,10 +41,11 @@ public class CommonSearchRuleBuilder implements SearchRuleBuilder {
         Selector selector = rawSearchRule.getSelector();
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
             .get(type.getName());
+        boolean annotation = rawSearchRule.getAnnotation();
 
         CommonSearchRule commonSearchRule = new CommonSearchRule(uniqueness, type, selector,
             classAndAnnotation, transformer,
-            selectorUtils);
+            selectorUtils, annotation);
         logger.debug("Create a new " + commonSearchRule);
 
         return commonSearchRule;

@@ -1,0 +1,22 @@
+{
+  "elements": [
+    {
+      "type": "selenide_element",
+      "uniqueness": "text",
+      "annotation": "false",
+      "selector": {
+        "type": "xpath",
+        "value": "/html/body/div[6]/div[1]/div[1]/div[2]/a[2]"
+      }
+    },
+    {
+      "type": "button",
+      "uniqueness": "text",
+      "annotation": "false",
+      "selector": {
+        "type": "xpath",
+        "value": "/html/body/div[6]/div[1]/div[1]/div[2]/a[1]"
+      }
+    }
+  ]
+}
