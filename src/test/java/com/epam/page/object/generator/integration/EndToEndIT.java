@@ -69,7 +69,7 @@ public class EndToEndIT {
     }
 
     /**
-     * Forms List<Object[]> which contains parameters for testing. Every list's element (it's Object
+     * Forms List<Object[]> which contains parameters for testing. fEvery list's element (it's Object
      * array) contains one parameter - list of TestClassesData objects. This list represents each
      * test case. For this purpose data() method scans through scr/test/resources/manual to find all
      * test cases dirs and then form list of TestClassesData objects for every test case
@@ -163,6 +163,7 @@ public class EndToEndIT {
             .getPageObjectGenerator(PACKAGE_TEST_NAME, PROPERTY_FILE, true);
 
         pog.setForceGenerateFile(currentTestClassesData.isForceGenerateFiles());
+        pog.setAddElementSuffix(true);
 
         TestClassesCompiler compiler = new TestClassesCompiler(pog,
             currentTestClassesData.getJsonPath(), RESOURCE_DIR,
