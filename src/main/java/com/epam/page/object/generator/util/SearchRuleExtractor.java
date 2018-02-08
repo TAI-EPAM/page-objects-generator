@@ -54,11 +54,11 @@ public class SearchRuleExtractor {
 
         for (Element element : elements) {
             if (rules.size() > 1) {
-                List<ComplexInnerSearchRule> removedRules = rules.subList(1, rules.size()).stream()
+                rules.removeAll(rules.subList(1, rules.size()).stream()
                     .filter(complexInnerSearchRule -> extractElementsFromDocument(element.parent(),
-                        complexInnerSearchRule).isEmpty()).collect(Collectors.toList());
-                logger.warn("Incorrect search rules: " + removedRules);
-                rules.removeAll(removedRules);
+                        complexInnerSearchRule).isEmpty())
+                    .peek(e -> logger.warn("Incorrect search rules: " + e.toString()))
+                    .collect(Collectors.toList()));
             }
         }
     }
