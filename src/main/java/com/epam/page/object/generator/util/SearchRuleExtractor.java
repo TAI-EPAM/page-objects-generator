@@ -52,14 +52,14 @@ public class SearchRuleExtractor {
     private void checkInnerElements(Elements elements, SearchRule searchRule) {
         List<ComplexInnerSearchRule> rules = ((ComplexSearchRule) searchRule).getInnerSearchRules();
 
-        for (Element element : elements) {
+        elements.forEach(e -> {
             if (rules.size() > 1) {
                 rules.removeAll(rules.subList(1, rules.size()).stream()
-                    .filter(complexInnerSearchRule -> extractElementsFromDocument(element.parent(),
+                    .filter(complexInnerSearchRule -> extractElementsFromDocument(e.parent(),
                         complexInnerSearchRule).isEmpty())
-                    .peek(e -> logger.warn("Incorrect search rule: " + e.toString()))
+                    .peek(r -> logger.warn("Incorrect search rule: " + r.toString()))
                     .collect(Collectors.toList()));
             }
-        }
+        });
     }
 }
