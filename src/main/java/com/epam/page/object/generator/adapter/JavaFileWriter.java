@@ -82,11 +82,25 @@ public class JavaFileWriter {
      * @return {@link FieldSpec} used by JavaPoet for generation {@link TypeSpec}.
      */
     private FieldSpec buildFieldSpec(JavaField field) {
+        return field.isSelenideTypeField()
+                ? buildSelenideFieldSpec(field)
+                : buildRegularFieldSpec(field);
+    }
+
+    private FieldSpec buildRegularFieldSpec(JavaField field) {
         return FieldSpec
-            .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
-            .addModifiers(field.getModifiers())
-            .addAnnotation(buildAnnotationSpec(field.getAnnotation()))
-            .build();
+                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+                .addModifiers(field.getModifiers())
+                .addAnnotation(buildAnnotationSpec(field.getAnnotation()))
+                .build();
+    }
+
+    private FieldSpec buildSelenideFieldSpec(JavaField field) {
+        return FieldSpec
+                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+                .addModifiers(field.getModifiers())
+                .initializer("$L($S)", field.getInitializer().get("$L($S)"))
+                .build();
     }
 
     /**

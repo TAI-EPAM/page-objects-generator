@@ -17,6 +17,13 @@
             "type": "xpath",
             "value": "//ul[@class='dropdown-menu inner selectpicker']"
           }
+        },
+        {
+          "title": "value",
+          "selector": {
+            "type": "css",
+            "value": "test"
+          }
         }
       ]
     }

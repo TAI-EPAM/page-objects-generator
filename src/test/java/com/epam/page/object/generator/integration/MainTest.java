@@ -140,10 +140,88 @@ public class MainTest {
             Collections.singletonList("http://materializecss.com/dropdown.html"));
     }
 
-    @Test(expected = ValidationException.class)
-    public void pageObjectGenerator_NotExistUniquenessAttribute_Exception() throws Exception {
+    @Test
+    public void pageObjectGenerator_NotExistUniquenessAttribute_Success() throws Exception {
         pog.setForceGenerateFile(true);
         pog.generatePageObjects("/epam-buttons-wrong-uniqueness.json", outputDir,
             Collections.singletonList("https://www.epam.com"));
+    }
+
+    @Test
+    public void pageObjectGenerator_CssSelenideElement_Success() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_css.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void pageObjectGenerator_CssSelenideElementNotExistUniquenessAttribute_Exception()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_css_wrong_uniqueness.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void pageObjectGenerator_CssSelenideElementWithoutUniquenessAttribute_Exception()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_css_without_uniqueness.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test
+    public void pageObjectGenerator_CssSelenideElementWithDefaultAnnotation_Success()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_css_default_annotation.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test
+    public void pageObjectGenerator_CssSelenideElementWithDifferentElements_Success()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_css_different_elements.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test
+    public void pageObjectGenerator_XpathSelenideElement_Success() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_xpath.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void pageObjectGenerator_XpathSelenideElementNotExistUniquenessAttribute_Exception()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_xpath_wrong_uniqueness.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test(expected = ValidationException.class)
+    public void pageObjectGenerator_XpathSelenideElementWithoutUniquenessAttribute_Exception()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_xpath_without_uniqueness.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test
+    public void pageObjectGenerator_XpathSelenideElementWithDefaultAnnotation_Success()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_xpath_default_annotation.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
+    }
+
+    @Test
+    public void pageObjectGenerator_XpathSelenideElementWithDifferentElements_Success()
+        throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/selenide_element_xpath_different_elements.json", outputDir,
+            Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
     }
 }

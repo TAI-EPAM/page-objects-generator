@@ -19,7 +19,8 @@
         "tabs",
         "textlist",
         "checklist",
-        "elements"
+        "elements",
+        "selenide_element"
       ],
       "schema": "/schema/searchrule/common/common-main-schema.json"
     },

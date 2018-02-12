@@ -1,0 +1,13 @@
+{
+  "elements": [
+    {
+      "type": "selenide_element",
+      "uniqueness": "texet",
+      "annotation": "false",
+      "selector": {
+        "type": "css",
+        "value": "div.w3-clear:nth-child(3) > a:nth-child(2)"
+      }
+    }
+  ]
+}

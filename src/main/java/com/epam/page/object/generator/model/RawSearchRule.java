@@ -6,6 +6,7 @@ import com.epam.page.object.generator.validator.ValidationResult;
 import java.util.ArrayList;
 import java.util.List;
 import org.everit.json.schema.Schema;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -103,5 +104,14 @@ public class RawSearchRule {
     @Override
     public String toString() {
         return "SearchRule{" + element + '}';
+    }
+
+    public boolean getAnnotation() {
+        try {
+            return Boolean.parseBoolean(
+                    this.getValue("annotation"));
+        } catch (JSONException e) {
+            return true;
+        }
     }
 }
