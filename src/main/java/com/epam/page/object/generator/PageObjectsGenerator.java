@@ -20,9 +20,11 @@ import com.epam.page.object.generator.util.ValidationChecker;
 import com.epam.page.object.generator.validator.JsonSchemaValidator;
 import com.epam.page.object.generator.validator.JsonValidators;
 import com.epam.page.object.generator.validator.WebValidators;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,7 @@ public class PageObjectsGenerator {
     private SearchRuleExtractor searchRuleExtractor;
 
     private boolean forceGenerateFile = false;
+
 
     private final static Logger logger = LoggerFactory.getLogger(PageObjectsGenerator.class);
 
@@ -79,15 +82,15 @@ public class PageObjectsGenerator {
     /**
      * Main method which checks and generates page objects.
      *
-     * @param jsonPath path to input json file, which must start from resources folder.
+     * @param jsonPath  path to input json file, which must start from resources folder.
      * @param outputDir path to the folder where it is needed to be generated .java source files.
-     * @param urls list of urls which PageObjectsGenerator must visit and try to find elements on
-     * each of them.
+     * @param urls      list of urls which PageObjectsGenerator must visit and try to find elements on
+     *                  each of them.
      * @throws IOException can be thrown from {@link JavaFileWriter#writeFiles(String, List)} if
-     * outputDir path doesn't correct.
+     *                     outputDir path doesn't correct.
      */
     public void generatePageObjects(String jsonPath, String outputDir, List<String> urls)
-        throws IOException {
+            throws IOException {
 
         List<RawSearchRule> rawSearchRuleList = getRawSearchRules(jsonPath);
         jsonSchemaValidation(rawSearchRuleList);
@@ -127,7 +130,7 @@ public class PageObjectsGenerator {
     private List<SearchRule> getSearchRules(List<RawSearchRule> rawSearchRuleList) {
         logger.info("Start transforming RawSearchRules in SearchRules...");
         List<SearchRule> searchRuleList = typeTransformer
-            .transform(rawSearchRuleList, selectorUtils, searchRuleExtractor);
+                .transform(rawSearchRuleList, selectorUtils, searchRuleExtractor);
         logger.info("Finish transforming RawSearchRules in SearchRules\n");
         return searchRuleList;
     }
@@ -184,11 +187,21 @@ public class PageObjectsGenerator {
      * POG generates all valid {@link SearchRule} and after that throws {@link ValidationException},
      * otherwise if forceGenerateFile equals false - POG doesn't generate files and throws {@link
      * ValidationException}.<br/>
-     *
+     * <p>
      * It only works for web validation process. If the errors are at the stage of json validation,
      * it will just throw {@link ValidationException} regardless of the forceGenerateFile value.
      */
     public void setForceGenerateFile(boolean forceGenerateFile) {
         this.forceGenerateFile = forceGenerateFile;
+    }
+
+    /**
+     * Method allows to edit output method names by component name suffix<br/>
+     * e.g <i>public Button value -> public Button valueButton</i><br/>
+     * <p>
+     * Works only with suffixes 'Button', 'Page', 'Form' if the element doesn't end with suffix
+     */
+    public void setAddElementSuffix(boolean addElementSuffix) {
+        webElementGroupFieldBuilder.setAddElementSuffix(addElementSuffix);
     }
 }
