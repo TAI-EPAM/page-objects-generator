@@ -19,8 +19,7 @@
         "tabs",
         "textlist",
         "checklist",
-        "elements",
-        "selenide_element"
+        "elements"
       ],
       "schema": "/schema/searchrule/common/common-main-schema.json"
     },
@@ -42,6 +41,11 @@
         "section"
       ],
       "schema": "/schema/searchrule/form/form-main-schema.json"
+    },
+    {
+      "name": "selenideSearchRule",
+      "searchRuleTypes": ["selenide_element"],
+      "schema": "/schema/searchrule/selenide/selenide-main-schema.json"
     }
   ]
 }

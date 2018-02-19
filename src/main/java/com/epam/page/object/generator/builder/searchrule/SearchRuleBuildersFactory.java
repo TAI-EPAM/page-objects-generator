@@ -42,6 +42,8 @@ public class SearchRuleBuildersFactory {
         logger.debug("Add FormSearchRuleBuilder for formSearchRule");
         builderMap.put("formInnerSearchRule", new FormInnerSearchRuleBuilder());
         logger.debug("Add FormInnerSearchRuleBuilder for formInnerSearchRule");
+        builderMap.put("selenideSearchRule", new SelenideSearchRuleBuilder());
+        logger.debug("Add SelenideSearchRuleBuilder for selenideSearchRule");
         logger.info("Finish creating map with builders\n");
 
         return builderMap;

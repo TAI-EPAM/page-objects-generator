@@ -18,7 +18,6 @@
     "tabs",
     "textlist",
     "checklist",
-    "elements",
-    "selenide_element"
+    "elements"
   ]
 }
