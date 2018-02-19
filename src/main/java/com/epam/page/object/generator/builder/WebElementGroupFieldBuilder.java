@@ -53,10 +53,7 @@ public class WebElementGroupFieldBuilder {
                     .getAnnotation(annotationClass, webElement);
 
             javaField = new JavaField(className, fieldName, annotation, modifiers);
-
-            if (searchRule.isAnnotationPropertySet()) {
-                javaField.setAnnotationFlag(true);
-            }
+            javaField.setAnnotationFlag(true);
 
             if (javaField.isSelenideTypeField()) {
                 Selector selector = searchRule.getTransformedSelector();

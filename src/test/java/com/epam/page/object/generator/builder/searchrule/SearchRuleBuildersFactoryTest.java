@@ -28,12 +28,13 @@ public class SearchRuleBuildersFactoryTest {
     @Test
     public void build_TypeTransformer_Valid() {
 
-        assertEquals(5, typeTransformer.getBuilders().size());
+        assertEquals(6, typeTransformer.getBuilders().size());
         assertNotNull(typeTransformer.getBuilders().get("commonSearchRule"));
         assertNotNull(typeTransformer.getBuilders().get("complexSearchRule"));
         assertNotNull(typeTransformer.getBuilders().get("complexInnerSearchRule"));
         assertNotNull(typeTransformer.getBuilders().get("formSearchRule"));
         assertNotNull(typeTransformer.getBuilders().get("formInnerSearchRule"));
+        assertNotNull(typeTransformer.getBuilders().get("selenideSearchRule"));
     }
 
 }

@@ -28,7 +28,6 @@ public class CommonSearchRule implements SearchRule {
     private String uniqueness;
     private SearchRuleType type;
     private Selector selector;
-    private boolean annotation;
     private ClassAndAnnotationPair classAndAnnotation;
     private XpathToCssTransformer transformer;
     private SelectorUtils selectorUtils;
@@ -47,18 +46,6 @@ public class CommonSearchRule implements SearchRule {
         this.classAndAnnotation = classAndAnnotation;
         this.transformer = transformer;
         this.selectorUtils = selectorUtils;
-    }
-
-    public CommonSearchRule(String uniqueness, SearchRuleType type, Selector selector,
-                            ClassAndAnnotationPair classAndAnnotation,
-                            XpathToCssTransformer transformer,
-                            SelectorUtils selectorUtils, boolean annotation) {
-        this(uniqueness, type, selector, classAndAnnotation, transformer, selectorUtils);
-        this.annotation = annotation;
-    }
-
-    public boolean isAnnotationPropertySet() {
-        return this.annotation;
     }
 
     public String getUniqueness() {
