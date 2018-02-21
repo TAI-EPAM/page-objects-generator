@@ -1,0 +1,47 @@
+{
+  "elements": [
+    {
+      "type": "dropdown",
+      "innerSearchRules": [
+        {
+          "title": "root",
+          "uniqueness": "title",
+          "selector": {
+            "type": "css",
+            "value": "button[data-id=colors-dropdown]"
+          }
+        },
+        {
+          "title": "list",
+          "selector": {
+            "type": "xpath",
+            "value": "//ul[@class='dropdown-menu inner selectpicker']"
+          }
+        },
+        {
+          "title": "value",
+          "selector": {
+            "type": "css",
+            "value": "test"
+          }
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "button[type=submit][id=calculate-button]"
+      }
+    },
+    {
+      "type": "button",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "button[type=submit][id=calculate-button]"
+      }
+    }
+  ]
+}
