@@ -9,7 +9,7 @@ import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.WebPage;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
-import com.epam.page.object.generator.model.webelement.CommonWebElement;
+import com.epam.page.object.generator.model.webelement.SelenideWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SelectorUtils;
 import com.epam.page.object.generator.validator.ValidationResult;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents {@link CommonSearchRule} and list of {@link CommonWebElement} which was found by
+ * Represents {@link SelenideSearchRule} and list of {@link SelenideWebElement} which was found by
  * this rule from certain {@link WebPage}.
  */
 public class SelenideWebElementGroup implements WebElementGroup {
@@ -84,12 +84,12 @@ public class SelenideWebElementGroup implements WebElementGroup {
     }
 
     /**
-     * Returns {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
+     * Returns {@link JavaAnnotation} that represents {@link SelenideWebElement} in generated class.
      *
      * @param annotationClass annotation class which used for generation annotation.
      * @param webElement {@link WebElement} that has to be represented in generated {@link
      * JavaClass}.
-     * @return {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
+     * @return {@link JavaAnnotation} that represents {@link SelenideWebElement} in generated class.
      */
     public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();

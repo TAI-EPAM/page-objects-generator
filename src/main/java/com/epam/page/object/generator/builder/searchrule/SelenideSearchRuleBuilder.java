@@ -4,7 +4,7 @@ import com.epam.page.object.generator.container.SupportedTypesContainer;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.Selector;
-import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
+import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
@@ -15,20 +15,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed for creating {@link CommonSearchRule} from {@link RawSearchRule}
+ * This class is needed for creating {@link SelenideSearchRule} from {@link RawSearchRule}
  */
 public class SelenideSearchRuleBuilder implements SearchRuleBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(SelenideSearchRuleBuilder.class);
 
     /**
-     * This method builds {@link CommonSearchRule} getting the necessary information about {@link
+     * This method builds {@link SelenideSearchRule} getting the necessary information about {@link
      * RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector}, uniqueness parameter.
      * Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. At last sent
      * this parameters plus {@link XpathToCssTransformer} and {@link SelectorUtils} in constructor
-     * and get new {@link CommonSearchRule}
+     * and get new {@link SelenideSearchRule}
      *
-     * @return {@link CommonSearchRule}
+     * @return {@link SelenideSearchRule}
      */
     @Override
     public SearchRule buildSearchRule(RawSearchRule rawSearchRule,
@@ -43,11 +43,11 @@ public class SelenideSearchRuleBuilder implements SearchRuleBuilder {
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
             .get(type.getName());
 
-        SelenideSearchRule commonSearchRule = new SelenideSearchRule(uniqueness, type, selector,
+        SelenideSearchRule selenideSearchRule = new SelenideSearchRule(uniqueness, type, selector,
             classAndAnnotation, transformer,
-            selectorUtils);
-        logger.debug("Create a new " + commonSearchRule);
+            selectorUtils, rawSearchRule.getAnnotation());
+        logger.debug("Create a new " + selenideSearchRule);
 
-        return commonSearchRule;
+        return selenideSearchRule;
     }
 }
