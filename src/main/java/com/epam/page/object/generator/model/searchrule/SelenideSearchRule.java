@@ -35,6 +35,7 @@ public class SelenideSearchRule implements SearchRule {
     private ClassAndAnnotationPair classAndAnnotation;
     private XpathToCssTransformer transformer;
     private SelectorUtils selectorUtils;
+    private boolean annotation;
 
     private List<ValidationResult> validationResults = new ArrayList<>();
     private final static Logger logger = LoggerFactory.getLogger(SelenideSearchRule.class);
@@ -42,11 +43,12 @@ public class SelenideSearchRule implements SearchRule {
     public SelenideSearchRule(String uniqueness, SearchRuleType type, Selector selector,
                               ClassAndAnnotationPair classAndAnnotation,
                               XpathToCssTransformer transformer,
-                              SelectorUtils selectorUtils) {
+                              SelectorUtils selectorUtils,
+                              boolean annotation) {
         this.uniqueness = uniqueness;
         this.type = type;
         this.selector = selector;
-
+        this.annotation = annotation;
         this.classAndAnnotation = classAndAnnotation;
         this.transformer = transformer;
         this.selectorUtils = selectorUtils;
@@ -89,6 +91,10 @@ public class SelenideSearchRule implements SearchRule {
         }
         logger.debug("Don't need to transform selector");
         return selector;
+    }
+
+    public boolean usesAnnotation() {
+        return annotation;
     }
 
     @Override

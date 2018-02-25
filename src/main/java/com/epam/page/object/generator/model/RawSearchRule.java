@@ -105,4 +105,13 @@ public class RawSearchRule {
     public String toString() {
         return "SearchRule{" + element + '}';
     }
+
+    public boolean getAnnotation() {
+        try {
+            return Boolean.parseBoolean(
+                    this.getValue("annotation"));
+        } catch (JSONException e) {
+            return false;
+        }
+    }
 }
