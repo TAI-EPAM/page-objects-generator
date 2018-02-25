@@ -33,7 +33,8 @@ public enum SearchRuleType {
     MENU("menu"),
     FORM("form"),
     SECTION("section"),
-    SELENIDE_ELEMENT("selenide_element");
+    SELENIDE_ELEMENT("selenide_element"),
+    LIST_SELENIDE_ELEMENT("list_selenide_element");
 
     private final String name;
 

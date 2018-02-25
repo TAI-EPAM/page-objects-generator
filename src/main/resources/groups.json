@@ -44,7 +44,7 @@
     },
     {
       "name": "selenideSearchRule",
-      "searchRuleTypes": ["selenide_element"],
+      "searchRuleTypes": ["selenide_element", "list_selenide_element"],
       "schema": "/schema/searchrule/selenide/selenide-main-schema.json"
     }
   ]

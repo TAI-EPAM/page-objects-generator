@@ -1,5 +1,5 @@
 {
   "description": "Type of the SearchRule",
   "type": "string",
-  "enum": ["selenide_element"]
+  "enum": ["selenide_element", "list_selenide_element"]
 }

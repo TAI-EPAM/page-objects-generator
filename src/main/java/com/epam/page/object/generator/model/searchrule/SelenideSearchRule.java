@@ -1,9 +1,11 @@
 package com.epam.page.object.generator.model.searchrule;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.epam.page.object.generator.error.XpathToCssTransformerException;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.webelement.CommonWebElement;
+import com.epam.page.object.generator.model.webelement.SelenideWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.SelenideWebElementGroup;
@@ -91,6 +93,7 @@ public class SelenideSearchRule implements SearchRule {
 
     @Override
     public Selector getSelector() {
+
         return selector;
     }
 
@@ -98,7 +101,7 @@ public class SelenideSearchRule implements SearchRule {
     public List<WebElement> getWebElements(Elements elements) {
         List<WebElement> webElements = new ArrayList<>();
         for (Element element : elements) {
-            webElements.add(new CommonWebElement(element, getRequiredValue(element)));
+            webElements.add(new SelenideWebElement(element, getRequiredValue(element)));
         }
         return webElements;
     }

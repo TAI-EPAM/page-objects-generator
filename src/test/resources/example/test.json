@@ -1,0 +1,12 @@
+{
+  "elements": [
+    {
+      "type": "list_selenide_element",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "#customers tr"
+      }
+    }
+  ]
+}
