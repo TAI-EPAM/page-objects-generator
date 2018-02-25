@@ -30,7 +30,7 @@ public class JavaFileWriter {
     /**
      * Calls a method to write each {@link JavaClass} in outputDir folder.
      *
-     * @param outputDir   path to the folder where need to generate .java source files.
+     * @param outputDir path to the folder where need to generate .java source files.
      * @param javaClasses list of {@link JavaClass}.
      * @throws IOException can be throwing if outputDir path doesn't correct.
      */
@@ -57,11 +57,13 @@ public class JavaFileWriter {
             Files.write(path, formattedFile.getBytes());
         } catch (FormatterException e) {
             logger.warn("There was an error during format a source: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     /**
      * Returns .java file build from an appropriate class
+     *
      * @param javaClass {@link JavaClass} created from predefined data
      * @return {@Link JavaFile} file generated from {@Link JavaClass}
      */
@@ -76,6 +78,7 @@ public class JavaFileWriter {
 
     /**
      * Returns a list of java files generated during POG process
+     *
      * @return list of generated {@Link JavaFile}
      */
     public List<JavaFile> getJavaFiles() {
@@ -84,8 +87,9 @@ public class JavaFileWriter {
 
     /**
      * Returns a full path for a {@Link JavaFile} in the appropriate output directory
+     *
      * @param outputDirectory path to the folder where .java source file will be saved
-     * @param javaFile {@Link JavaFile} file which path we want to get
+     * @param javaFile        {@Link JavaFile} file which path we want to get
      * @return {@Link Path} full path to the .java file
      * @throws IOException can be thrown if outputDir path is not correct.
      */
@@ -93,7 +97,7 @@ public class JavaFileWriter {
         String packageName = javaFile.packageName;
         TypeSpec typeSpec = javaFile.typeSpec;
 
-        if(!packageName.isEmpty()) {
+        if (!packageName.isEmpty()) {
             for (String packageComponent : packageName.split("\\.")) {
                 outputDirectory = outputDirectory.resolve(packageComponent);
             }
