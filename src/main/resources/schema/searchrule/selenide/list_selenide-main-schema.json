@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "SelenideElementsCollectionSearchRule",
+  "description": "validate selenideElementsCollectionSearchRule",
+  "type": "object",
+  "properties": {
+    "type": {
+      "$ref": "file:./src/main/resources/schema/searchrule/selenide/list_selenide-types.json"
+    },
+    "annotation": {
+      "enum": [
+        "false",
+        "true"
+      ]
+    },
+    "selector": {
+        "enum": [
+          "css"
+        ]
+    },
+    "innerSearchRules": {
+      "description": "List of inner SearchRules",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "uniqueness": {
+                "description": "Uniqueness element",
+                "type": "string"
+              },
+              "title": {
+                "$ref": "file:./src/main/resources/schema/searchrule/selenide/list_selenide-inner-root-titles.json"
+              },
+              "selector": {
+                "$ref": "file:./src/main/resources/schema/subschema/selector.json"
+              }
+            },
+            "required": [
+              "title",
+              "uniqueness",
+              "selector"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "uniqueness": {
+                "description": "Uniqueness element",
+                "type": "null"
+              },
+              "title": {
+                "$ref": "file:./src/main/resources/schema/searchrule/selenide/list_selenide-inner-other-titles.json"
+              },
+              "selector": {
+                "$ref": "file:./src/main/resources/schema/subschema/selector.json"
+              }
+            },
+            "required": [
+              "title",
+              "selector"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "type",
+    "innerSearchRules"
+  ]
+}

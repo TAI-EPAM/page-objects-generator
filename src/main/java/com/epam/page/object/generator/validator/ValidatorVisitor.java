@@ -5,6 +5,7 @@ import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.SelenideWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.SelenideWebElementsCollectionGroup;
 
 /**
  * Realization of visitor pattern. Here we call method visit for all types of searchRules to
@@ -51,6 +52,14 @@ public interface ValidatorVisitor {
     }
 
     default ValidationResult visit(SelenideWebElementGroup selenideWebElementGroup) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideWebElementsCollectionGroup selenideWebElementGroup) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideElementsCollectionSearchRule selenideWebElementGroup) {
         return new ValidationResult(true, this + " passed!");
     }
 }

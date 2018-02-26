@@ -45,6 +45,11 @@ public class SearchRuleBuildersFactory {
         builderMap.put("selenideSearchRule", new SelenideSearchRuleBuilder());
         logger.debug("Add SelenideSearchRuleBuilder for selenideSearchRule");
         logger.info("Finish creating map with builders\n");
+        builderMap.put("selenideElementsCollectionSearchRule", new SelenideElementsCollectionSearchRuleBuilder(
+                rawSearchRuleMapper,
+                new ComplexInnerSearchRuleBuilder()));
+        logger.debug("Add SelenideElementsCollectionSearchRule for selenideElementsCollectionSearchRule");
+        logger.info("Finish creating map with builders\n");
 
         return builderMap;
     }

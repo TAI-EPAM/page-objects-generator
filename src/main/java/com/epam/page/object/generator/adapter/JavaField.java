@@ -28,7 +28,7 @@ public class JavaField {
     }
 
     public boolean isSelenideTypeField() {
-        return fullClassField.contains("Selenide") && !isAnnotation;
+        return (fullClassField.contains("Selenide") || fullClassField.contains("ElementsCollection")) && !isAnnotation;
     }
 
     public void setAnnotationFlag(boolean isAnnotation) {
@@ -41,6 +41,12 @@ public class JavaField {
                 ? "$x"
                 : "$";
         initializer.put("$L($S)", new String[] {prefix, selector.getValue()});
+    }
+
+    public void setElementsCollectionInitializer() {
+        String init = annotation.getAnnotationMembers().get(0).getArg();
+        initializer = new HashMap<>();
+        initializer.put("$L($S)", new String[] {"$$", init});
     }
 
     Map<String, Object[]> getInitializer() {

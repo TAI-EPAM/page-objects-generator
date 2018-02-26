@@ -2,11 +2,24 @@
   "elements": [
     {
       "type": "list_selenide_element",
-      "uniqueness": "text",
-      "selector": {
-        "type": "css",
-        "value": "#customers tr"
-      }
+      "annotation": "false",
+      "innerSearchRules": [
+        {
+          "title": "root",
+          "uniqueness": "text",
+          "selector": {
+            "type": "css",
+            "value": "#customers"
+          }
+        },
+        {
+          "title": "list",
+          "selector": {
+            "type": "css",
+            "value": "tr"
+          }
+        }
+      ]
     }
   ]
 }
