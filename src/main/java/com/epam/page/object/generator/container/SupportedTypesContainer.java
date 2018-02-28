@@ -32,9 +32,15 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JTable;
 import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
+import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SearchRuleType;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.squareup.javapoet.ParameterizedTypeName;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -111,6 +117,8 @@ public class SupportedTypesContainer {
             new ClassAndAnnotationPair(Form.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.SELENIDE_ELEMENT.getName(),
                 new ClassAndAnnotationPair(SelenideElement.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.WEBELEMENTS.getName(),
+                new ClassAndAnnotationPair(null, FindBy.class)); // null - we do not use el.class
     }
 
     /**

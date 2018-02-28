@@ -1,0 +1,7 @@
+{
+  "description": "Type of the WebElementsSearchRule",
+  "type": "string",
+  "enum": [
+    "webelements"
+  ]
+}
