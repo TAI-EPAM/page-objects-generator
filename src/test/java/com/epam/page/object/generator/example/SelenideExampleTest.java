@@ -37,11 +37,4 @@ public class SelenideExampleTest {
         pog.generatePageObjects("/selenide_element_xpath.json", outputDir,
                 Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
     }
-
-    @Test
-    public void exampleSelenideElementsCollectionCSS() throws Exception {
-        pog.setForceGenerateFile(false);
-        pog.generatePageObjects("/example/test.json", outputDir,
-                Collections.singletonList("https://www.w3schools.com/html/html_tables.asp"));
-    }
 }

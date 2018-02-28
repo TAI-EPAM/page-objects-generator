@@ -112,8 +112,6 @@ public class SupportedTypesContainer {
             new ClassAndAnnotationPair(Form.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.SELENIDE_ELEMENT.getName(),
                 new ClassAndAnnotationPair(SelenideElement.class, FindBy.class));
-        supportedTypesMap.put(SearchRuleType.LIST_SELENIDE_ELEMENT.getName(),
-                new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class));
     }
 
     /**
