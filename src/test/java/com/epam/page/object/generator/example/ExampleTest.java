@@ -39,4 +39,11 @@ public class ExampleTest {
         pog.generatePageObjects("/example/dropdown.json", outputDir,
             Collections.singletonList("/example/example.html"));
     }
+
+    @Test
+    public void setForceGenerateFile_ExampleSeleniumWebElement_StatusOk() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/example/test.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
 }

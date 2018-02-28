@@ -1,6 +1,5 @@
 package com.epam.page.object.generator.container;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
@@ -36,6 +35,8 @@ import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.util.SearchRuleType;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -112,6 +113,8 @@ public class SupportedTypesContainer {
             new ClassAndAnnotationPair(Form.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.SELENIDE_ELEMENT.getName(),
                 new ClassAndAnnotationPair(SelenideElement.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.SELENIUM_WEB_ELEMENT.getName(),
+                new ClassAndAnnotationPair(WebElement.class, FindBy.class));
     }
 
     /**

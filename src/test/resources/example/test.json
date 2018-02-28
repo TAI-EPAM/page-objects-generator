@@ -1,25 +1,12 @@
 {
   "elements": [
     {
-      "type": "list_selenide_element",
-      "annotation": "false",
-      "innerSearchRules": [
-        {
-          "title": "root",
-          "uniqueness": "text",
-          "selector": {
-            "type": "css",
-            "value": "#customers"
-          }
-        },
-        {
-          "title": "list",
-          "selector": {
-            "type": "css",
-            "value": "tr"
-          }
-        }
-      ]
+      "type": "selenium_web_element",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "button[type=submit][id=calculate-button]"
+      }
     }
   ]
 }

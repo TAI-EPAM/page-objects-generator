@@ -19,7 +19,8 @@
         "tabs",
         "textlist",
         "checklist",
-        "elements"
+        "elements",
+        "selenium_web_element"
       ],
       "schema": "/schema/searchrule/common/common-main-schema.json"
     },

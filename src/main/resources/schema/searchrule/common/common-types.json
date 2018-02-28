@@ -18,6 +18,7 @@
     "tabs",
     "textlist",
     "checklist",
-    "elements"
+    "elements",
+    "selenium_web_element"
   ]
 }
