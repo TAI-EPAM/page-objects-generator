@@ -43,7 +43,14 @@ public class ExampleTest {
     @Test
     public void setForceGenerateFile_ExampleSeleniumWebElement_StatusOk() throws Exception {
         pog.setForceGenerateFile(false);
-        pog.generatePageObjects("/example/test.json", outputDir,
+        pog.generatePageObjects("/example/web_element.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
+
+    @Test
+    public void exampleElementsCollection() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/example/elements_collection.json", outputDir,
                 Collections.singletonList("/example/example.html"));
     }
 }

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "SelenideSearchRule",
+  "description": "validate selenideSearchRule",
+  "type": "object",
+  "properties": {
+    "type": {
+      "$ref": "file:./src/main/resources/schema/searchrule/selenide/selenide-collection-types.json"
+    },
+    "uniqueness": {
+      "description": "Name of the attribute which must be unique",
+      "type": "string"
+    },
+    "selector": {
+      "$ref": "file:./src/main/resources/schema/subschema/selector.json"
+    },
+    "annotation": {
+      "enum": [
+        "false",
+        "true"
+      ]
+    }
+  },
+  "required": [
+    "type",
+    "uniqueness",
+    "selector"
+  ]
+}

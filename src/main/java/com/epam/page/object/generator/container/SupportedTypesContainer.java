@@ -1,5 +1,6 @@
 package com.epam.page.object.generator.container;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
@@ -115,6 +116,8 @@ public class SupportedTypesContainer {
                 new ClassAndAnnotationPair(SelenideElement.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.SELENIUM_WEB_ELEMENT.getName(),
                 new ClassAndAnnotationPair(WebElement.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.ELEMENTS_COLLECTION.getName(),
+                new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class));
     }
 
     /**
