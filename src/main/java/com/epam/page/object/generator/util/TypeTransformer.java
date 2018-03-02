@@ -24,6 +24,8 @@ public class TypeTransformer {
 
     private Map<String, SearchRuleBuilder> builders;
 
+
+
     public TypeTransformer(SupportedTypesContainer typesContainer,
                            XpathToCssTransformer transformer,
                            Map<String, SearchRuleBuilder> builders) {

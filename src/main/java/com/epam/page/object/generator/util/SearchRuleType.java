@@ -35,7 +35,8 @@ public enum SearchRuleType {
     SECTION("section"),
     SELENIDE_ELEMENT("selenide_element"),
     SELENIUM_WEB_ELEMENT("selenium_web_element"),
-    ELEMENTS_COLLECTION("elements_collection");
+    ELEMENTS_COLLECTION("elements_collection"),
+    WEBELEMENTS("webelements");
 
     private final String name;
 

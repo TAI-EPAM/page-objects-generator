@@ -9,12 +9,23 @@ import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.searchrule.*;
-import com.epam.page.object.generator.model.webelement.SelenideElementsCollectionWebElement;
 import com.epam.page.object.generator.model.webgroup.*;
+import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
+import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
+import com.epam.page.object.generator.model.searchrule.FormSearchRule;
+import com.epam.page.object.generator.model.searchrule.WebElementsSearchRule;
+import com.epam.page.object.generator.model.webelement.ListWebElement;
+import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
 import com.epam.page.object.generator.model.webelement.WebElement;
 
 import java.util.*;
 import javax.lang.model.element.Modifier;
+
+import com.epam.page.object.generator.model.webgroup.WebElementsElementGroup;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +73,33 @@ public class WebElementGroupFieldBuilder {
         }
         logger.debug("Finish " + searchRule + "\n");
 
+        return javaFields;
+    }
+
+    public List<JavaField> build(WebElementsElementGroup webElementsElementGroup) {
+        List<JavaField> javaFields = new ArrayList<>();
+        WebElementsSearchRule searchRule = webElementsElementGroup.getSearchRule();
+
+        logger.debug("Add fields found by " + searchRule);
+
+        if (!webElementsElementGroup.getWebElements().isEmpty()) {
+            WebElement webElement = webElementsElementGroup.getWebElements().get(0); // we do not have to think about other elements
+
+            TypeName typeName = ListWebElement.getType();
+            String fieldName = extractFieldName(webElement,
+                    "WebElements");
+            JavaField javaField;
+            Modifier[] modifiers = new Modifier[]{PUBLIC};
+            Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
+            JavaAnnotation annotation = webElementsElementGroup
+                    .getAnnotation(annotationClass, webElement);
+
+            javaField = new JavaField(typeName, fieldName, annotation, modifiers);
+
+            javaFields.add(javaField);
+            logger.debug("Add field = " + javaField);
+        } // else?
+        logger.debug("Finish " + searchRule + "\n");
         return javaFields;
     }
 

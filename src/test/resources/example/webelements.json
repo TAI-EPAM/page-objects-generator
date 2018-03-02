@@ -1,0 +1,12 @@
+{
+  "elements": [
+    {
+      "type": "webelements",
+      "uniqueness": "name",
+      "selector": {
+        "type": "css",
+        "value": "p input"
+      }
+    }
+  ]
+}

@@ -2,6 +2,17 @@ package com.epam.page.object.generator.validator;
 
 import com.epam.page.object.generator.model.searchrule.*;
 import com.epam.page.object.generator.model.webgroup.*;
+import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
+import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
+import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
+import com.epam.page.object.generator.model.searchrule.FormInnerSearchRule;
+import com.epam.page.object.generator.model.searchrule.FormSearchRule;
+import com.epam.page.object.generator.model.searchrule.Validatable;
+import com.epam.page.object.generator.model.searchrule.WebElementsSearchRule;
+import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.WebElementsElementGroup;
 
 /**
  * Realization of visitor pattern. Here we call method visit for all types of searchRules to
@@ -12,6 +23,10 @@ import com.epam.page.object.generator.model.webgroup.*;
 public interface ValidatorVisitor {
 
     default ValidationResult visit(CommonSearchRule commonSearchRule) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(WebElementsSearchRule webElementsSearchRule) {
         return new ValidationResult(true, this + " passed!");
     }
 
@@ -56,6 +71,10 @@ public interface ValidatorVisitor {
     }
 
     default ValidationResult visit(SelenideElementsCollectionWebElementGroup selenideElementsCollectionWebElementGroup) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(WebElementsElementGroup webElementsElementGroup) {
         return new ValidationResult(true, this + " passed!");
     }
 }

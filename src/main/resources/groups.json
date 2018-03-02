@@ -20,6 +20,7 @@
         "textlist",
         "checklist",
         "elements",
+        "selenide_element",
         "selenium_web_element"
       ],
       "schema": "/schema/searchrule/common/common-main-schema.json"
@@ -52,6 +53,13 @@
       "name": "selenideElementsCollectionSearchRule",
       "searchRuleTypes": ["elements_collection"],
       "schema": "/schema/searchrule/selenide/selenide-collection-schema.json"
+    },
+    {
+      "name": "webElementsSearchRule",
+      "searchRuleTypes": [
+        "webelements"
+      ],
+      "schema": "/schema/searchrule/webelement/webelement-main-schema.json"
     }
   ]
 }

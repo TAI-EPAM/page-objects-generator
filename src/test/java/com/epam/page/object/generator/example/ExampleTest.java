@@ -53,4 +53,11 @@ public class ExampleTest {
         pog.generatePageObjects("/example/elements_collection.json", outputDir,
                 Collections.singletonList("/example/example.html"));
     }
+
+    @Test
+    public void foo() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/example/webelements.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
 }

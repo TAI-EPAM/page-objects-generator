@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "WebElementsSearchRule",
+  "description": "validate webElementsSearchRule",
+  "type": "object",
+  "properties": {
+    "type": {
+      "$ref": "file:./src/main/resources/schema/searchrule/webelement/webelement-types.json"
+    },
+    "uniqueness": {
+      "description": "Name of the attribute which must be unique",
+      "type": "string"
+    },
+    "selector": {
+      "$ref": "file:./src/main/resources/schema/subschema/selector.json"
+    }
+  },
+  "required": [
+    "type",
+    "uniqueness",
+    "selector"
+  ]
+}

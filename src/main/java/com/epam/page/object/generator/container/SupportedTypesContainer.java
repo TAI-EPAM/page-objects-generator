@@ -33,11 +33,12 @@ import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.object
 import com.epam.jdi.uitests.web.selenium.elements.pageobjects.annotations.objects.JTable;
 import com.epam.page.object.generator.PageObjectsGenerator;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
+import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SearchRuleType;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -118,6 +119,8 @@ public class SupportedTypesContainer {
                 new ClassAndAnnotationPair(WebElement.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.ELEMENTS_COLLECTION.getName(),
                 new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.WEBELEMENTS.getName(),
+                new ClassAndAnnotationPair(null, FindBy.class)); // null - we do not use el.class
     }
 
     /**
