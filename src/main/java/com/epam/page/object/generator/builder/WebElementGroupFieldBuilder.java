@@ -87,8 +87,8 @@ public class WebElementGroupFieldBuilder {
             WebElement webElement = webElementsElementGroup.getWebElements().get(0); // we do not have to think about other elements
 
             TypeName typeName = ListWebElement.getType();
-            String fieldName = extractFieldName(webElement,
-                    "WebElements");
+            String fieldName = searchRule.getName();
+
             JavaField javaField;
             Modifier[] modifiers = new Modifier[]{PUBLIC};
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
@@ -99,7 +99,7 @@ public class WebElementGroupFieldBuilder {
 
             javaFields.add(javaField);
             logger.debug("Add field = " + javaField);
-        } // else?
+        }
         logger.debug("Finish " + searchRule + "\n");
         return javaFields;
     }

@@ -39,13 +39,14 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
         logger.debug("Start transforming of " + rawSearchRule);
 
         String uniqueness = rawSearchRule.getValue("uniqueness"); // we do not need it, we need a mame of an element or ability to create it by .json
+        String name = rawSearchRule.getValue("name");
 
         SearchRuleType type = rawSearchRule.getType();
         Selector selector = rawSearchRule.getSelector();
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
             .get(type.getName());
 
-        WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(uniqueness, type, selector,
+        WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(name, uniqueness, type, selector,
             classAndAnnotation, transformer,
             selectorUtils);
         logger.debug("Create a new " + webElementsSearchRule);
