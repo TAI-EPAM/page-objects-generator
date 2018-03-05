@@ -3,9 +3,11 @@ package com.epam.page.object.generator.builder;
 import static javax.lang.model.element.Modifier.PUBLIC;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.codeborne.selenide.SelenideElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.complex.Dropdown;
 import com.epam.jdi.uitests.web.selenium.elements.composite.Form;
@@ -14,14 +16,12 @@ import com.epam.page.object.generator.adapter.JavaAnnotation;
 import com.epam.page.object.generator.adapter.JavaField;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.model.Selector;
-import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
-import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
-import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
-import com.epam.page.object.generator.model.searchrule.FormSearchRule;
+import com.epam.page.object.generator.model.searchrule.*;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.ComplexWebElementGroup;
 import com.epam.page.object.generator.model.webgroup.FormWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.SelenideWebElementGroup;
 import com.epam.page.object.generator.util.SearchRuleType;
 import com.epam.page.object.generator.util.SelectorUtils;
 import com.epam.page.object.generator.util.XpathToCssTransformer;
@@ -89,6 +89,18 @@ public class WebElementGroupFieldBuilderTest {
 
     private WebElementGroupFieldBuilder webElementGroupFieldBuilder = new WebElementGroupFieldBuilder();
 
+    @Mock
+    private SelenideWebElementGroup selenideWebElementGroup;
+    private SelenideSearchRule selenideSearchRule = new SelenideSearchRule(
+            "text",
+            SearchRuleType.SELENIDE_ELEMENT,
+            new Selector("css", "input[type=submit]"),
+            new ClassAndAnnotationPair(SelenideElement.class, FindBy.class),
+            transformer,
+            selectorUtils,
+            true
+    );
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -149,6 +161,25 @@ public class WebElementGroupFieldBuilderTest {
 
         assertEquals("package.form.MyForm", javaField.getFullFieldClass());
         assertEquals("myForm", javaField.getFieldName());
+        assertEquals(javaAnnotation, javaField.getAnnotation());
+        assertEquals(1, javaField.getModifiers().length);
+        assertEquals(PUBLIC, javaField.getModifiers()[0]);
+    }
+
+    @Test
+    public void build_SelenideElement_Valid() {
+        when(webElement.getUniquenessValue()).thenReturn("Submit");
+        when(selenideWebElementGroup.getSearchRule()).thenReturn(selenideSearchRule);
+        when(selenideWebElementGroup.getWebElements()).thenReturn(webElements);
+        when(selenideWebElementGroup.getAnnotation(any(Class.class), any(WebElement.class)))
+                .thenReturn(javaAnnotation);
+
+        List<JavaField> javaFields = webElementGroupFieldBuilder.build(selenideWebElementGroup);
+        JavaField javaField = javaFields.get(0);
+
+        assertEquals("com.codeborne.selenide.SelenideElement",
+                javaField.getFullFieldClass());
+        assertEquals("submit", javaField.getFieldName());
         assertEquals(javaAnnotation, javaField.getAnnotation());
         assertEquals(1, javaField.getModifiers().length);
         assertEquals(PUBLIC, javaField.getModifiers()[0]);
