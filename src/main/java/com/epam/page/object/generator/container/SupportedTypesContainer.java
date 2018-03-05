@@ -120,7 +120,7 @@ public class SupportedTypesContainer {
         supportedTypesMap.put(SearchRuleType.ELEMENTS_COLLECTION.getName(),
                 new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.WEBELEMENTS.getName(),
-                new ClassAndAnnotationPair(null, FindBy.class)); // null - we do not use el.class
+                new ClassAndAnnotationPair(null, FindBy.class));
     }
 
     /**
