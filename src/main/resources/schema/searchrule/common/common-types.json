@@ -19,6 +19,6 @@
     "textlist",
     "checklist",
     "elements",
-    "selenide_element"
+    "selenium_web_element"
   ]
 }

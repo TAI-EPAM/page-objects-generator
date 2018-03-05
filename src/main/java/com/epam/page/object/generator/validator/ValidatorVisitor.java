@@ -1,5 +1,7 @@
 package com.epam.page.object.generator.validator;
 
+import com.epam.page.object.generator.model.searchrule.*;
+import com.epam.page.object.generator.model.webgroup.*;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexInnerSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
@@ -53,6 +55,22 @@ public interface ValidatorVisitor {
     }
 
     default ValidationResult visit(FormWebElementGroup formWebElementGroup) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideSearchRule selenideSearchRule) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideWebElementGroup selenideWebElementGroup) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideElementsCollectionSearchRule selenideElementsCollectionSearchRule) {
+        return new ValidationResult(true, this + " passed!");
+    }
+
+    default ValidationResult visit(SelenideElementsCollectionWebElementGroup selenideElementsCollectionWebElementGroup) {
         return new ValidationResult(true, this + " passed!");
     }
 

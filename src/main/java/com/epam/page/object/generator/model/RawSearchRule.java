@@ -111,7 +111,7 @@ public class RawSearchRule {
             return Boolean.parseBoolean(
                     this.getValue("annotation"));
         } catch (JSONException e) {
-            return true;
+            return false;
         }
     }
 }

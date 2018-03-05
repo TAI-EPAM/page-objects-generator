@@ -1,5 +1,6 @@
 package com.epam.page.object.generator.container;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.epam.jdi.uitests.web.selenium.elements.common.Button;
 import com.epam.jdi.uitests.web.selenium.elements.common.CheckBox;
@@ -35,12 +36,9 @@ import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.model.webelement.WebElement;
 import com.epam.page.object.generator.util.SearchRuleType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import com.squareup.javapoet.ParameterizedTypeName;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -117,6 +115,10 @@ public class SupportedTypesContainer {
             new ClassAndAnnotationPair(Form.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.SELENIDE_ELEMENT.getName(),
                 new ClassAndAnnotationPair(SelenideElement.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.SELENIUM_WEB_ELEMENT.getName(),
+                new ClassAndAnnotationPair(WebElement.class, FindBy.class));
+        supportedTypesMap.put(SearchRuleType.ELEMENTS_COLLECTION.getName(),
+                new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class));
         supportedTypesMap.put(SearchRuleType.WEBELEMENTS.getName(),
                 new ClassAndAnnotationPair(null, FindBy.class)); // null - we do not use el.class
     }

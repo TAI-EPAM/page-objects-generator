@@ -3,27 +3,28 @@ package com.epam.page.object.generator.model.searchrule;
 import com.epam.page.object.generator.error.XpathToCssTransformerException;
 import com.epam.page.object.generator.model.ClassAndAnnotationPair;
 import com.epam.page.object.generator.model.Selector;
-import com.epam.page.object.generator.model.webgroup.CommonWebElementGroup;
-import com.epam.page.object.generator.model.webgroup.WebElementGroup;
-import com.epam.page.object.generator.model.webelement.CommonWebElement;
+import com.epam.page.object.generator.model.webelement.SelenideWebElement;
 import com.epam.page.object.generator.model.webelement.WebElement;
+import com.epam.page.object.generator.model.webgroup.SelenideElementsCollectionWebElementGroup;
+import com.epam.page.object.generator.model.webgroup.WebElementGroup;
 import com.epam.page.object.generator.util.SearchRuleType;
 import com.epam.page.object.generator.util.SelectorUtils;
 import com.epam.page.object.generator.util.XpathToCssTransformer;
 import com.epam.page.object.generator.validator.ValidationResult;
 import com.epam.page.object.generator.validator.ValidatorVisitor;
-import java.util.ArrayList;
-import java.util.List;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * {@link CommonSearchRule} describes {@link SearchRule} with one of the type defined in property
+ * {@link SelenideElementsCollectionSearchRule} describes {@link SearchRule} with one of the type defined in property
  * file in 'commonSearchRule' group.
  */
-public class CommonSearchRule implements SearchRule {
+public class SelenideElementsCollectionSearchRule implements SearchRule {
 
     private String uniqueness;
     private SearchRuleType type;
@@ -31,18 +32,20 @@ public class CommonSearchRule implements SearchRule {
     private ClassAndAnnotationPair classAndAnnotation;
     private XpathToCssTransformer transformer;
     private SelectorUtils selectorUtils;
+    private boolean annotation;
 
     private List<ValidationResult> validationResults = new ArrayList<>();
-    private final static Logger logger = LoggerFactory.getLogger(CommonSearchRule.class);
+    private final static Logger logger = LoggerFactory.getLogger(SelenideElementsCollectionSearchRule.class);
 
-    public CommonSearchRule(String uniqueness, SearchRuleType type, Selector selector,
-                            ClassAndAnnotationPair classAndAnnotation,
-                            XpathToCssTransformer transformer,
-                            SelectorUtils selectorUtils) {
+    public SelenideElementsCollectionSearchRule(String uniqueness, SearchRuleType type, Selector selector,
+                                                ClassAndAnnotationPair classAndAnnotation,
+                                                XpathToCssTransformer transformer,
+                                                SelectorUtils selectorUtils,
+                                                boolean annotation) {
         this.uniqueness = uniqueness;
         this.type = type;
         this.selector = selector;
-
+        this.annotation = annotation;
         this.classAndAnnotation = classAndAnnotation;
         this.transformer = transformer;
         this.selectorUtils = selectorUtils;
@@ -87,8 +90,13 @@ public class CommonSearchRule implements SearchRule {
         return selector;
     }
 
+    public boolean usesAnnotation() {
+        return annotation;
+    }
+
     @Override
     public Selector getSelector() {
+
         return selector;
     }
 
@@ -96,14 +104,14 @@ public class CommonSearchRule implements SearchRule {
     public List<WebElement> getWebElements(Elements elements) {
         List<WebElement> webElements = new ArrayList<>();
         for (Element element : elements) {
-            webElements.add(new CommonWebElement(element, getRequiredValue(element)));
+            webElements.add(new SelenideWebElement(element, getRequiredValue(element)));
         }
         return webElements;
     }
 
     @Override
     public void fillWebElementGroup(List<WebElementGroup> webElementGroups, Elements elements) {
-        webElementGroups.add(new CommonWebElementGroup(this, getWebElements(elements),
+        webElementGroups.add(new SelenideElementsCollectionWebElementGroup(this, getWebElements(elements),
             selectorUtils));
     }
 

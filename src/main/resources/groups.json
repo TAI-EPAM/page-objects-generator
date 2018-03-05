@@ -20,7 +20,7 @@
         "textlist",
         "checklist",
         "elements",
-        "selenide_element"
+        "selenium_web_element"
       ],
       "schema": "/schema/searchrule/common/common-main-schema.json"
     },
@@ -42,6 +42,16 @@
         "section"
       ],
       "schema": "/schema/searchrule/form/form-main-schema.json"
+    },
+    {
+      "name": "selenideSearchRule",
+      "searchRuleTypes": ["selenide_element"],
+      "schema": "/schema/searchrule/selenide/selenide-main-schema.json"
+    },
+    {
+      "name": "selenideElementsCollectionSearchRule",
+      "searchRuleTypes": ["elements_collection"],
+      "schema": "/schema/searchrule/selenide/selenide-collection-schema.json"
     },
     {
       "name": "webElementsSearchRule",
