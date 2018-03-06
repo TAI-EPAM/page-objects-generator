@@ -182,7 +182,7 @@ public class WebElementGroupFieldBuilder {
             WebElement webElement = selenideElementsCollectionWebElementGroup.getWebElements().get(0);
             Class<?> elementClass = searchRule.getClassAndAnnotation().getElementClass();
             String className = elementClass.getName();
-            String fieldName = extractFieldName(webElement, elementClass.getSimpleName());
+            String fieldName = searchRule.getName();
             JavaField javaField;
             Modifier[] modifiers = new Modifier[]{PUBLIC};
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();

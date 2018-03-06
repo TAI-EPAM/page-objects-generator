@@ -36,12 +36,14 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
 
     private List<ValidationResult> validationResults = new ArrayList<>();
     private final static Logger logger = LoggerFactory.getLogger(SelenideElementsCollectionSearchRule.class);
+    private String fieldName;
 
-    public SelenideElementsCollectionSearchRule(String uniqueness, SearchRuleType type, Selector selector,
+    public SelenideElementsCollectionSearchRule(String fieldName, String uniqueness, SearchRuleType type, Selector selector,
                                                 ClassAndAnnotationPair classAndAnnotation,
                                                 XpathToCssTransformer transformer,
                                                 SelectorUtils selectorUtils,
                                                 boolean annotation) {
+        this.fieldName = fieldName;
         this.uniqueness = uniqueness;
         this.type = type;
         this.selector = selector;
@@ -145,5 +147,9 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
             ", type='" + type + '\'' +
             ", selector=" + selector +
             '}';
+    }
+
+    public String getName() {
+        return fieldName;
     }
 }

@@ -19,10 +19,15 @@
         "false",
         "true"
       ]
+    },
+    "fieldName": {
+      "description": "Name of elements collection which will be used as name of Java class field",
+      "type": "string"
     }
   },
   "required": [
     "type",
+    "fieldName",
     "uniqueness",
     "selector"
   ]

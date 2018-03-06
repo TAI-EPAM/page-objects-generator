@@ -114,4 +114,8 @@ public class RawSearchRule {
             return false;
         }
     }
+
+    public String getFieldName() {
+        return getValue("fieldName");
+    }
 }
