@@ -43,6 +43,7 @@ public class SelenideElementsCollectionSearchRuleBuilderTest {
 
         when(rawSearchRule.getValue(anyString())).thenReturn(expectedSearchRule.getUniqueness());
         when(rawSearchRule.getType()).thenReturn(expectedSearchRule.getType());
+        when(rawSearchRule.getFieldName()).thenReturn(expectedSearchRule.getFieldName());
         when(rawSearchRule.getSelector()).thenReturn(expectedSearchRule.getSelector());
 
         SearchRule searchRule = sut.buildSearchRule(rawSearchRule, container, transformer,
@@ -50,6 +51,7 @@ public class SelenideElementsCollectionSearchRuleBuilderTest {
         SelenideElementsCollectionSearchRule actualSearchRule = (SelenideElementsCollectionSearchRule) searchRule;
 
         assertEquals(expectedSearchRule.getUniqueness(), actualSearchRule.getUniqueness());
+        assertEquals(expectedSearchRule.getFieldName(), actualSearchRule.getFieldName());
         assertEquals(expectedSearchRule.getType(), actualSearchRule.getType());
         assertEquals(expectedSearchRule.getSelector(), actualSearchRule.getSelector());
         assertEquals(expectedSearchRule.getClassAndAnnotation().getElementClass(),
