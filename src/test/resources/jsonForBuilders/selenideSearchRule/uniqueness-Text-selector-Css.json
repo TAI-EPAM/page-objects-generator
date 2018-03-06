@@ -1,0 +1,12 @@
+{
+  "elements": [
+    {
+      "type": "selenide_element",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "input[type=submit]"
+      }
+    }
+  ]
+}

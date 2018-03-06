@@ -57,6 +57,46 @@ public class RawSearchRuleTestDataBuilder {
         return rawSearchRuleList.get(0);
     }
 
+    public static RawSearchRule getSelenideSearchRule_UniquenessValue_SelectorXpath() {
+        List<RawSearchRule> rawSearchRuleList = parser
+                .getRawSearchRuleList(DEFAULT_JSON_PATH
+                        + "/selenideSearchRule/uniqueness-Value-selector-Xpath.json");
+
+        return rawSearchRuleList.get(0);
+    }
+
+    public static RawSearchRule getSelenideSearchRule_UniquenessText_SelectorXpath() {
+        List<RawSearchRule> rawSearchRuleList = parser
+                .getRawSearchRuleList(DEFAULT_JSON_PATH
+                        + "/selenideSearchRule/uniqueness-Text-selector-Xpath.json");
+
+        return rawSearchRuleList.get(0);
+    }
+
+    public static RawSearchRule getSelenideSearchRule_UniquenessValue_SelectorCss() {
+        List<RawSearchRule> rawSearchRuleList = parser
+                .getRawSearchRuleList(DEFAULT_JSON_PATH
+                        + "/selenideSearchRule/uniqueness-Value-selector-Css.json");
+
+        return rawSearchRuleList.get(0);
+    }
+
+    public static RawSearchRule getSelenideSearchRule_UniquenessText_SelectorCss() {
+        List<RawSearchRule> rawSearchRuleList = parser
+                .getRawSearchRuleList(DEFAULT_JSON_PATH
+                        + "/selenideSearchRule/uniqueness-Text-selector-Css.json");
+
+        return rawSearchRuleList.get(0);
+    }
+
+    public static RawSearchRule getSelenideSearchRule_DoesNotPassJsonSchemaValidator() {
+        List<RawSearchRule> rawSearchRuleList = parser
+            .getRawSearchRuleList(DEFAULT_JSON_PATH
+                + "/selenideSearchRule/invalid-json-schema-validator.json");
+
+        return rawSearchRuleList.get(0);
+    }
+
     public static RawSearchRule getComplexSearchRule_WithRoot() {
         List<RawSearchRule> rawSearchRules = parser.getRawSearchRuleList(
             DEFAULT_JSON_PATH + "/complexSearchRule/only-root-title.json");

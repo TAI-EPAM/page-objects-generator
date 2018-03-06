@@ -2,10 +2,12 @@
   "elements": [
     {
       "type": "elements_collection",
-      "uniqueness": "text",
+      "fieldName": "radioButtons",
+      "uniqueness": "name",
+      "annotation": "false",
       "selector": {
         "type": "css",
-        "value": "button[type=submit][id=calculate-button]"
+        "value": "p input"
       }
     }
   ]

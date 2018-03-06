@@ -31,7 +31,8 @@ public class SelenideElementsCollectionSearchRuleBuilderTest {
     private SelectorUtils selectorUtils = new SelectorUtils();
     private SearchRuleExtractor searchRuleExtractor = new SearchRuleExtractor();
 
-    private SelenideElementsCollectionSearchRule expectedSearchRule = new SelenideElementsCollectionSearchRule("text",
+    private SelenideElementsCollectionSearchRule expectedSearchRule = new SelenideElementsCollectionSearchRule(
+            "collection", "text",
             SearchRuleType.ELEMENTS_COLLECTION, new Selector("css", ".myClass"),
             new ClassAndAnnotationPair(ElementsCollection.class, FindBy.class), transformer, selectorUtils,
             true);

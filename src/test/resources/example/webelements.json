@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "webelements",
-      "name": "radioButtons",
+      "fieldName": "radioButtons",
       "uniqueness": "name",
       "selector": {
         "type": "css",
