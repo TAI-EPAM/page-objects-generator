@@ -149,7 +149,7 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
             '}';
     }
 
-    public String getName() {
+    public String getFieldName() {
         return fieldName;
     }
 }

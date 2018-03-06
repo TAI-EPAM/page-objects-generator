@@ -31,16 +31,16 @@ public class WebElementsSearchRule implements SearchRule {
     private ClassAndAnnotationPair classAndAnnotation;
     private XpathToCssTransformer transformer;
     private SelectorUtils selectorUtils;
-    private String name;
+    private String fieldName;
 
     private List<ValidationResult> validationResults = new ArrayList<>();
     private final static Logger logger = LoggerFactory.getLogger(WebElementsSearchRule.class);
 
-    public WebElementsSearchRule(String name, String uniqueness, SearchRuleType type, Selector selector,
+    public WebElementsSearchRule(String fieldName, String uniqueness, SearchRuleType type, Selector selector,
                                  ClassAndAnnotationPair classAndAnnotation,
                                  XpathToCssTransformer transformer,
                                  SelectorUtils selectorUtils) {
-        this.name = name;
+        this.fieldName = fieldName;
         this.uniqueness = uniqueness;
         this.type = type;
         this.selector = selector;
@@ -50,8 +50,8 @@ public class WebElementsSearchRule implements SearchRule {
         this.selectorUtils = selectorUtils;
     }
 
-    public String getName() {
-        return this.name;
+    public String getFieldName() {
+        return this.fieldName;
     }
 
     public String getUniqueness() {

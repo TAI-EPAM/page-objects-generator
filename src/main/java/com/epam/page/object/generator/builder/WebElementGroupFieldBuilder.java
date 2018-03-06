@@ -24,7 +24,6 @@ import java.util.*;
 import javax.lang.model.element.Modifier;
 
 import com.epam.page.object.generator.model.webgroup.WebElementsElementGroup;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +85,7 @@ public class WebElementGroupFieldBuilder {
             WebElement webElement = webElementsElementGroup.getWebElements().get(0); // we do not have to think about other elements
 
             TypeName typeName = ListWebElement.getType();
-            String fieldName = searchRule.getName();
+            String fieldName = searchRule.getFieldName();
 
             JavaField javaField;
             Modifier[] modifiers = new Modifier[]{PUBLIC};
@@ -182,7 +181,7 @@ public class WebElementGroupFieldBuilder {
             WebElement webElement = selenideElementsCollectionWebElementGroup.getWebElements().get(0);
             Class<?> elementClass = searchRule.getClassAndAnnotation().getElementClass();
             String className = elementClass.getName();
-            String fieldName = searchRule.getName();
+            String fieldName = searchRule.getFieldName();
             JavaField javaField;
             Modifier[] modifiers = new Modifier[]{PUBLIC};
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
