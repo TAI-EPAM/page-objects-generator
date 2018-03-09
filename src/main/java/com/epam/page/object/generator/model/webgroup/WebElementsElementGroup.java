@@ -21,24 +21,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents {@link CommonSearchRule} and list of {@link CommonWebElement} which was found by
+ * Represents {@link WebElementsSearchRule} and list of {@link CommonWebElement} which was found by
  * this rule from certain {@link WebPage}.
  */
 public class WebElementsElementGroup implements WebElementGroup {
 
     private WebElementsSearchRule searchRule;
     private List<WebElement> webElements;
-    private SelectorUtils selectorUtils;
 
     private List<ValidationResult> validationResults = new ArrayList<>();
 
     private final static Logger logger = LoggerFactory.getLogger(WebElementsElementGroup.class);
 
-    public WebElementsElementGroup(WebElementsSearchRule searchRule, List<WebElement> webElements,
-                                   SelectorUtils selectorUtils) {
+    public WebElementsElementGroup(WebElementsSearchRule searchRule, List<WebElement> webElements) {
         this.searchRule = searchRule;
         this.webElements = webElements;
-        this.selectorUtils = selectorUtils;
     }
 
     @Override
@@ -87,18 +84,15 @@ public class WebElementsElementGroup implements WebElementGroup {
      * Returns {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      *
      * @param annotationClass annotation class which used for generation annotation.
-     * @param webElement {@link WebElement} that has to be represented in generated {@link
      * JavaClass}.
      * @return {@link JavaAnnotation} that represents {@link CommonWebElement} in generated class.
      */
-    public JavaAnnotation getAnnotation(Class<?> annotationClass, WebElement webElement) {
+    public JavaAnnotation getAnnotation(Class<?> annotationClass) {
         List<AnnotationMember> annotationMembers = new ArrayList<>();
 
         Selector selector = getSearchRule().getSelector();
-        String uniquenessValue = webElement.getUniquenessValue();
 
-        String annotationValue = getAnnotationValue(selector, uniquenessValue,
-                searchRule.getUniqueness());
+        String annotationValue = getAnnotationValue(selector);
 
         annotationMembers.add(new AnnotationMember(selector.getType(), "$S", annotationValue));
 
@@ -109,17 +103,12 @@ public class WebElementsElementGroup implements WebElementGroup {
      * Returns string representation of annotation for class that will be generated.
      *
      * @param selector {@link Selector} from specified {@link CommonSearchRule}
-     * @param uniquenessValue value of the 'uniqueness' attribute
-     * @param uniqueness name of the 'uniqueness' attribute
      * @return string representation of annotation for class that will be generated
      * @throws IllegalArgumentException if selector type is unknown
      */
-    private String getAnnotationValue(Selector selector, String uniquenessValue,
-                                      String uniqueness) {
-        if (selector.isXpath()) {
-            return selectorUtils.resultXpathSelector(selector, uniquenessValue, uniqueness); // can we have XPATH? Ask Roman
-        } else if (selector.isCss()) {
-            return selectorUtils.resultCssSelector(selector, uniquenessValue, uniqueness);
+    private String getAnnotationValue(Selector selector) {
+        if (selector.isCss()) {
+            return selector.getValue();
         }
         throw new IllegalArgumentException("Selector type is unknown " + selector.toString());
     }

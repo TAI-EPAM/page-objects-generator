@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class WebElementsSearchRule implements SearchRule {
 
-    private String uniqueness;
     private SearchRuleType type;
     private Selector selector;
     private ClassAndAnnotationPair classAndAnnotation;
@@ -36,12 +35,11 @@ public class WebElementsSearchRule implements SearchRule {
     private List<ValidationResult> validationResults = new ArrayList<>();
     private final static Logger logger = LoggerFactory.getLogger(WebElementsSearchRule.class);
 
-    public WebElementsSearchRule(String name, String uniqueness, SearchRuleType type, Selector selector,
+    public WebElementsSearchRule(String name, SearchRuleType type, Selector selector,
                                  ClassAndAnnotationPair classAndAnnotation,
                                  XpathToCssTransformer transformer,
                                  SelectorUtils selectorUtils) {
         this.name = name;
-        this.uniqueness = uniqueness;
         this.type = type;
         this.selector = selector;
 
@@ -54,14 +52,8 @@ public class WebElementsSearchRule implements SearchRule {
         return this.name;
     }
 
-    public String getUniqueness() {
-        return uniqueness;
-    }
-
-    private String getRequiredValue(Element element) {
-        return uniqueness.equals("text")
-            ? element.text()
-            : element.attr(uniqueness);
+    public SearchRuleType getType() {
+        return type;
     }
 
     public ClassAndAnnotationPair getClassAndAnnotation() {
@@ -77,15 +69,14 @@ public class WebElementsSearchRule implements SearchRule {
     public List<WebElement> getWebElements(Elements elements) {
         List<WebElement> webElements = new ArrayList<>();
         for (Element element : elements) {
-            webElements.add(new ListWebElement(element, getRequiredValue(element)));
+            webElements.add(new ListWebElement(element));
         }
         return webElements;
     }
 
     @Override
     public void fillWebElementGroup(List<WebElementGroup> webElementGroups, Elements elements) {
-        webElementGroups.add(new WebElementsElementGroup(this, getWebElements(elements),
-            selectorUtils));
+        webElementGroups.add(new WebElementsElementGroup(this, getWebElements(elements)));
     }
 
     @Override
@@ -114,7 +105,6 @@ public class WebElementsSearchRule implements SearchRule {
     @Override
     public String toString() {
         return "SearchRule{" +
-            "uniqueness='" + uniqueness + '\'' +
             ", type='" + type + '\'' +
             ", selector=" + selector +
             '}';

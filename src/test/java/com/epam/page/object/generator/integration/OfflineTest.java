@@ -27,6 +27,20 @@ public class OfflineTest {
     public void generate_CalculateJson_StatusOk() throws Exception {
         pog.setForceGenerateFile(false);
         pog.generatePageObjects("/jsonForBuilders/webPage/jdi/calculate.json", outputDir,
-            Collections.singletonList("/jsonForBuilders/webPage/jdi/test.html"));
+                Collections.singletonList("/jsonForBuilders/webPage/jdi/test.html"));
+    }
+
+    @Test
+    public void generate_WebElement_StatusOk() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/web_element.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
+
+    @Test
+    public void generate_WebElements_StatusOk() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/webelements.json", outputDir,
+                Collections.singletonList("/jsonForBuilders/webPage/jdi/test.html"));
     }
 }

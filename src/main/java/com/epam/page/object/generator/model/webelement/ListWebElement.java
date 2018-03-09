@@ -15,11 +15,9 @@ import java.util.List;
 public class ListWebElement implements com.epam.page.object.generator.model.webelement.WebElement {
 
     private Element element;
-    private String uniquenessValue;
 
-    public ListWebElement(Element element, String uniquenessValue) {
+    public ListWebElement(Element element) {
         this.element = element;
-        this.uniquenessValue = uniquenessValue;
     }
 
     @Override
@@ -29,7 +27,7 @@ public class ListWebElement implements com.epam.page.object.generator.model.webe
 
     @Override
     public String getUniquenessValue() {
-        return uniquenessValue;
+        return null;
     }
 
     public static TypeName getType() {

@@ -83,7 +83,6 @@ public class WebElementGroupFieldBuilder {
         logger.debug("Add fields found by " + searchRule);
 
         if (!webElementsElementGroup.getWebElements().isEmpty()) {
-            WebElement webElement = webElementsElementGroup.getWebElements().get(0); // we do not have to think about other elements
 
             TypeName typeName = ListWebElement.getType();
             String fieldName = searchRule.getName();
@@ -92,7 +91,7 @@ public class WebElementGroupFieldBuilder {
             Modifier[] modifiers = new Modifier[]{PUBLIC};
             Class<?> annotationClass = searchRule.getClassAndAnnotation().getElementAnnotation();
             JavaAnnotation annotation = webElementsElementGroup
-                    .getAnnotation(annotationClass, webElement);
+                    .getAnnotation(annotationClass);
 
             javaField = new JavaField(typeName, fieldName, annotation, modifiers);
 
