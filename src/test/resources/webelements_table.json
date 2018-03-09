@@ -1,0 +1,22 @@
+{
+  "elements": [
+    {
+      "type": "webelements",
+      "fieldName": "tableRows",
+      "selector": {
+        "type": "css",
+        "value": "#customers tr"
+      }
+    },
+    {
+      "type": "webelements",
+      "fieldName": "tableRow",
+      "selector": {
+        "type": "css",
+        "value": "#customers tr td"
+      }
+    }
+  ]
+}
+
+

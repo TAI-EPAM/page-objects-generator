@@ -15,14 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed for creating {@link CommonSearchRule} from {@link RawSearchRule}
+ * This class is needed for creating {@link WebElementsSearchRule} from {@link RawSearchRule}
  */
 public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
 
     private final static Logger logger = LoggerFactory.getLogger(WebElementsSearchRuleBuilder.class);
 
     /**
-     * This method builds {@link CommonSearchRule} getting the necessary information about {@link
+     * This method builds {@link WebElementsSearchRule} getting the necessary information about {@link
      * RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector}, uniqueness parameter.
      * Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. At last sent
      * this parameters plus {@link XpathToCssTransformer} and {@link SelectorUtils} in constructor
@@ -38,7 +38,6 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
                                       SearchRuleExtractor searchRuleExtractor) {
         logger.debug("Start transforming of " + rawSearchRule);
 
-        String uniqueness = rawSearchRule.getValue("uniqueness"); // we do not need it, we need a mame of an element or ability to create it by .json
         String name = rawSearchRule.getFieldName();
 
         SearchRuleType type = rawSearchRule.getType();
@@ -46,7 +45,7 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
             .get(type.getName());
 
-        WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(name, uniqueness, type, selector,
+        WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(name, type, selector,
             classAndAnnotation, transformer,
             selectorUtils);
         logger.debug("Create a new " + webElementsSearchRule);

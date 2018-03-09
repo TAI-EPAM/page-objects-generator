@@ -22,7 +22,6 @@
   "required": [
     "type",
     "fieldName",
-    "uniqueness",
     "selector"
   ]
 }

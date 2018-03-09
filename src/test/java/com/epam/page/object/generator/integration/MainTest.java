@@ -224,4 +224,12 @@ public class MainTest {
         pog.generatePageObjects("/selenide_element_xpath_different_elements.json", outputDir,
             Collections.singletonList("https://www.w3schools.com/html/html_forms.asp"));
     }
+
+    @Test
+    public void pageObjectGenerator_TableRows_Success()
+            throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/webelements_table.json", outputDir,
+                Collections.singletonList("https://www.w3schools.com/html/html_tables.asp"));
+    }
 }
