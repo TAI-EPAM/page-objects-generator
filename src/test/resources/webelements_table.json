@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "webelements",
-      "name": "tableRows",
+      "fieldname": "tableRows",
       "selector": {
         "type": "css",
         "value": "#customers tr"
@@ -10,7 +10,7 @@
     },
     {
       "type": "webelements",
-      "name": "tableRow",
+      "fieldname": "tableRow",
       "selector": {
         "type": "css",
         "value": "#customers tr td"

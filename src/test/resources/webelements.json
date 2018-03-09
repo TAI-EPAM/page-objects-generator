@@ -2,7 +2,7 @@
   "elements": [
     {
       "type": "webelements",
-      "name": "radioButtons",
+      "fieldname": "radioButtons",
       "selector": {
         "type": "css",
         "value": "p input"
@@ -10,7 +10,7 @@
     },
     {
       "type": "webelements",
-      "name": "options",
+      "fieldname": "options",
       "selector": {
         "type": "css",
         "value": ".col-sm-6 .colors"

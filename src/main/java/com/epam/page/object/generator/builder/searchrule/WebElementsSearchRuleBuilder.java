@@ -38,7 +38,7 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
                                       SearchRuleExtractor searchRuleExtractor) {
         logger.debug("Start transforming of " + rawSearchRule);
 
-        String name = rawSearchRule.getValue("name");
+        String name = rawSearchRule.getValue("fieldname");
 
         SearchRuleType type = rawSearchRule.getType();
         Selector selector = rawSearchRule.getSelector();
