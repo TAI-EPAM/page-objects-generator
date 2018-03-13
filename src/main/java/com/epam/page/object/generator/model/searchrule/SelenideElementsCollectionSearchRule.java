@@ -62,7 +62,7 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
     }
 
     private String getRequiredValue(Element element) {
-        return uniqueness.equals("text")
+        return "text".equals(uniqueness)
             ? element.text()
             : element.attr(uniqueness);
     }
@@ -81,7 +81,7 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
      */
     public Selector getTransformedSelector() {
         logger.debug("Transforming selector " + selector);
-        if (!uniqueness.equalsIgnoreCase("text") && selector.isXpath()) {
+        if (!"text".equalsIgnoreCase(uniqueness) && selector.isXpath()) {
             try {
                 return transformer.getCssSelector(selector);
             } catch (XpathToCssTransformerException e) {
