@@ -80,12 +80,12 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
      * @return transformed {@link Selector}
      */
     public Selector getTransformedSelector() {
-        logger.debug("Transforming selector " + selector);
+        logger.debug("Transforming selector {}", selector);
         if (!"text".equalsIgnoreCase(uniqueness) && selector.isXpath()) {
             try {
                 return transformer.getCssSelector(selector);
             } catch (XpathToCssTransformerException e) {
-                logger.error("Failed transforming selector = '" + selector, e);
+                logger.error("Failed transforming selector = {}", selector, e);
             }
         }
         logger.debug("Don't need to transform selector");
@@ -120,7 +120,7 @@ public class SelenideElementsCollectionSearchRule implements SearchRule {
     @Override
     public void accept(ValidatorVisitor validatorVisitor) {
         ValidationResult visit = validatorVisitor.visit(this);
-        logger.debug(this + " is '" + visit.isValid() + "', reason '" + visit.getReason() + "'");
+        logger.debug("{} is {}, reason {}", this, visit.isValid(), visit.getReason());
         validationResults.add(visit);
     }
 

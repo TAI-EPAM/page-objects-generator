@@ -35,7 +35,7 @@ public class SelenideElementsCollectionSearchRuleBuilder implements SearchRuleBu
                                       XpathToCssTransformer transformer,
                                       SelectorUtils selectorUtils,
                                       SearchRuleExtractor searchRuleExtractor) {
-        logger.debug("Start transforming of " + rawSearchRule);
+        logger.debug("Start transforming of {}", rawSearchRule);
         String uniqueness = rawSearchRule.getValue("uniqueness");
         SearchRuleType type = rawSearchRule.getType();
         Selector selector = rawSearchRule.getSelector();
@@ -46,7 +46,7 @@ public class SelenideElementsCollectionSearchRuleBuilder implements SearchRuleBu
                 rawSearchRule.getFieldName(), uniqueness, type, selector,
                 classAndAnnotation, transformer,
                 selectorUtils, rawSearchRule.getAnnotation());
-        logger.debug("Create a new " + selenideSearchRule);
+        logger.debug("Create a new {}", selenideSearchRule);
 
         return selenideSearchRule;
     }

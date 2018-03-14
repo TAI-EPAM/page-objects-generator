@@ -82,7 +82,7 @@ public class WebElementsSearchRule implements SearchRule {
     @Override
     public void accept(ValidatorVisitor validatorVisitor) {
         ValidationResult visit = validatorVisitor.visit(this);
-        logger.debug(this + " is '" + visit.isValid() + "', reason '" + visit.getReason() + "'");
+        logger.debug("{} is {}, reason {}", this, visit.isValid(), visit.getReason());
         validationResults.add(visit);
     }
 

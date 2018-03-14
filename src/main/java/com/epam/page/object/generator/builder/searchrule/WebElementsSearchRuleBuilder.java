@@ -36,7 +36,7 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
                                       XpathToCssTransformer transformer,
                                       SelectorUtils selectorUtils,
                                       SearchRuleExtractor searchRuleExtractor) {
-        logger.debug("Start transforming of " + rawSearchRule);
+        logger.debug("Start transforming of {}", rawSearchRule);
 
         String name = rawSearchRule.getFieldName();
 
@@ -48,7 +48,7 @@ public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
         WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(name, type, selector,
             classAndAnnotation, transformer,
             selectorUtils);
-        logger.debug("Create a new " + webElementsSearchRule);
+        logger.debug("Create a new {}", webElementsSearchRule);
 
         return webElementsSearchRule;
     }
