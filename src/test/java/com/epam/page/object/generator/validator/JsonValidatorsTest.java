@@ -2,11 +2,13 @@ package com.epam.page.object.generator.validator;
 
 import static org.junit.Assert.*;
 
+import com.epam.page.object.generator.databuilder.searchrule.SelenideSearchRuleTestDataBuilder;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.ComplexSearchRule;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
 import com.epam.page.object.generator.databuilder.searchrule.CommonSearchRuleTestDataBuilder;
 import com.epam.page.object.generator.databuilder.searchrule.ComplexSearchRuleTestDataBuilder;
+import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
 import com.epam.page.object.generator.validator.json.DuplicateTitleInnerSearchRuleValidator;
 import java.util.List;
 import org.assertj.core.util.Lists;
@@ -51,8 +53,19 @@ public class JsonValidatorsTest {
             .getComplexSearchRule_WithRoot();
         ComplexSearchRule complex2 = ComplexSearchRuleTestDataBuilder
             .getComplexSearchRule_WithDuplicateTitle();
+        SelenideSearchRule selenide1 = SelenideSearchRuleTestDataBuilder
+                .getSelenideSearchRule_UniquenessText_SelectorCss();
+        SelenideSearchRule selenide2 = SelenideSearchRuleTestDataBuilder
+                .getSelenideSearchRule_UniquenessValue_SelectorXpath();
 
-        List<SearchRule> searchRules = Lists.newArrayList(common1, common2, complex1, complex2);
+        List<SearchRule> searchRules = Lists.newArrayList(
+                common1,
+                common2,
+                complex1,
+                complex2,
+                selenide1,
+                selenide2
+        );
 
         jsonValidators.validate(searchRules);
 
@@ -60,5 +73,7 @@ public class JsonValidatorsTest {
         assertTrue(common2.isValid());
         assertTrue(complex1.isValid());
         assertTrue(complex2.isInvalid());
+        assertTrue(selenide1.isValid());
+        assertTrue(selenide2.isValid());
     }
 }

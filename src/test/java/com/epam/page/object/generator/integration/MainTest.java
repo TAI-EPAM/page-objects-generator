@@ -238,6 +238,14 @@ public class MainTest {
     }
 
     @Test
+    public void pageObjectGenerator_TableRows_Success()
+            throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/webelements_table.json", outputDir,
+                Collections.singletonList("https://www.w3schools.com/html/html_tables.asp"));
+    }
+
+    @Test
     public void checkGeneratedFormattedFile_StatusOk() throws Exception {
         pog.setForceGenerateFile(false);
         pog.generatePageObjects("/elements_to_create_formatted_file.json", outputDir,

@@ -1,0 +1,5 @@
+{
+  "description": "Type of the SearchRule",
+  "type": "string",
+  "enum": ["elements_collection"]
+}

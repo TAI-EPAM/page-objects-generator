@@ -6,6 +6,7 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -110,7 +111,7 @@ public class JavaFileWriter {
      * Build java class with all fields contains in it.
      *
      * @param javaClass {@link JavaClass} which contains all information about future .java source
-     *                  files.
+     * files.
      * @return {@link TypeSpec} used by JavaPoet for generation .java source files.
      */
     private TypeSpec buildTypeSpec(JavaClass javaClass) {
@@ -147,8 +148,16 @@ public class JavaFileWriter {
     }
 
     private FieldSpec buildRegularFieldSpec(JavaField field) {
+        TypeName typeName;
+
+        if (field.getTypeName() != null) {
+            typeName = field.getTypeName();
+        } else {
+             typeName = ClassName.bestGuess(field.getFullFieldClass());
+        }
+
         return FieldSpec
-                .builder(ClassName.bestGuess(field.getFullFieldClass()), field.getFieldName())
+                .builder(typeName, field.getFieldName())
                 .addModifiers(field.getModifiers())
                 .addAnnotation(buildAnnotationSpec(field.getAnnotation()))
                 .build();
@@ -171,21 +180,21 @@ public class JavaFileWriter {
     private AnnotationSpec buildAnnotationSpec(JavaAnnotation annotation) {
         logger.debug("Start building " + annotation);
         AnnotationSpec annotationSpec =
-                AnnotationSpec
-                        .builder(annotation.getAnnotationClass())
-                        .build();
+            AnnotationSpec
+                .builder(annotation.getAnnotationClass())
+                .build();
 
         for (AnnotationMember annotationMember : annotation.getAnnotationMembers()) {
             if (annotationMember.getFormat().equals("$S")) {
                 annotationSpec = annotationSpec.toBuilder()
-                        .addMember(annotationMember.getName(), annotationMember.getFormat(),
-                                annotationMember.getArg())
-                        .build();
+                    .addMember(annotationMember.getName(), annotationMember.getFormat(),
+                        annotationMember.getArg())
+                    .build();
             } else if (annotationMember.getFormat().equals("$L")) {
                 annotationSpec = annotationSpec.toBuilder()
-                        .addMember(annotationMember.getName(), annotationMember.getFormat(),
-                                buildAnnotationSpec(annotationMember.getAnnotation()))
-                        .build();
+                    .addMember(annotationMember.getName(), annotationMember.getFormat(),
+                        buildAnnotationSpec(annotationMember.getAnnotation()))
+                    .build();
             }
             logger.debug("Build " + annotationMember);
         }

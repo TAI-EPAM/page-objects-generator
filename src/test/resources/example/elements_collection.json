@@ -1,0 +1,14 @@
+{
+  "elements": [
+    {
+      "type": "elements_collection",
+      "fieldName": "radioButtons",
+      "uniqueness": "name",
+      "annotation": "false",
+      "selector": {
+        "type": "css",
+        "value": "p input"
+      }
+    }
+  ]
+}

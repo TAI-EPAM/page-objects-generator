@@ -1,0 +1,12 @@
+{
+  "elements": [
+    {
+      "type": "elements_collection",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "input[type=submit]"
+      }
+    }
+  ]
+}

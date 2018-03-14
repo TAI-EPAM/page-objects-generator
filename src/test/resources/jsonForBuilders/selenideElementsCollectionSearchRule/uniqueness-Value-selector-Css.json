@@ -1,0 +1,13 @@
+{
+  "elements": [
+    {
+      "type": "elements_collection",
+      "fieldName": "buttons",
+      "uniqueness": "value",
+      "selector": {
+        "type": "css",
+        "value": "input[type=submit]"
+      }
+    }
+  ]
+}

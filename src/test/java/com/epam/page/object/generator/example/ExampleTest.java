@@ -39,4 +39,25 @@ public class ExampleTest {
         pog.generatePageObjects("/example/dropdown.json", outputDir,
             Collections.singletonList("/example/example.html"));
     }
+
+    @Test
+    public void setForceGenerateFile_ExampleSeleniumWebElement_StatusOk() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/web_element.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
+
+    @Test
+    public void exampleElementsCollection() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/example/elements_collection.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
+
+    @Test
+    public void exampleListElements() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/webelements.json", outputDir,
+                Collections.singletonList("/example/example.html"));
+    }
 }

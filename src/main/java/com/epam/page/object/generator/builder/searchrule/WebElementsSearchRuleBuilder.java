@@ -6,6 +6,7 @@ import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.searchrule.CommonSearchRule;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
+import com.epam.page.object.generator.model.searchrule.WebElementsSearchRule;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
 import com.epam.page.object.generator.util.SearchRuleType;
 import com.epam.page.object.generator.util.SelectorUtils;
@@ -14,14 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class is needed for creating {@link CommonSearchRule} from {@link RawSearchRule}
+ * This class is needed for creating {@link WebElementsSearchRule} from {@link RawSearchRule}
  */
-public class CommonSearchRuleBuilder implements SearchRuleBuilder {
+public class WebElementsSearchRuleBuilder implements SearchRuleBuilder {
 
-    private final static Logger logger = LoggerFactory.getLogger(CommonSearchRuleBuilder.class);
+    private final static Logger logger = LoggerFactory.getLogger(WebElementsSearchRuleBuilder.class);
 
     /**
-     * This method builds {@link CommonSearchRule} getting the necessary information about {@link
+     * This method builds {@link WebElementsSearchRule} getting the necessary information about {@link
      * RawSearchRule} such as {@link RawSearchRule#type}, {@link Selector}, uniqueness parameter.
      * Then based on {@link RawSearchRule#type} get {@link ClassAndAnnotationPair}. At last sent
      * this parameters plus {@link XpathToCssTransformer} and {@link SelectorUtils} in constructor
@@ -35,18 +36,20 @@ public class CommonSearchRuleBuilder implements SearchRuleBuilder {
                                       XpathToCssTransformer transformer,
                                       SelectorUtils selectorUtils,
                                       SearchRuleExtractor searchRuleExtractor) {
-        logger.debug("Start transforming of " + rawSearchRule);
-        String uniqueness = rawSearchRule.getValue("uniqueness");
+        logger.debug("Start transforming of {}", rawSearchRule);
+
+        String name = rawSearchRule.getFieldName();
+
         SearchRuleType type = rawSearchRule.getType();
         Selector selector = rawSearchRule.getSelector();
         ClassAndAnnotationPair classAndAnnotation = typesContainer.getSupportedTypesMap()
             .get(type.getName());
 
-        CommonSearchRule commonSearchRule = new CommonSearchRule(uniqueness, type, selector,
+        WebElementsSearchRule webElementsSearchRule = new WebElementsSearchRule(name, type, selector,
             classAndAnnotation, transformer,
             selectorUtils);
-        logger.debug("Create a new " + commonSearchRule);
+        logger.debug("Create a new {}", webElementsSearchRule);
 
-        return commonSearchRule;
+        return webElementsSearchRule;
     }
 }

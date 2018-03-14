@@ -1,0 +1,30 @@
+{
+  "elements": [
+    {
+      "type": "webelements",
+      "fieldName": "radioButtons",
+      "selector": {
+        "type": "css",
+        "value": "p input"
+      }
+    },
+    {
+      "type": "webelements",
+      "fieldName": "options",
+      "selector": {
+        "type": "css",
+        "value": ".col-sm-6 .colors"
+      }
+    },
+    {
+      "type": "selenium_web_element",
+      "uniqueness": "text",
+      "selector": {
+        "type": "css",
+        "value": "button[type=submit][id=calculate-button]"
+      }
+    }
+  ]
+}
+
+
