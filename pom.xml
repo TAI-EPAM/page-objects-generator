@@ -104,6 +104,12 @@
             <artifactId>hamcrest-all</artifactId>
             <version>${hamcrest.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.googlejavaformat</groupId>
+            <artifactId>google-java-format</artifactId>
+            <version>1.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>

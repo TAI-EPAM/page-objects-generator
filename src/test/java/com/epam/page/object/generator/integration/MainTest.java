@@ -2,15 +2,27 @@ package com.epam.page.object.generator.integration;
 
 import com.epam.page.object.generator.PageObjectGeneratorFactory;
 import com.epam.page.object.generator.PageObjectsGenerator;
+import com.epam.page.object.generator.adapter.JavaFileWriter;
 import com.epam.page.object.generator.error.NotValidUrlException;
 import com.epam.page.object.generator.error.ValidationException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.List;
+
+import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.JavaFile;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
  * Each test generate it's own Java objects for JDI. Probably it would be better to run each test in
@@ -231,5 +243,32 @@ public class MainTest {
         pog.setForceGenerateFile(false);
         pog.generatePageObjects("/webelements_table.json", outputDir,
                 Collections.singletonList("https://www.w3schools.com/html/html_tables.asp"));
+    }
+
+    @Test
+    public void checkGeneratedFormattedFile_StatusOk() throws Exception {
+        pog.setForceGenerateFile(false);
+        pog.generatePageObjects("/elements_to_create_formatted_file.json", outputDir,
+                Collections.singletonList("https://epam.github.io/JDI/metals-colors.html"));
+
+        JavaFileWriter javaFileWriter = pog.getJavaFileWriter();
+        List<JavaFile> javaFiles = javaFileWriter.getJavaFiles();
+
+        for (JavaFile javaFile : javaFiles) {
+            Path p = javaFileWriter.getFullPath(Paths.get(outputDir), javaFile);
+            String file  = FileUtils.readFileToString(new File(p.toUri()));
+            assertThat("Formatted file is empty",
+                    file, not(equalTo("")));
+
+            List<AnnotationSpec> annotations = javaFile.typeSpec.annotations;
+
+            for (AnnotationSpec annotationSpec : annotations) {
+                String annotationType = annotationSpec.type.toString();
+                String annotation = annotationType.substring(
+                        annotationType.lastIndexOf('.') + 1);
+                assertThat("Formatted file does not contain build annotation",
+                        file, containsString(annotation));
+            }
+        }
     }
 }

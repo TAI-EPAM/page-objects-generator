@@ -42,6 +42,7 @@ public class PageObjectsGenerator {
     private WebValidators webValidators;
     private JavaClassBuilder javaClassBuilder;
     private WebElementGroupFieldBuilder webElementGroupFieldBuilder;
+
     private JavaFileWriter javaFileWriter;
     private WebPageBuilder webPageBuilder;
 
@@ -203,5 +204,13 @@ public class PageObjectsGenerator {
      */
     public void setAddElementSuffix(boolean addElementSuffix) {
         webElementGroupFieldBuilder.setAddElementSuffix(addElementSuffix);
+    }
+
+    /**
+     * Returns {@Link JavaFileWriter} object populated previously through POG constructor
+     * @return javaFileWriter object
+     */
+    public JavaFileWriter getJavaFileWriter() {
+        return this.javaFileWriter;
     }
 }
