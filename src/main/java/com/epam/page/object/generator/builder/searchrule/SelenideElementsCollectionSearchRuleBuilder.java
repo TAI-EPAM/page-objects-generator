@@ -45,7 +45,7 @@ public class SelenideElementsCollectionSearchRuleBuilder implements SearchRuleBu
         SelenideElementsCollectionSearchRule selenideSearchRule = new SelenideElementsCollectionSearchRule(
                 rawSearchRule.getFieldName(), uniqueness, type, selector,
                 classAndAnnotation, transformer,
-                selectorUtils, rawSearchRule.getAnnotation());
+                selectorUtils, rawSearchRule.usesAnnotation());
         logger.debug("Create a new {}", selenideSearchRule);
 
         return selenideSearchRule;

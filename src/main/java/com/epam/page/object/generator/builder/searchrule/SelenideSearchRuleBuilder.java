@@ -6,7 +6,6 @@ import com.epam.page.object.generator.model.RawSearchRule;
 import com.epam.page.object.generator.model.Selector;
 import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
 import com.epam.page.object.generator.model.searchrule.SearchRule;
-import com.epam.page.object.generator.model.searchrule.SelenideSearchRule;
 import com.epam.page.object.generator.util.SearchRuleExtractor;
 import com.epam.page.object.generator.util.SearchRuleType;
 import com.epam.page.object.generator.util.SelectorUtils;
@@ -45,7 +44,7 @@ public class SelenideSearchRuleBuilder implements SearchRuleBuilder {
 
         SelenideSearchRule selenideSearchRule = new SelenideSearchRule(uniqueness, type, selector,
             classAndAnnotation, transformer,
-            selectorUtils, rawSearchRule.getAnnotation());
+            selectorUtils, rawSearchRule.usesAnnotation());
         logger.debug("Create a new {}", selenideSearchRule);
 
         return selenideSearchRule;

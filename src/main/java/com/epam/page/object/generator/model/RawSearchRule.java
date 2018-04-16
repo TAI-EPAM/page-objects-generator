@@ -3,8 +3,10 @@ package com.epam.page.object.generator.model;
 import com.epam.page.object.generator.util.SearchRuleType;
 import com.epam.page.object.generator.util.SearchRuleGroup;
 import com.epam.page.object.generator.validator.ValidationResult;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.everit.json.schema.Schema;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +42,7 @@ public class RawSearchRule {
      * @return value of parameter if it's present, else returns null.
      */
     public String getValue(String parameter) {
-        Object param = element.get(parameter);
+        Object param = element.opt(parameter);
         if (param == null) {
             return null;
         }
@@ -85,8 +87,8 @@ public class RawSearchRule {
     public String getExceptionMessage() {
         StringBuilder stringBuilder = new StringBuilder();
         validationResults.stream().filter(validationResult -> !validationResult.isValid()).forEach(
-            validationResult -> stringBuilder.append(validationResult.getReason())
-                .append("\n"));
+                validationResult -> stringBuilder.append(validationResult.getReason())
+                        .append("\n"));
         return stringBuilder.toString();
     }
 
@@ -106,14 +108,14 @@ public class RawSearchRule {
         return "SearchRule{" + element + '}';
     }
 
-    public boolean getAnnotation() {
-        try {
-            return Boolean.parseBoolean(
-                    this.getValue("annotation"));
-        } catch (JSONException e) {
-            return true;
+    public boolean usesAnnotation() {
+        String s = getValue("annotation");
+        if (s != null) {
+            return Boolean.parseBoolean(s);
         }
+        return true; //default value
     }
+
 
     public String getFieldName() {
         return getValue("fieldName");
